@@ -1,0 +1,92 @@
+{
+  "_comment": "Every claim-bearing line on the site lives here with its source. Page files import these by id; they never contain a statistic or a citation inline. If a line has no source, it is not a claim and does not belong in this file. `verify_before_launch: true` means the wording or the link must be checked by a human against the source before publishing.",
+
+  "statistics": {
+    "who_prevalence": {
+      "text": "The World Health Organization estimates it affects roughly 10 percent of women and girls of reproductive age worldwide, which is around 190 million people.",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/endometriosis",
+      "source_label": "WHO fact sheet on endometriosis",
+      "required_phrasing": true,
+      "verify_before_launch": false
+    },
+    "diagnostic_delay": {
+      "text": "Studies have found the delay between first symptoms and a diagnosis is commonly between four and eleven years, and a large part of that delay is people not being believed.",
+      "source": "https://www.acog.org/news/news-releases/2026/02/acog-publishes-new-endometriosis-clinical-guidance-aiming-shorten-time-diagnosis-improve-access-care",
+      "source_label": "ACOG, February 2026",
+      "secondary_source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/",
+      "secondary_source_label": "scoping review, 2024",
+      "required_phrasing": "commonly reported OR studies have found; never a bare number",
+      "verify_before_launch": true,
+      "verify_note": "The four to eleven year range comes from the brief. The ACOG release discusses diagnostic delay; the scoping review reports 6 to 11.7 years. Confirm the range wording against the linked sources, or narrow the range, before launch."
+    }
+  },
+
+  "educational_context": {
+    "acog_clinical_diagnosis": {
+      "text": "In March 2026, the American College of Obstetricians and Gynecologists published a clinical practice guideline saying that a clinical diagnosis, made from your symptoms, your history and a physical examination, is enough for a clinician to begin treatment. Laparoscopy is not required first.",
+      "source": "https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis",
+      "source_label": "ACOG Clinical Practice Guideline No. 11, March 2026",
+      "usage": "educational context only, never a product claim",
+      "verify_before_launch": false
+    },
+    "eshre_diary": {
+      "text": "The European Society of Human Reproduction and Embryology's 2022 guideline says patients are encouraged to keep a diary of their symptoms to support the history-taking process.",
+      "source": "https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline",
+      "source_label": "ESHRE endometriosis guideline, 2022",
+      "usage": "educational context only, never a product claim",
+      "verify_before_launch": true,
+      "verify_note": "Confirm the ESHRE URL still resolves and that the quoted sentence matches the guideline text."
+    }
+  },
+
+  "translation_pairs": [
+    {
+      "her_words": "It hurts when I go to the bathroom, especially during my period.",
+      "term": "Dyschezia",
+      "plain": "pain on defecation",
+      "icd10": null,
+      "icd10_note": "No ICD-10 code. No verified symptom code exists, so Emenla prints none.",
+      "sources": [
+        { "label": "ESHRE 2022", "url": "https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" },
+        { "label": "NICE NG73", "url": "https://www.nice.org.uk/guidance/ng73" },
+        { "label": "ACOG 2026", "url": "https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" }
+      ]
+    },
+    {
+      "her_words": "Period pain. Menstrual cramps.",
+      "term": "Dysmenorrhoea",
+      "plain": "painful menstruation",
+      "icd10": "N94.6",
+      "icd10_note": null,
+      "sources": [
+        { "label": "ESHRE 2022", "url": "https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" },
+        { "label": "NICE NG73", "url": "https://www.nice.org.uk/guidance/ng73" }
+      ]
+    },
+    {
+      "her_words": "Painful sex.",
+      "term": "Dyspareunia",
+      "plain": "pain during or after intercourse",
+      "icd10": "N94.1",
+      "icd10_note": null,
+      "sources": [
+        { "label": "ESHRE 2022", "url": "https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" },
+        { "label": "NICE NG73", "url": "https://www.nice.org.uk/guidance/ng73" }
+      ]
+    }
+  ],
+
+  "product_facts": {
+    "_comment": "Statements about what the app does. Source is the app itself; each must remain true of the shipped build.",
+    "on_device": { "text": "Data lives in the app's own private on-device database. There is no server and no user database.", "source": "app architecture" },
+    "speech": { "text": "Speech recognition runs on the device. No audio leaves the phone and no recording is kept.", "source": "app architecture" },
+    "photos": { "text": "Photos are copied into the app's private storage. They are never uploaded and never written back to your photo library.", "source": "app architecture" },
+    "no_tracking": { "text": "No analytics of any kind. No ads, no ad identifiers, no third-party trackers, no crash reporting, no remote configuration, no tracking prompt.", "source": "app architecture" },
+    "no_account": { "text": "No account, nothing to sign into. Emenla does not collect an email address.", "source": "app architecture" },
+    "notifications": { "text": "Notifications are local only. No push service, no device token.", "source": "app architecture" },
+    "purchase_exception": { "text": "Logging is free forever. The optional summary export is an Apple in-app purchase handled through RevenueCat, which receives an anonymous purchase identity and your purchase status. It never receives your symptoms, notes, photos, cycle dates or your name.", "source": "app architecture, RevenueCat SDK" },
+    "gdpr": { "text": "Under GDPR, health data is special category data under Article 9. That is exactly why Emenla has no server.", "source": "GDPR Article 9" },
+    "cyclical": { "text": "The word \"cyclical\" is never taken from a sentence. Emenla only uses it after counting your logged days against your logged period starts. Concepts come from your words. Qualifiers come from your data.", "source": "app clinical translation layer" },
+    "competitor_true_claim": { "text": "Other apps turn a symptom log into a document for a clinician. What Emenla does differently is print your own sentence beside every clinical term, with its source, and refuse to say \"cyclical\" until it has counted.", "source": "brief; Endolog ships log-to-PDF, so the wider claim is not sayable" }
+  }
+}

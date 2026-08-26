@@ -1,0 +1,39 @@
+{
+  "_comment": "From the Emenla claims policy. `npm run check` fails the build if any of these appear in rendered copy, outside the sentences listed in allowed_sentences (refusals and required educational context). Terms are matched on word boundaries, case-insensitive, so 'treatment' does not match 'treat' but 'treats' would need its own entry.",
+  "terms": [
+    "diagnose", "diagnoses", "diagnosed",
+    "detect", "detects", "detection",
+    "screen for", "screens for", "screening",
+    "identify endometriosis", "identifies endometriosis",
+    "treat", "treats",
+    "reduce", "reduces",
+    "relieve", "relieves", "relief",
+    "heal", "heals", "healing",
+    "cure", "cures",
+    "predict", "predicts", "prediction", "predictive",
+    "get diagnosed faster",
+    "clinically validated", "clinically proven",
+    "doctor approved", "doctor-approved",
+    "medically reviewed", "medically-reviewed",
+    "FDA",
+    "medical document",
+    "no one does this", "nobody does this", "the only app",
+    "just ", "at least",
+    "women with endometriosis"
+  ],
+  "style_terms": [
+    "\u2014",
+    "lorem ipsum"
+  ],
+  "allowed_sentences": [
+    "Never diagnose or predict.",
+    "Tell you whether you have endometriosis. It never will.",
+    "Predict your next period or your next flare.",
+    "Emenla does not predict anything.",
+    "Talk about a root cause or a cure. There is no cure for endometriosis, and Emenla will not pretend otherwise.",
+    "Emenla is not a medical device, does not provide medical advice, and does not diagnose, treat, cure or prevent any condition.",
+    "Does Emenla tell me whether I have endometriosis? No, and it never will.",
+    "Does Emenla predict my period or my flares? No.",
+    "Nothing in Emenla is a prediction."
+  ]
+}

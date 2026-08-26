@@ -1,0 +1,42 @@
+{
+  "_comment": "Every value marked TODO blocks launch. `npm run check` fails while any TODO remains. Change values here, never in the page files.",
+  "siteName": "Emenla",
+  "tagline": "Turn what you feel into a clear conversation for your next appointment.",
+  "domain": "TODO",
+  "supportEmail": "TODO",
+  "instagram": "TODO",
+  "cta": {
+    "_comment": "mode is one of: email | instagram | appstore. Swapping mode changes the primary action everywhere. appstore needs appStoreUrl. email needs emailEndpoint (a same-origin or first-party POST endpoint that stores only the address).",
+    "mode": "email",
+    "emailEndpoint": "TODO",
+    "appStoreUrl": "TODO"
+  },
+  "analytics": {
+    "_comment": "Off by default. If enabled, provider must be cookieless and must not collect personal data (self-hosted Plausible or Umami on this domain). The script is only loaded if the visitor has not opted out on the privacy page.",
+    "enabled": false,
+    "scriptUrl": ""
+  },
+  "cookieBanner": {
+    "_comment": "Nothing on this site sets a cookie or reads device storage without a user action, so no consent banner is legally required. The component exists and is switched off. Turn on only if a consent-requiring technology is ever added.",
+    "enabled": false
+  },
+  "founder": {
+    "_comment": "show=false keeps the founder invisible. Nothing on the site names a person while this is false.",
+    "show": false,
+    "name": "Oliwier",
+    "country": "Poland"
+  },
+  "legal": {
+    "operatorName": "TODO",
+    "operatorAddress": "TODO",
+    "governingLaw": "TODO",
+    "hostingProvider": "TODO",
+    "hostingRegion": "TODO"
+  },
+  "pricing": {
+    "yearly": "$34.99",
+    "monthly": "$6.99",
+    "currencyNote": "Prices are shown in US dollars and will be shown in your local currency on the App Store."
+  },
+  "lastUpdated": "2026-08-26"
+}
