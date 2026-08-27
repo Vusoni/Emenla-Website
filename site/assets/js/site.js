@@ -124,7 +124,9 @@
     hsRead = phone ? 0.5 : 0.42;
     hsAmp = phone ? 0.15 : 0.2;
     hsPad = vw * hsRead;
-    hsTrackW = hsPad + (hsNodes.length - 1) * hsSpacing + vw * (1 - hsRead);
+    /* The track ends where the last card ends, so the scene finishes flush with the right edge */
+    var gutter = Math.max(20, Math.min(40, vw * 0.028));
+    hsTrackW = hsPad + (hsNodes.length - 1) * hsSpacing + hsCardW / 2 + gutter;
     hsTrack.style.width = hsTrackW + 'px';
     var svg = hsTrack.querySelector('svg');
     svg.setAttribute('viewBox', '0 0 ' + hsTrackW + ' ' + vh);
@@ -151,20 +153,25 @@
   }
   function updateHistory() {
     if (!hs || hsStack.matches) return;
+    /* Progress is how far the pinned stage has travelled inside its section, measured live, so the
+       scene ends exactly when the pin ends in every browser */
     var r = hs.getBoundingClientRect();
-    var p = Math.min(1, Math.max(0, -r.top / Math.max(1, hsRange)));
+    var travelled = hsStage.getBoundingClientRect().top - r.top;
+    var span = Math.max(1, hs.offsetHeight - hsStage.offsetHeight);
+    var p = Math.min(1, Math.max(0, travelled / span));
     var x = Math.round(p * hsRange);
     if (x !== hsX) {
       hsX = x;
       hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
+      var atEnd = p >= 0.995;
       var readX = x + window.innerWidth * hsRead;
-      var drawn = Math.min(1, Math.max(0, readX / hsTrackW));
+      var drawn = atEnd ? 1 : Math.min(1, Math.max(0, readX / hsTrackW));
       if (Math.abs(drawn - hsDrawn) > 0.004 || drawn === 1 || drawn === 0) {
         hsDrawn = drawn;
         hsDraw.style.setProperty('--draw', drawn.toFixed(4));
       }
       hsNodes.forEach(function (n, i) {
-        var lit = hsPad + i * hsSpacing <= readX + 8;
+        var lit = atEnd || hsPad + i * hsSpacing <= readX + 8;
         if (n.classList.contains('lit') !== lit) { n.classList.toggle('lit', lit); if (hsCards[i]) hsCards[i].classList.toggle('lit', lit); }
       });
     }
