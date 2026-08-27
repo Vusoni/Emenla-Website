@@ -1,2 +1,9 @@
 .DS_Store
 node_modules/
+
+# Surowe generacje wideo i klatki inspekcyjne: ~116 MB, nigdy nie trafiaja na strone.
+# Trzymaj kopie na dysku zewnetrznym - odtworzenie kosztuje kredyty i czas.
+review/
+
+# Paczka budowana do wgrania na Cloudflare Pages, odtwarzalna z site/.
+emenla-site.zip
