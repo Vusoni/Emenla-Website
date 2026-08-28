@@ -114,6 +114,8 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
+/* While the script-driven smooth scroll runs, the browser's own smoothing must stay out of the way (as Lenis does) */
+html.smooth { scroll-behavior: auto !important; }
 body {
   margin: 0;
   overflow-x: hidden;
@@ -1357,7 +1359,7 @@ ul, ol { padding: 0; list-style: none; }
   height: 100%;
   will-change: transform;
 }
-.hscroll__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hscroll__svg { position: absolute; left: 0; top: 0; height: 100%; overflow: visible; }
 .hscroll__svg path { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .hscroll__base { stroke: var(--clay); }
 .hscroll__draw {
@@ -1394,6 +1396,18 @@ ul, ol { padding: 0; list-style: none; }
 .hcard.above { transform: translateY(calc(-100% - 56px)); }
 .hcard.below { transform: translateY(56px); }
 .hcard.lit { opacity: 1; }
+/* The short stem between each card and its node, as on the reference */
+.hcard::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  height: 36px;
+  background: var(--clay);
+}
+.hcard.above::after { top: 100%; }
+.hcard.below::after { bottom: 100%; }
+.hcard.lit::after { background: var(--ink); }
 .hcard .card { padding: 18px 20px 20px; box-shadow: var(--shadow-xl); display: flex; flex-direction: column; gap: 10px; }
 .hcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; white-space: nowrap; }
 .hcard__row .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }

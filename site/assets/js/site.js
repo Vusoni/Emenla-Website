@@ -7,6 +7,64 @@
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
   function reduced() { return rm.matches; }
 
+  /* ---------- Smooth scrolling, the Lenis way ----------
+     Wheel input moves a target; the page is damped toward it every frame with Lenis's curve
+     (1 - e^(-lerp * 60 * dt), lerp 0.1). While this runs the browser's own scroll-behavior is
+     forced to auto, exactly as Lenis does, otherwise the two smoothings fight. Anchor links glide
+     to their target through the same damping. Fine pointers only; touch, keyboard and the
+     scrollbar stay native and the easing follows wherever they put the page. Off under reduced motion. */
+  (function () {
+    if (reduced()) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    var LERP = 0.1;
+    var html = document.documentElement;
+    html.classList.add('smooth');
+    var target = window.scrollY, current = window.scrollY, raf = null, last = 0, ours = false;
+    function maxScroll() { return Math.max(0, html.scrollHeight - window.innerHeight); }
+    function start() { if (raf === null) { last = 0; raf = window.requestAnimationFrame(tick); } }
+    function tick(now) {
+      var dt = Math.min(0.064, (now - (last || now)) / 1000);
+      last = now;
+      current += (target - current) * (1 - Math.exp(-LERP * 60 * dt));
+      if (Math.abs(target - current) < 0.3) { current = target; raf = null; last = 0; }
+      else raf = window.requestAnimationFrame(tick);
+      ours = true;
+      window.scrollTo(0, current);
+      ours = false;
+    }
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.metaKey) return;
+      var dy = e.deltaY;
+      if (e.deltaMode === 1) dy *= 16; else if (e.deltaMode === 2) dy *= window.innerHeight;
+      if (!dy) return;
+      e.preventDefault();
+      if (raf === null) { current = window.scrollY; target = current; }
+      target = Math.min(maxScroll(), Math.max(0, target + dy));
+      start();
+    }, { passive: false });
+    window.addEventListener('scroll', function () {
+      if (ours) return;
+      if (raf === null) { current = window.scrollY; target = current; }
+    }, { passive: true });
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      if (raf === null) { current = window.scrollY; target = current; }
+      target = Math.min(maxScroll(), Math.max(0, el.getBoundingClientRect().top + window.scrollY - 24));
+      start();
+      if (history.pushState) history.pushState(null, '', '#' + id);
+    });
+    if (rm.addEventListener) rm.addEventListener('change', function () {
+      if (reduced()) { if (raf !== null) { window.cancelAnimationFrame(raf); raf = null; } html.classList.remove('smooth'); }
+      else html.classList.add('smooth');
+    });
+  })();
+
   /* ---------- The nav stays clear; over the dark closing band the wordmark turns cream ---------- */
   var nav = document.querySelector('.nav');
   var darkBand = document.querySelector('.close');
@@ -124,14 +182,17 @@
     hsRead = phone ? 0.5 : 0.42;
     hsAmp = phone ? 0.15 : 0.2;
     hsPad = vw * hsRead;
-    /* The track ends where the last card ends, so the scene finishes flush with the right edge */
-    var gutter = Math.max(20, Math.min(40, vw * 0.028));
-    hsTrackW = hsPad + (hsNodes.length - 1) * hsSpacing + hsCardW / 2 + gutter;
+    /* The scene ends with the last card a little short of the right edge and the line running on past it */
+    var tail = phone ? (vw - hsCardW) / 2 : vw * 0.37;
+    hsTrackW = hsPad + (hsNodes.length - 1) * hsSpacing + hsCardW / 2 + tail;
     hsTrack.style.width = hsTrackW + 'px';
     var svg = hsTrack.querySelector('svg');
     svg.setAttribute('viewBox', '0 0 ' + hsTrackW + ' ' + vh);
     var d = '';
-    for (var x = 0; x <= hsTrackW; x += 12) d += (x ? ' L ' : 'M ') + x.toFixed(1) + ' ' + hsY(x, vh).toFixed(1);
+    var lineEnd = hsTrackW + vw;
+    for (var x = 0; x <= lineEnd; x += 12) d += (x ? ' L ' : 'M ') + x.toFixed(1) + ' ' + hsY(x, vh).toFixed(1);
+    svg.setAttribute('viewBox', '0 0 ' + lineEnd + ' ' + vh);
+    svg.style.width = lineEnd + 'px';
     hsBase.setAttribute('d', d);
     hsDraw.setAttribute('d', d);
     hsNodes.forEach(function (n, i) {
@@ -163,15 +224,16 @@
     if (x !== hsX) {
       hsX = x;
       hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
-      var atEnd = p >= 0.995;
-      var readX = x + window.innerWidth * hsRead;
-      var drawn = atEnd ? 1 : Math.min(1, Math.max(0, readX / hsTrackW));
+      /* The reading point travels from the first node to the last as progress runs 0 to 1, so the
+         black line and the lit cards always agree, and the tail past the last node stays grey */
+      var readX = hsPad + p * (hsNodes.length - 1) * hsSpacing;
+      var drawn = p >= 0.995 ? 1 : Math.min(1, Math.max(0, readX / (hsTrackW + window.innerWidth)));
       if (Math.abs(drawn - hsDrawn) > 0.004 || drawn === 1 || drawn === 0) {
         hsDrawn = drawn;
         hsDraw.style.setProperty('--draw', drawn.toFixed(4));
       }
       hsNodes.forEach(function (n, i) {
-        var lit = atEnd || hsPad + i * hsSpacing <= readX + 8;
+        var lit = hsPad + i * hsSpacing <= readX + 8;
         if (n.classList.contains('lit') !== lit) { n.classList.toggle('lit', lit); if (hsCards[i]) hsCards[i].classList.toggle('lit', lit); }
       });
     }
