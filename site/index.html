@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260828q">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260828r">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -481,12 +481,12 @@
         <div class="faq2__intro reveal">
           <h2 class="heading-lg part">Everything you need to know about Emenla.</h2>
           <p class="muted part">Short answers, in plain words. If yours is not here, ask.</p>
-          <a class="btn part" href="mailto:hello@emenla.com?subject=A%20question%20about%20Emenla">Ask a question</a>
+          <a class="btn btn--roll part" href="#contact" data-ask><span class="btn__roll" data-text="Ask a question">Ask a question</span></a>
         </div>
         <div class="faq reveal">
           <details class="part">
             <summary>Is Emenla on the App Store?</summary>
-            <p class="answer">Not yet. It is an iPhone app and it is being built now. Leave your email below and you will get one message the day it opens.</p>
+            <p class="answer">Not yet. It is an iPhone app and it is being built now. This page will carry the App Store link the day it is listed.</p>
           </details>
           <details class="part">
             <summary>Does Emenla tell me whether I have endometriosis?</summary>
@@ -532,13 +532,25 @@
             </div>
             <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20l18-12 18 12v20H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 20l18 12 18-12M6 40l14-11M42 40L28 29" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </a>
-          <a class="card contact__card part" href="#notify">
+          <div class="card contact__card part">
             <div>
               <p class="contact__k">App Store</p>
-              <p class="contact__v">Coming soon. Be told the day it opens.</p>
+              <p class="contact__v">Coming soon. The link will be here the day it is listed.</p>
             </div>
             <svg class="contact__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z" fill="currentColor"/></svg>
-          </a>
+          </div>
+        </div>
+        <div class="ask" id="ask">
+          <div class="ask__inner">
+            <div class="card ask__card">
+              <label class="ask__label" for="ask-text">Your question</label>
+              <textarea id="ask-text" class="ask__field" rows="4" maxlength="2000" placeholder="Write it in your own words. No symptoms or medical details, please." spellcheck="true"></textarea>
+              <div class="ask__row">
+                <button type="button" class="btn btn--roll ask__send"><span class="btn__roll" data-text="Send by e-mail">Send by e-mail</span></button>
+                <p class="ask__note caption meta">Opens in your mail app, addressed to hello@emenla.com. Nothing you type here is stored on this site.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -589,7 +601,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260828q" defer></script>
-  <script src="assets/js/site.js?v=20260828q" defer></script>
+  <script src="assets/js/hero.js?v=20260828r" defer></script>
+  <script src="assets/js/site.js?v=20260828r" defer></script>
 </body>
 </html>

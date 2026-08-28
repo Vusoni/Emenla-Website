@@ -64,6 +64,32 @@
     });
   })();
 
+  /* ---------- Ask a question: the FAQ button opens a field under the contact cards. The field
+     builds a mailto link with what was typed, so the site itself never receives the text. ---------- */
+  (function () {
+    var ask = document.getElementById('ask');
+    var field = document.getElementById('ask-text');
+    if (!ask || !field) return;
+    var send = ask.querySelector('.ask__send');
+    function open(focus) {
+      ask.setAttribute('data-open', 'true');
+      if (focus) window.setTimeout(function () { try { field.focus({ preventScroll: true }); } catch (e) { field.focus(); } }, reduced() ? 0 : 900);
+    }
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-ask]');
+      if (!a) return;
+      open(true);
+    });
+    if (send) send.addEventListener('click', function () {
+      var text = field.value.trim();
+      if (!text) { field.focus(); return; }
+      var subject = encodeURIComponent('A question about Emenla');
+      var body = encodeURIComponent(text + '\n\n');
+      window.location.href = 'mailto:hello@emenla.com?subject=' + subject + '&body=' + body;
+    });
+    if (window.location.hash === '#ask') open(false);
+  })();
+
   /* ---------- The nav stays clear; over the dark closing band the wordmark turns cream ---------- */
   var nav = document.querySelector('.nav');
   var darkBand = document.querySelector('.band-dark');

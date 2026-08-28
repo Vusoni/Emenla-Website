@@ -1,0 +1,28 @@
+// The Ask a question button: hover, and the field it opens. node tools/askshots.mjs <url> <outdir>
+import { connect } from './drive.mjs';
+import { mkdirSync } from 'node:fs';
+const [url, out] = process.argv.slice(2);
+mkdirSync(out, { recursive: true });
+const b = await connect();
+const p = await b.page(url, { width: 1440, height: 900 });
+const top = await p.eval("document.querySelector('#faq').offsetTop - 40");
+await p.scroll(top);
+await p.shot(`${out}/faq-rest.png`);
+const r = await p.eval("(() => { const b = document.querySelector('[data-ask]').getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height / 2 }; })()");
+await p.mouse('mouseMoved', r.x, r.y);
+await p.eval('new Promise(r => setTimeout(r, 180))');
+await p.shot(`${out}/faq-hover-mid.png`);
+await p.eval('new Promise(r => setTimeout(r, 600))');
+await p.shot(`${out}/faq-hover.png`);
+console.log(JSON.stringify(r));
+await p.mouse('mousePressed', r.x, r.y);
+await p.mouse('mouseReleased', r.x, r.y);
+await p.eval('new Promise(r => setTimeout(r, 1800))');
+await p.shot(`${out}/ask-open.png`);
+const st = await p.eval("(() => ({ open: document.getElementById('ask').getAttribute('data-open'), focused: document.activeElement && document.activeElement.id, y: Math.round(window.scrollY), askTop: Math.round(document.getElementById('ask').getBoundingClientRect().top) }))()");
+console.log(JSON.stringify(st));
+await p.setSize(375, 812, true); await p.setTouch(true);
+await p.eval("document.getElementById('ask').setAttribute('data-open','true'); window.scrollTo(0, document.querySelector('#contact').offsetTop + 380); new Promise(r => setTimeout(r, 900))");
+await p.shot(`${out}/m-ask.png`);
+console.log('done', p.errors.length ? p.errors : 'console clean');
+await p.close(); b.close();

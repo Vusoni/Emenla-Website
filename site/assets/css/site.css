@@ -341,6 +341,28 @@ ul, ol { padding: 0; list-style: none; }
 }
 .btn:hover { background: #1a1b22; border-color: #1a1b22; }
 .btn:active { transform: translateY(1px); }
+/* The roll: on hover the label slides up and out while its twin slides in from below, and the pill
+   lifts onto a soft shadow. The same hover Alveos puts on its pills; here it is the only motion
+   a button has, so it stays quiet. */
+.btn--roll { transition: background-color 220ms var(--ease-soft), border-color 220ms var(--ease-soft), transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out); }
+.btn__roll { display: block; position: relative; overflow: hidden; color: transparent; padding: 0.08em 0; margin: -0.08em 0; }
+.btn__roll::before, .btn__roll::after {
+  content: attr(data-text);
+  position: absolute; inset: 0.08em 0;
+  color: var(--night-text);
+  text-align: center; white-space: nowrap;
+  transition: transform 460ms var(--ease-out);
+}
+.btn__roll::after { transform: translateY(110%); }
+.btn--roll:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(5, 6, 11, 0.18), 0 2px 6px rgba(5, 6, 11, 0.08); }
+.btn--roll:hover .btn__roll::before { transform: translateY(-110%); }
+.btn--roll:hover .btn__roll::after { transform: none; }
+.btn--roll:active { transform: translateY(0); box-shadow: 0 6px 16px rgba(5, 6, 11, 0.14); }
+@media (prefers-reduced-motion: reduce) {
+  .btn--roll, .btn__roll::before, .btn__roll::after { transition: none; }
+  .btn--roll:hover .btn__roll::before { transform: none; }
+  .btn--roll:hover .btn__roll::after { transform: translateY(110%); }
+}
 .btn--ghost {
   background: var(--panel);
   color: var(--ink);
@@ -1718,6 +1740,48 @@ body.at-end .edge-blur { opacity: 0; }
 .contact__v { color: var(--stone); font-size: var(--text-body-sm); margin-top: 6px; }
 .contact__icon { width: 44px; height: 44px; flex: none; color: var(--stone); }
 @media (max-width: 720px) { .contact { grid-template-columns: 1fr; } }
+
+/* ---------- Ask a question: a field that opens under the contact cards ---------- */
+.ask {
+  display: grid;
+  grid-template-rows: 0fr;
+  max-width: 760px;
+  margin: 0 auto;
+  transition: grid-template-rows 560ms var(--ease-out);
+}
+.ask__inner { min-height: 0; overflow: hidden; }
+.ask__card {
+  margin-top: 20px;
+  padding: 26px 28px 24px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 420ms var(--ease-out) 120ms, transform 560ms var(--ease-out) 120ms;
+}
+.ask[data-open="true"] { grid-template-rows: 1fr; }
+.ask[data-open="true"] .ask__card { opacity: 1; transform: none; }
+.ask__label { display: block; font-size: var(--text-body); font-weight: 500; margin-bottom: 12px; }
+.ask__field {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--haze);
+  background: var(--canvas);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+  transition: border-color 200ms var(--ease-soft), box-shadow 200ms var(--ease-soft);
+}
+.ask__field::placeholder { color: var(--stone); opacity: 0.8; }
+.ask__field:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(5, 6, 11, 0.06); }
+.ask__row { display: flex; align-items: center; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
+.ask__note { max-width: 40ch; }
+@media (prefers-reduced-motion: reduce) {
+  .ask, .ask__card { transition: none; }
+}
 
 /* ---------- Entrances ---------- */
 .reveal .part,
