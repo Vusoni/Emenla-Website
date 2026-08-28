@@ -1317,8 +1317,6 @@ ul, ol { padding: 0; list-style: none; }
   color: var(--stone);
 }
 .footer__row p { margin: 0; }
-.footer__built { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-.footer__heart { display: inline-block; width: 15px; height: 15px; margin-top: -1px; flex: none; }
 .footer__giant {
   margin-top: auto;
   padding-top: clamp(28px, 5vh, 72px);
