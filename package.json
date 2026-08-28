@@ -12,6 +12,7 @@
     "check:links": "node scripts/check-links.mjs",
     "serve": "python3 -m http.server 8080 --directory site",
     "build:legacy": "node scripts/build.mjs",
-    "prebuild:legacy": "npm run assets"
+    "prebuild:legacy": "npm run assets",
+    "setup:seo": "bash scripts/setup-seo.sh"
   }
 }
