@@ -305,3 +305,11 @@ of each with 62% of it visible:
 
 The screens are placeholders ("Screens on their way") until the founder drops real screenshots; see
 README, Before launch, item 3.
+
+### The headline, 29 August 2026
+
+"You're not imagining it." is set in Fraunces italic 500 (self-hosted, pinned instance, 22 KB), on a
+dusk gradient that sweeps left to right: mulberry #7a2e6b → raspberry #c8465f → plum #3d1f6e, one
+full period per 8 s so the loop is seamless. Under a fine pointer its letters lift and glow
+raspberry; the other three caption lines lift and warm to violet. The hero lines show the arrow
+cursor, not the text I-beam. Everything else on the site keeps the violet voice.

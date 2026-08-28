@@ -51,8 +51,18 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/fraunces-latin-italic-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   --font-voice: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
+  --font-hook: 'Fraunces', 'Iowan Old Style', Georgia, serif; /* the headline only: a softer, wonkier serif */
   --canvas: #fcf9f7;
   --panel: #ffffff;
   --clay: #d1cfcd;
@@ -210,14 +220,19 @@ ul, ol { padding: 0; list-style: none; }
   letter-spacing: -0.005em;
 }
 .hook.voice {
-  font-size: clamp(46px, 6.2vw, 92px);
-  line-height: 1.0;
+  font-family: var(--font-hook);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  font-size: clamp(44px, 5.9vw, 88px);
+  line-height: 1.02;
   text-shadow: none;
+  padding: 0.1em 0.12em 0.26em 0.06em; /* room for the italic's descenders; the margin gives it back */
+  margin: -0.1em -0.12em -0.26em -0.06em;
 }
 /* Light periwinkle into deep indigo, and the colours travel left to right on a seamless loop:
    the gradient repeats every two text widths, so the sweep never jumps */
 .hook.voice {
-  background-image: linear-gradient(90deg, #6c79da 0%, #5b48d6 25%, #3428a6 50%, #5b48d6 75%, #6c79da 100%);
+  background-image: linear-gradient(90deg, #7a2e6b 0%, #c8465f 25%, #3d1f6e 50%, #c8465f 75%, #7a2e6b 100%);
   background-size: 400% 100%;
   background-position: 66.667% 50%;
   -webkit-background-clip: text;
@@ -551,17 +566,18 @@ ul, ol { padding: 0; list-style: none; }
   inset: -80% -50%;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(var(--cream-rgb), var(--wash, 0.45)) 0%, rgba(var(--cream-rgb), calc(var(--wash, 0.45) * 0.7)) 30%, rgba(var(--cream-rgb), 0) 68%);
+  background: radial-gradient(ellipse at center, rgba(var(--cream-rgb), var(--wash, 0.3)) 0%, rgba(var(--cream-rgb), calc(var(--wash, 0.3) * 0.8)) 22%, rgba(var(--cream-rgb), calc(var(--wash, 0.3) * 0.45)) 42%, rgba(var(--cream-rgb), calc(var(--wash, 0.3) * 0.15)) 58%, rgba(var(--cream-rgb), 0) 74%);
   opacity: calc(0.25 + 0.75 * var(--k, 1));
 }
 /* Layer 3: the text-shadow token, a cream halo */
 .band__text {
   text-shadow:
     0 0 1px rgba(var(--cream-rgb), 0.95),
-    0 2px 12px rgba(var(--cream-rgb), 0.85),
-    0 8px 40px rgba(var(--cream-rgb), 0.75);
+    0 2px 12px rgba(var(--cream-rgb), 0.85);
 }
 .band .btn { text-shadow: none; }
+/* The lines answer the pointer, so they show the arrow, not the text I-beam */
+.band__text, .band__text * { cursor: default; }
 
 /* The woman lives on the right of the frame; every caption lives in the calm wall on the left */
 .band--1 {
@@ -569,7 +585,7 @@ ul, ol { padding: 0; list-style: none; }
   bottom: 14vh;
   width: min(46vw, 620px);
   text-align: left;
-  --wash: 0.6;
+  --wash: 0.45;
 }
 .band--2 {
   left: max(var(--gutter), 7vw);
@@ -588,7 +604,7 @@ ul, ol { padding: 0; list-style: none; }
   bottom: 12vh;
   width: min(50vw, 700px);
   text-align: left;
-  --wash: 0.5;
+  --wash: 0.38;
 }
 @media (max-height: 560px) {
   .band--4 { bottom: 6vh; }
@@ -602,7 +618,6 @@ ul, ol { padding: 0; list-style: none; }
   text-shadow:
     0 0 1px rgba(var(--cream-rgb), 0.95),
     0 2px 12px rgba(var(--cream-rgb), 0.85),
-    0 8px 40px rgba(var(--cream-rgb), 0.75),
     0 0 calc(var(--h, 0) * 14px) rgba(91, 72, 214, calc(var(--h, 0) * 0.4));
 }
 .band .split .w:has(.c) { translate: none; color: inherit; }
@@ -619,15 +634,17 @@ ul, ol { padding: 0; list-style: none; }
 .hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
 .hook.voice.is-split .hk {
   display: inline-block;
-  background-image: linear-gradient(90deg, #6c79da 0%, #5b48d6 25%, #3428a6 50%, #5b48d6 75%, #6c79da 100%);
+  background-image: linear-gradient(90deg, #7a2e6b 0%, #c8465f 25%, #3d1f6e 50%, #c8465f 75%, #7a2e6b 100%);
   background-size: calc(var(--hw, 600px) * 4) 100%;
   background-position: calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  padding: 0.2em 0.12em 0.26em 0.06em; /* the italic's overhangs and descenders paint inside this box */
+  margin: -0.2em -0.12em -0.26em -0.06em;
   translate: 0 calc(var(--h, 0) * -0.09em);
-  filter: drop-shadow(0 0 calc(var(--h, 0) * 0.14em) rgba(91, 72, 214, calc(var(--h, 0) * 0.55)));
+  filter: drop-shadow(0 0 calc(var(--h, 0) * 0.14em) rgba(200, 70, 95, calc(var(--h, 0) * 0.55)));
 }
 
 /* Split text: .w words hold .c characters, each with --th */
