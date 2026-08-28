@@ -7,3 +7,6 @@ review/
 
 # Paczka budowana do wgrania na Cloudflare Pages, odtwarzalna z site/.
 emenla-site.zip
+
+# wrangler deploy leaves a local state dir here
+.wrangler/
