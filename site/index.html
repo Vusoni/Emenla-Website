@@ -15,7 +15,16 @@
   <meta property="og:description" content="Write what you feel in your own words. See the clinical term beside it. Walk into your appointment with one clear page. Everything stays on your phone.">
   <meta property="og:url" content="https://emenla.com/">
   <meta property="og:image" content="https://emenla.com/og.png">
+  <meta property="og:site_name" content="Emenla">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Emenla. You're not imagining it.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Emenla. You're not imagining it.">
+  <meta name="twitter:description" content="Write what you feel in your own words. See the clinical term beside it. Walk into your appointment with one clear page. Everything stays on your phone.">
+  <meta name="twitter:image" content="https://emenla.com/og.png">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="preload" as="image" href="assets/img/hero-poster-v4.jpg" media="(min-width: 721px) and (orientation: landscape)" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,24 +36,123 @@
   "@graph": [
     {
       "@type": "Organization",
+      "@id": "https://emenla.com/#organization",
       "name": "Emenla",
+      "alternateName": "Emenla Health",
       "url": "https://emenla.com/",
-      "logo": "https://emenla.com/apple-touch-icon.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://emenla.com/apple-touch-icon.png",
+        "width": 180,
+        "height": 180
+      },
+      "image": "https://emenla.com/og.png",
       "email": "hello@emenla.com",
-      "alternateName": "Emenla Health"
+      "description": "Emenla builds an iPhone app for people with endometriosis. Symptoms written in your own words, the clinical term beside them, everything kept on your phone.",
+      "sameAs": [
+        "https://www.instagram.com/emenla.health/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://emenla.com/#website",
+      "name": "Emenla",
+      "alternateName": "Emenla Health",
+      "url": "https://emenla.com/",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://emenla.com/#organization" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://emenla.com/#webpage",
+      "url": "https://emenla.com/",
+      "name": "Emenla Health \u2014 endometriosis symptom tracker for iPhone",
+      "isPartOf": { "@id": "https://emenla.com/#website" },
+      "about": { "@id": "https://emenla.com/#app" },
+      "primaryImageOfPage": "https://emenla.com/og.png",
+      "inLanguage": "en"
     },
     {
       "@type": "SoftwareApplication",
+      "@id": "https://emenla.com/#app",
       "name": "Emenla",
+      "alternateName": "Emenla Health",
       "applicationCategory": "HealthApplication",
+      "applicationSubCategory": "Endometriosis symptom tracker",
       "operatingSystem": "iOS",
       "description": "An iPhone app for people with endometriosis. Write what you feel in your own words, see the clinical term beside it, and bring a one-page summary to your appointment. Everything stays on your phone.",
       "url": "https://emenla.com/",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+      "image": "https://emenla.com/og.png",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://emenla.com/#organization" },
+      "author": { "@id": "https://emenla.com/#organization" },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Symptom logging",
+          "description": "Logging is free, always. There is no account and no server to lock it behind.",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Doctor-summary export, yearly",
+          "description": "Optional in-app purchase through Apple. Not purchasable yet.",
+          "price": "34.99",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/PreOrder"
+        },
+        {
+          "@type": "Offer",
+          "name": "Doctor-summary export, monthly",
+          "description": "Optional in-app purchase through Apple. Not purchasable yet.",
+          "price": "6.99",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/PreOrder"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://emenla.com/#faqpage",
+      "isPartOf": { "@id": "https://emenla.com/#website" },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Emenla on the App Store?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Not yet. It is an iPhone app and it is being built now. This page will carry the App Store link the day it is listed." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Emenla tell me whether I have endometriosis?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, and it never will. Emenla names symptoms in clinical language and keeps your words beside each term. Whether those symptoms add up to a condition is a conversation for you and a clinician." }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my entries if I change phones?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You will lose them unless you export first. There is no account and no cloud copy, on purpose. Export before you switch." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a streak, a score, or a daily reminder I will feel bad about?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. There are no streaks anywhere in Emenla and there never will be. Reminders are optional and never leave your phone." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Emenla predict my period or my flares?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Emenla does not predict anything. You can log period start dates and the app counts your logged days against them, looking backwards at what you wrote. It never forecasts what is coming." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it cost?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Logging is free, always, and cannot be put behind a paywall because there is no account or server to lock. The optional doctor-summary export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase. It is not purchasable yet." }
+        },
+        {
+          "@type": "Question",
+          "name": "Who makes Emenla?",
+          "acceptedAnswer": { "@type": "Answer", "text": "One person, in Poland. It is a one-person project, and this site says so rather than implying a bigger team." }
+        }
+      ]
     }
   ]
 }
@@ -72,7 +180,7 @@
         <div class="hero__scrim" aria-hidden="true"></div>
 
         <div class="band band--1" data-a="0" data-b="0.25">
-          <h1 class="band__text hook voice">You're not imagining it.</h1>
+          <p class="band__text hook voice">You're not imagining it.</p>
           <span class="band__text hook voice hook-soft" aria-hidden="true">You're not imagining it.</span>
         </div>
         <div class="band band--2 entr-sway" data-a="0.23" data-b="0.50" data-spread="0.4">
@@ -83,7 +191,7 @@
         </div>
         <div class="band band--4 entr-rise" data-a="0.73" data-b="1" data-ramp="0.035" data-spread="0.3">
           <p class="band__text display" data-split="words">Turn what you feel into a clear conversation for your next appointment.</p>
-          <p class="settle-note band__note">Emenla is an iPhone app. It is not on the App Store yet.</p>
+          <p class="settle-note band__note">Emenla is an endometriosis symptom tracker for iPhone. It is not on the App Store yet.</p>
         </div>
 
         <div class="hero__ring" aria-hidden="true">
@@ -100,7 +208,7 @@
           <div class="hero__static-copy">
             <p class="body-lg">Pain that gets brushed off is still pain. Emenla helps you keep a record of it, in your own words.</p>
             <p>Turn what you feel into a clear conversation for your next appointment.</p>
-            <p class="body-sm muted">Emenla is an iPhone app. It is not on the App Store yet.</p>
+            <p class="body-sm muted">Emenla is an endometriosis symptom tracker for iPhone. It is not on the App Store yet.</p>
           </div>
         </div>
       </div>

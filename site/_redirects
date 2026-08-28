@@ -1,2 +1,6 @@
+# One hostname only. Without this, www.emenla.com serves a byte-identical 200
+# and Google sees two sites. Cloudflare Pages honours absolute-URL sources.
+https://www.emenla.com/* https://emenla.com/:splat 301
+
 /support/ /#faq 301
 /support/* /#faq 301
