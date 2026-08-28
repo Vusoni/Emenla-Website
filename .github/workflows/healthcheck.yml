@@ -62,7 +62,12 @@ jobs:
 
       - name: Poczta i DNSSEC nadal skonfigurowane
         run: |
-          [ "$(dig +short emenla.com MX | wc -l)" -ge 1 ] || { echo "::error::zniknely rekordy MX - hello@emenla.com odbija"; exit 1; }
-          dig +short emenla.com DS | grep -q . || { echo "::error::DNSSEC wylaczony"; exit 1; }
-          dig +short _dmarc.emenla.com TXT | grep -q 'p=reject' || { echo "::error::DMARC nie jest juz p=reject"; exit 1; }
-          echo "  OK  MX, DNSSEC, DMARC"
+          # Pytamy konkretny resolver publiczny. Rekord DS mieszka w strefie
+          # nadrzednej .com, a nie kazdy resolver go zwraca przy zapytaniu
+          # o domene potomna - domyslny resolver runnera nie zwraca.
+          R=1.1.1.1
+          [ "$(dig @$R +short emenla.com MX | wc -l)" -ge 1 ] || { echo "::error::zniknely rekordy MX - hello@emenla.com odbija"; exit 1; }
+          dig @$R +short emenla.com DS | grep -q . || { echo "::error::DNSSEC wylaczony - brak rekordu DS w rejestrze .com"; exit 1; }
+          dig @$R +short _dmarc.emenla.com TXT | grep -q 'p=reject' || { echo "::error::DMARC nie jest juz p=reject"; exit 1; }
+          [ "$(dig @$R +short emenla.com TXT | grep -c 'v=spf1')" = "1" ] || { echo "::error::liczba rekordow SPF rozna od 1 - uwierzytelnianie poczty przestanie dzialac"; exit 1; }
+          echo "  OK  MX, DNSSEC, DMARC, SPF"
