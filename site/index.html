@@ -16,9 +16,13 @@
   <meta property="og:url" content="https://emenla.com/">
   <meta property="og:image" content="https://emenla.com/og.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://emenla.com/">
+  <link rel="preload" as="image" href="assets/img/hero-poster-v2.jpg" media="(min-width: 721px) and (orientation: landscape)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/hero-still-v2.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260827h">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260827i">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Emenla","url":"https://emenla.com/","logo":"https://emenla.com/apple-touch-icon.png","email":"hello@emenla.com"},{"@type":"SoftwareApplication","name":"Emenla","applicationCategory":"HealthApplication","operatingSystem":"iOS","description":"An iPhone app for people with endometriosis. Write what you feel in your own words, see the clinical term beside it, and bring a one-page summary to your appointment. Everything stays on your phone.","url":"https://emenla.com/","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}]}</script>
 </head>
 <body>
   <div class="env" aria-hidden="true"></div>
@@ -36,7 +40,7 @@
 
     <!-- ============ The hero: one page, arriving and staying ============ -->
     <section class="hero" id="top" aria-label="Introduction">
-      <div class="hero__stage" data-hero-stage data-video="assets/video/hero-scrub-v2.mp4" data-poster="assets/img/hero-poster-v2.jpg" data-bytes="3327266">
+      <div class="hero__stage" data-hero-stage data-video="assets/video/hero-scrub-v3.mp4" data-poster="assets/img/hero-poster-v2.jpg" data-bytes="1295389">
         <img class="hero__poster" alt="" aria-hidden="true" decoding="async">
         <video class="hero__video" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
         <div class="hero__scrim" aria-hidden="true"></div>
@@ -64,7 +68,7 @@
         <!-- The designed still for phones, portrait tablets, coarse landscape and reduced motion -->
         <div class="hero__static">
           <div class="hero__static-visual">
-            <img class="hero__still" src="assets/img/hero-still-v2.jpg" alt="" loading="lazy" decoding="async">
+            <img class="hero__still" src="assets/img/hero-still-v2.jpg" alt="" fetchpriority="high" decoding="async">
             <h1 class="hook voice">You're not imagining it.</h1>
           </div>
           <div class="hero__static-copy">
@@ -166,25 +170,25 @@
         </div>
         <div class="grid5 reveal" data-loop>
           <div class="imgcard imgcard--lg part">
-            <video data-loop-video muted loop playsinline preload="metadata" poster="assets/img/cast-record.jpg" aria-hidden="true"><source src="assets/video/loop-record.mp4" type="video/mp4"></video>
-            <img src="assets/img/cast-record.jpg" alt="A woman with her eyes closed in soft morning light, about to say a few words." loading="lazy" decoding="async">
+            <video data-loop-video muted loop playsinline preload="metadata" aria-hidden="true"><source src="assets/video/loop-record-v2.mp4" type="video/mp4"></video>
+            <picture><source type="image/avif" srcset="assets/img/cast-record.avif"><img src="assets/img/cast-record.jpg" alt="A woman with her eyes closed in soft morning light, about to say a few words." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy"><h3>Record</h3><p>A few words is enough. Say it, or type it.</p></div>
           </div>
           <div class="imgcard imgcard--lg part">
-            <video data-loop-video muted loop playsinline preload="metadata" poster="assets/img/cast-document.jpg" aria-hidden="true"><source src="assets/video/loop-document.mp4" type="video/mp4"></video>
-            <img src="assets/img/cast-document.jpg" alt="A woman holding a single clean page, calm, in soft light." loading="lazy" decoding="async">
+            <video data-loop-video muted loop playsinline preload="metadata" aria-hidden="true"><source src="assets/video/loop-document-v2.mp4" type="video/mp4"></video>
+            <picture><source type="image/avif" srcset="assets/img/cast-document.avif"><img src="assets/img/cast-document.jpg" alt="A woman holding a single clean page, calm, in soft light." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy"><h3>Document</h3><p>One clean page for your appointment.</p></div>
           </div>
           <div class="imgcard imgcard--sm part">
-            <img src="assets/img/cast-patterns.jpg" alt="A woman in profile, thinking, in soft light." loading="lazy" decoding="async">
+            <picture><source type="image/avif" srcset="assets/img/cast-patterns.avif"><img src="assets/img/cast-patterns.jpg" alt="A woman in profile, thinking, in soft light." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy"><h3>Patterns</h3><p>Your cycle, counted. Never forecast.</p></div>
           </div>
           <div class="imgcard imgcard--sm part">
-            <img src="assets/img/cast-nourish.jpg" alt="A woman at a table with a bowl, unhurried, in soft light." loading="lazy" decoding="async">
+            <picture><source type="image/avif" srcset="assets/img/cast-nourish.avif"><img src="assets/img/cast-nourish.jpg" alt="A woman at a table with a bowl, unhurried, in soft light." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy"><h3>Nourish</h3><p>Food, built carefully. No restriction.</p></div>
           </div>
           <div class="imgcard imgcard--sm part">
-            <img src="assets/img/cast-fitness.jpg" alt="A woman stretching gently on a mat in soft light." loading="lazy" decoding="async">
+            <picture><source type="image/avif" srcset="assets/img/cast-fitness.avif"><img src="assets/img/cast-fitness.jpg" alt="A woman stretching gently on a mat in soft light." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy"><h3>Fitness</h3><p>Gentle movement. It cannot score you.</p></div>
           </div>
         </div>
@@ -219,7 +223,7 @@
         </div>
 
         <div class="imgcard imgcard--wide reveal" data-loop>
-          <img class="part" src="assets/img/paper-ending.jpg" alt="A single sheet of paper resting on linen in soft daylight." loading="lazy" decoding="async">
+          <picture><source type="image/avif" srcset="assets/img/paper-ending.avif"><img class="part" src="assets/img/paper-ending.jpg" alt="A single sheet of paper resting on linen in soft daylight." loading="lazy" decoding="async"></picture>
           <div class="imgcard__copy part">
             <h3>Walk in with proof.</h3>
             <p>One page. Your words, their words, the dates.</p>
@@ -250,7 +254,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1690</span><span class="label">Described</span></div>
-                <img class="hcard__img" src="assets/img/hist-1690.jpg" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7">
+                <picture><source type="image/avif" srcset="assets/img/hist-1690.avif"><img class="hcard__img" src="assets/img/hist-1690.jpg" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7"></picture>
                 <h3 class="hcard__title">First written down.</h3>
                 <p class="hcard__body">Daniel Shroen, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
               </div>
@@ -260,7 +264,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1860</span><span class="label">Seen</span></div>
-                <img class="hcard__img" src="assets/img/hist-1860.jpg" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6">
+                <picture><source type="image/avif" srcset="assets/img/hist-1860.avif"><img class="hcard__img" src="assets/img/hist-1860.jpg" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6"></picture>
                 <h3 class="hcard__title">Seen under a microscope.</h3>
                 <p class="hcard__body">Karl von Rokitansky in Vienna identifies tissue like the lining of the womb growing where it should not.</p>
               </div>
@@ -270,7 +274,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1927</span><span class="label">Named</span></div>
-                <img class="hcard__img" src="assets/img/hist-1927.jpg" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5">
+                <picture><source type="image/avif" srcset="assets/img/hist-1927.avif"><img class="hcard__img" src="assets/img/hist-1927.jpg" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5"></picture>
                 <h3 class="hcard__title">Given its name.</h3>
                 <p class="hcard__body">John Sampson coins the word endometriosis and proposes that menstrual blood flowing backwards seeds the tissue. It is still the leading theory.</p>
               </div>
@@ -280,7 +284,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1980</span><span class="label">Organised</span></div>
-                <img class="hcard__img" src="assets/img/cast-nourish.jpg" alt="A woman at a table, unhurried." loading="lazy" decoding="async" style="--age:0.62">
+                <picture><source type="image/avif" srcset="assets/img/cast-nourish.avif"><img class="hcard__img" src="assets/img/cast-nourish.jpg" alt="A woman at a table, unhurried." loading="lazy" decoding="async" style="--age:0.62"></picture>
                 <h3 class="hcard__title">Patients organise.</h3>
                 <p class="hcard__body">The Endometriosis Association is founded in Milwaukee, the first patient-led organisation, and starts collecting women's own accounts.</p>
               </div>
@@ -290,7 +294,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2005</span><span class="label">Guided</span></div>
-                <img class="hcard__img" src="assets/img/hist-2005.jpg" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3">
+                <picture><source type="image/avif" srcset="assets/img/hist-2005.avif"><img class="hcard__img" src="assets/img/hist-2005.jpg" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3"></picture>
                 <h3 class="hcard__title">The first European guideline.</h3>
                 <p class="hcard__body">ESHRE publishes its first guideline on diagnosing and treating endometriosis, updated in 2014 and 2022.</p>
               </div>
@@ -300,7 +304,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2017</span><span class="label">Heard</span></div>
-                <img class="hcard__img" src="assets/img/hist-2017.jpg" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15">
+                <picture><source type="image/avif" srcset="assets/img/hist-2017.avif"><img class="hcard__img" src="assets/img/hist-2017.jpg" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15"></picture>
                 <h3 class="hcard__title">Clinicians are told to listen.</h3>
                 <p class="hcard__body">The UK guideline NG73 says to suspect endometriosis when a woman reports chronic pelvic pain, period pain that affects daily life, or pain during or after sex.</p>
               </div>
@@ -310,7 +314,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2026</span><span class="label">Enough</span></div>
-                <img class="hcard__img" src="assets/img/hero-ending-v2.jpg" alt="A woman in profile, eyes closed, calm." loading="lazy" decoding="async" style="--age:0.1">
+                <picture><source type="image/avif" srcset="assets/img/hist-2026.avif"><img class="hcard__img" src="assets/img/hist-2026.jpg" alt="A woman in profile, eyes closed, calm." loading="lazy" decoding="async" style="--age:0.1"></picture>
                 <h3 class="hcard__title">Your symptoms are enough.</h3>
                 <p class="hcard__body">ACOG's guideline says a clinical diagnosis from symptoms, history and an examination is enough to begin treatment. Surgery is not required first.</p>
               </div>
@@ -320,7 +324,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">Today</span><span class="label">Still waiting</span></div>
-                <img class="hcard__img" src="assets/img/woman-v1-ending.jpg" alt="A woman in profile, at rest." loading="lazy" decoding="async" style="--age:0">
+                <picture><source type="image/avif" srcset="assets/img/hist-today.avif"><img class="hcard__img" src="assets/img/hist-today.jpg" alt="A woman in profile, at rest." loading="lazy" decoding="async" style="--age:0"></picture>
                 <h3 class="hcard__title">Four to eleven years.</h3>
                 <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
               </div>
@@ -406,7 +410,7 @@
             <p class="part muted body-sm">None of this is a claim about what Emenla does for your health. It is why a clear record, kept by you, in your words, is worth having.</p>
           </div>
           <div class="imgcard imgcard--glow reveal" data-loop>
-            <img class="part" src="assets/img/still-sheets.jpg" alt="Three blank sheets of paper stacked on linen in soft daylight." loading="lazy" decoding="async">
+            <picture><source type="image/avif" srcset="assets/img/still-sheets.avif"><img class="part" src="assets/img/still-sheets.jpg" alt="Three blank sheets of paper stacked on linen in soft daylight." loading="lazy" decoding="async"></picture>
             <div class="imgcard__copy part">
               <h3>Kept.</h3>
               <p>Your words, unchanged, beside the clinical term.</p>
@@ -518,7 +522,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260827h" defer></script>
-  <script src="assets/js/site.js?v=20260827h" defer></script>
+  <script src="assets/js/hero.js?v=20260827i" defer></script>
+  <script src="assets/js/site.js?v=20260827i" defer></script>
 </body>
 </html>

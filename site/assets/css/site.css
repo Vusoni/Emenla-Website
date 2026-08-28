@@ -130,6 +130,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 img, svg, video { display: block; max-width: 100%; }
+picture { display: contents; }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
 button, input { font: inherit; color: inherit; }
 h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
@@ -1508,7 +1509,7 @@ body.at-end .edge-blur { opacity: 0; }
   object-fit: cover;
   z-index: -2;
 }
-.imgcard video + img { z-index: -3; }
+.imgcard video + img, .imgcard video + picture img { z-index: -3; }
 .grid5__more { margin: 28px auto 0; max-width: 68ch; text-align: center; }
 @media (max-width: 900px) {
   .grid5 { grid-template-columns: 1fr; }

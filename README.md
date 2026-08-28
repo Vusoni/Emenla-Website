@@ -72,3 +72,17 @@ record), so no registrar-side DNSSEC step was needed.
 with build command empty and output directory `site`), then add `emenla.com` and `www.emenla.com` as
 custom domains. `.htaccess` is kept for a future move to an Apache host; Pages ignores it and reads
 `site/_headers` instead. Pages serves `404.html` automatically.
+
+## Performance budget
+
+Measured with `node tools/measure.mjs http://127.0.0.1:8080/ 1440 900` (add `touch` for the phone) on 2026-08-28:
+
+| | Desktop first load | Phone first load |
+|---|---|---|
+| Before | 3.96 MB, 11 requests | 681 KB, 10 requests |
+| After | 1.52 MB, 10 requests (1.27 MB of it is the hero video, fetched behind the poster) | 203 KB, 8 requests |
+
+What keeps it there: every photo ships as AVIF with a JPEG fallback, sized to about twice its displayed
+width; the hero video is encoded at its native 720p; loop videos carry no eager `poster`; the LCP image
+for each viewport is preloaded; fonts are subset and self-hosted; nothing loads from a third party.
+Run the measure script after adding media, and keep the phone first load under 300 KB.
