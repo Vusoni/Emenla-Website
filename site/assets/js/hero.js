@@ -74,6 +74,49 @@
   }
   Array.prototype.forEach.call(stage.querySelectorAll('[data-split]'), splitElement);
 
+  /* ---------- Ink under your hand ----------
+     On fine pointers, the letters and words near the pointer lift a little and warm to violet, then
+     settle back. Each frame reads every unit's rect first and writes afterwards, so there is one
+     layout per frame; the loop stops on its own once everything has settled. */
+  (function () {
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!fine.matches) return;
+    var units = Array.prototype.filter.call(stage.querySelectorAll('.band .split .c, .band .split .w'), function (u) { return !u.querySelector('.c'); });
+    if (!units.length) return;
+    var R = 150, px = -1e4, py = -1e4, raf = null, over = false;
+    var vals = units.map(function () { return 0; });
+    function frame() {
+      raf = null;
+      var rects = units.map(function (u) { return u.getBoundingClientRect(); });
+      var active = false;
+      for (var i = 0; i < units.length; i++) {
+        var r = rects[i], t = 0;
+        if (over && r.width) {
+          var d = Math.hypot(r.left + r.width / 2 - px, r.top + r.height / 2 - py);
+          if (d < R) { t = 1 - d / R; t = t * t * (3 - 2 * t); }
+        }
+        var v = vals[i] + (t - vals[i]) * 0.22;
+        if (Math.abs(v - t) < 0.004) v = t;
+        if (v !== vals[i]) {
+          vals[i] = v;
+          units[i].style.setProperty('--h', v.toFixed(3));
+          active = true;
+        }
+      }
+      if (active) raf = window.requestAnimationFrame(frame);
+    }
+    function kick() { if (raf === null) raf = window.requestAnimationFrame(frame); }
+    stage.addEventListener('pointermove', function (e) {
+      if (rmq.matches) return;
+      over = true; px = e.clientX; py = e.clientY;
+      kick();
+    });
+    stage.addEventListener('pointerleave', function () { over = false; kick(); });
+    var onRm = function () { if (rmq.matches) { over = false; kick(); } };
+    if (rmq.addEventListener) rmq.addEventListener('change', onRm);
+  })();
+
   /* ---------- Bands ---------- */
   var bands = Array.prototype.map.call(stage.querySelectorAll('.band'), function (el, i, all) {
     return {
