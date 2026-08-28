@@ -745,6 +745,46 @@ ul, ol { padding: 0; list-style: none; }
   background: var(--clay);
 }
 
+/* ---------- The statement: words light from a lavender ghost to ink as the paragraph scrolls through.
+   JS splits the text into .w spans with --i and sets --n and one --p on the paragraph; the rest is CSS.
+   Window of three words: word i runs from ghost to ink while p * (n + 3) travels from i to i + 3. ---------- */
+.statement__text {
+  --p: 0;
+  --n: 1;
+  --ghost: #cfc6f6;
+  max-width: min(100%, 24ch);
+  font-size: clamp(28px, 3.6vw, 48px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+}
+.statement__text .w,
+.statement__text .glyph {
+  --k: clamp(0, calc((var(--p) * (var(--n) + 3) - var(--i, 0)) / 3), 1);
+}
+.statement__text .w {
+  color: var(--ink);
+  opacity: calc(0.55 + 0.45 * var(--k));
+  filter: blur(calc((1 - var(--k)) * 3px));
+}
+@supports (color: color-mix(in oklab, red 50%, blue)) {
+  .statement__text .w { color: color-mix(in oklab, var(--ink) calc(var(--k) * 100%), var(--ghost)); }
+}
+.glyph {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  vertical-align: -0.14em;
+  margin-inline: 0.04em;
+  opacity: calc(0.55 + 0.45 * var(--k, 1));
+  transform: scale(calc(0.8 + 0.2 * var(--k, 1)));
+  filter: blur(calc((1 - var(--k, 1)) * 3px));
+}
+.glyph svg, .glyph img { width: 100%; height: 100%; display: block; }
+.glyph--mark img { object-fit: contain; }
+.glyph--page path { fill: none; stroke: url(#g-voice); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
 /* ---------- Cards ---------- */
 .card {
   background: var(--panel);
@@ -1121,6 +1161,55 @@ ul, ol { padding: 0; list-style: none; }
   border-radius: 12px;
   background: var(--voice);
   opacity: 0.9;
+}
+
+/* ---------- Screens: two tinted panels, a phone rising out of each ---------- */
+.screens {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 44px;
+}
+.panel {
+  --panel-h: 560px;
+  --phone-hide: 38%; /* the share of the phone below the panel's bottom edge, of the phone's own height */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: var(--panel-h);
+  padding: clamp(24px, 3vw, 36px);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--haze);
+  background: linear-gradient(180deg, rgba(91, 72, 214, 0.07), rgba(91, 72, 214, 0.02) 60%, var(--canvas));
+  text-align: center;
+}
+.panel__sub { margin-top: 8px; }
+.panel__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 4px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.panel__link:hover { text-decoration: underline; }
+.panel__device {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(100%, 300px);
+  transform: translate(-50%, calc(var(--phone-hide) + 40px));
+  transition: transform 1100ms var(--ease-out) 240ms;
+  pointer-events: none;
+}
+.reveal.in .panel__device { transform: translate(-50%, var(--phone-hide)); }
+.panel .device { width: 100%; }
+.panel .device__screen { justify-content: flex-start; padding-top: 58px; }
+.panel .device__mark { top: 34%; }
+@media (max-width: 720px) {
+  .screens { grid-template-columns: 1fr; gap: 16px; }
+  .panel { --panel-h: 460px; }
+  .panel__device { width: min(100%, 240px); }
 }
 
 /* ---------- Refusals ---------- */
@@ -1817,6 +1906,8 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
   html { scroll-behavior: auto; }
   .reveal .part, .reveal.part { opacity: 1; transform: none; }
   .strip { --line: 1; }
+  .statement__text .w, .statement__text .glyph { --k: 1; }
+  .panel__device { transform: translate(-50%, var(--phone-hide)); }
   .counts__bars i { transform: scaleY(1); }
   .timeline__rail .rail-draw { stroke-dashoffset: 0; }
   .hold__result, .hold__result > * { opacity: 1; transform: none; }

@@ -478,17 +478,78 @@
     bar.style.setProperty('--i', i);
   });
 
+  /* ---------- The statement: words light from ghost to ink as the paragraph scrolls through ----------
+     Authored as plain text with inline glyph spans. Text nodes are split into word spans that carry
+     their index (glyphs take the next index), --n goes on the paragraph, and one --p per frame drives
+     every word through CSS. Whitespace stays as real text nodes, so screen readers read one sentence. */
+  var stmt = document.querySelector('[data-statement]');
+  var stmtP = -1, stmtListening = false;
+  function splitStatement(el) {
+    var nodes = Array.prototype.slice.call(el.childNodes), idx = 0;
+    nodes.forEach(function (node) {
+      if (node.nodeType === 3) {
+        var frag = document.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach(function (t) {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(' ')); return; }
+          var w = document.createElement('span');
+          w.className = 'w';
+          w.textContent = t;
+          w.style.setProperty('--i', idx++);
+          frag.appendChild(w);
+        });
+        el.replaceChild(frag, node);
+      } else if (node.nodeType === 1) {
+        node.style.setProperty('--i', idx++);
+      }
+    });
+    el.style.setProperty('--n', idx);
+  }
+  function updateStatement() {
+    if (!stmt) return;
+    var r = stmt.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var p = (vh * 0.82 - r.top) / Math.max(1, r.height + vh * 0.30);
+    p = Math.min(1, Math.max(0, p));
+    if (Math.abs(p - stmtP) > 0.004 || ((p === 0 || p === 1) && stmtP !== p)) {
+      stmtP = p;
+      stmt.style.setProperty('--p', p.toFixed(3));
+    }
+  }
+  function pinStatement() { if (stmt) { stmtP = 1; stmt.style.setProperty('--p', '1'); } }
+  function armStatement() {
+    if (!stmt || stmtListening) return;
+    stmtListening = true;
+    stmtP = -1;
+    window.addEventListener('scroll', updateStatement, { passive: true });
+    window.addEventListener('resize', updateStatement);
+    updateStatement();
+  }
+  function disarmStatement() {
+    if (!stmtListening) return;
+    stmtListening = false;
+    window.removeEventListener('scroll', updateStatement);
+    window.removeEventListener('resize', updateStatement);
+  }
+  if (stmt) {
+    splitStatement(stmt);
+    if (reduced()) pinStatement(); else armStatement();
+  }
+
   /* ---------- Reduced motion, live, in both directions ---------- */
   function onMotionChange() {
     if (reduced()) {
       pinReveals();
       pinRail();
       disarmRail();
+      pinStatement();
+      disarmStatement();
       armHistory();
       stopLoops();
       if (hold && hold.__pin) hold.__pin();
     } else {
       armRail();
+      armStatement();
       armHistory();
       loopVideos.forEach(function (v) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); });
     }

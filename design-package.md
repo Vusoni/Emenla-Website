@@ -282,3 +282,26 @@ actionable, data-driven, solutions, testament, landscape, delve, elevate), then 
 "not just X, it's Y", false ranges, vague attributions and big-finish endings. The designed devices in
 this package (the four-label strip, the staccato refusals, "A count, not a forecast.") are craft and
 stay.
+
+## Added 29 August 2026
+
+### The statement (`#statement`, between the settle strip and Your words)
+
+One paragraph, Hanken 500 at up to 48px, left-aligned, 24ch wide. Words start as a lavender ghost
+(#cfc6f6, 3px blur) and turn ink as the paragraph scrolls through the viewport, three words at a
+time; three inline glyphs (a speech mark, the Emenla ring, a page) travel with the words.
+
+> Emenla is a record of endometriosis kept in your own words. Say what you feel, see it named in
+> clinical language, count what you logged against your periods, and walk into the appointment
+> with one clear page.
+
+### Screens (`#screens`, after Three things it does)
+
+Label "On the phone". Heading "One app, kept in your words." Two tinted panels, a phone rising out
+of each with 62% of it visible:
+
+- Record — "A few words is enough. Say it, or type it." — Learn more → #your-words
+- Document — "One clean page for your appointment." — Learn more → #how
+
+The screens are placeholders ("Screens on their way") until the founder drops real screenshots; see
+README, Before launch, item 3.

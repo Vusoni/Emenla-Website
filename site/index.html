@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260828r">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260829a">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -224,6 +224,21 @@
       </ul>
     </div>
 
+    <!-- ============ The statement: words light from ghost to ink as the page scrolls ============ -->
+    <section class="section statement" id="statement" aria-label="In a sentence">
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+        <defs>
+          <linearGradient id="g-voice" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6c79da"/>
+            <stop offset="1" stop-color="#3428a6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="wrap">
+        <p class="statement__text" data-statement>Emenla is a record of endometriosis kept in your own words. Say what you feel, <span class="glyph glyph--say" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="url(#g-voice)" d="M6 3h12a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-6.2L7 21.4V18H6a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z"/></svg></span> see it <span class="glyph glyph--mark" aria-hidden="true"><img src="assets/img/logo-small.png" alt="" width="112" height="112" decoding="async"></span> named in clinical language, count what you logged against your periods, and walk into the appointment with <span class="glyph glyph--page" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 2.5h7.5L20 8v11.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2z"/><path d="M14.5 2.5V8H20M9 12.5h6M9 16h6"/></svg></span> one clear page.</p>
+      </div>
+    </section>
+
     <!-- ============ Your words, their words ============ -->
     <section class="section" id="your-words">
       <div class="wrap">
@@ -360,6 +375,46 @@
           <div class="imgcard__copy part">
             <h3>Walk in with proof.</h3>
             <p>One page. Your words, their words, the dates.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Screens: two tinted panels, a phone rising out of each ============ -->
+    <section class="section section--tight" id="screens">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label part">On the phone</span>
+          <h2 class="heading-lg part">One app, kept in your words.</h2>
+        </div>
+        <div class="screens reveal">
+          <div class="panel part">
+            <h3 class="panel__title heading-sm">Record</h3>
+            <p class="panel__sub muted">A few words is enough. Say it, or type it.</p>
+            <a class="panel__link" href="#your-words">Learn more<span class="vh"> about recording in your own words</span><span aria-hidden="true">&nbsp;&rsaquo;</span></a>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <div class="device__notch"></div>
+                  <div class="device__mark"></div>
+                  <p class="device__hint mono">Screens on their way</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel part">
+            <h3 class="panel__title heading-sm">Document</h3>
+            <p class="panel__sub muted">One clean page for your appointment.</p>
+            <a class="panel__link" href="#how">Learn more<span class="vh"> about the one-page summary</span><span aria-hidden="true">&nbsp;&rsaquo;</span></a>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <div class="device__notch"></div>
+                  <div class="device__mark"></div>
+                  <p class="device__hint mono">Screens on their way</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -709,7 +764,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260828r" defer></script>
-  <script src="assets/js/site.js?v=20260828r" defer></script>
+  <script src="assets/js/hero.js?v=20260829a" defer></script>
+  <script src="assets/js/site.js?v=20260829a" defer></script>
 </body>
 </html>

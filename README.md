@@ -51,7 +51,13 @@ Still open:
 0. The Support page is gone; `site/_redirects` sends `/support/` to `/#faq`. For App Store Connect use `https://emenla.com/#faq` as the support URL (the footer on every page carries hello@emenla.com).
 1. Set up `hello@emenla.com` — Cloudflare Email Routing, free, once the nameservers move.
 2. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
-3. Replace the empty phone screen in the privacy section with real app screenshots.
+3. Replace the empty phone screens with real app screenshots. There are three: one in `#privacy`
+   and two in `#screens` (the Record and Document panels). In each `.device__screen`, delete
+   `.device__mark` and `.device__hint` (keep `.device__notch` unless the screenshot carries its own
+   status bar) and add
+   `<picture><source type="image/avif" srcset="assets/img/screen-record.avif"><img src="assets/img/screen-record.jpg" alt="" width="560" height="1184" loading="lazy" decoding="async"></picture>`.
+   Export at 560×1184 (twice the 280×592 screen); the existing `.device__screen img` rule crops it.
+   New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
 5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
 

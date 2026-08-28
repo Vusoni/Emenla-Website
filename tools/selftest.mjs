@@ -96,6 +96,7 @@ await p.eval(`window.scrollTo(0, 0); ${wait(300)}`);
 await p.setMedia([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
 await p.eval(wait(600));
 log('rm on: ' + JSON.stringify(await p.eval(`({staticShown: getComputedStyle(document.querySelector('.hero__static')).display, videoShown: getComputedStyle(document.querySelector('.hero__video')).display, heroHeight: document.querySelector('.hero').offsetHeight, holdDone: document.querySelector('[data-hold]').classList.contains('is-done'), revealsIn: document.querySelectorAll('.reveal:not(.in)').length})`)));
+log('rm statement + screens: ' + JSON.stringify(await p.eval(`(() => { const el = document.querySelector('[data-statement]'); const pn = document.querySelector('.panel').getBoundingClientRect(), d = document.querySelector('.panel .device').getBoundingClientRect(); return { statementP: getComputedStyle(el).getPropertyValue('--p').trim(), firstWordOpacity: getComputedStyle(el.querySelector('.w')).opacity, panelCrop: ((pn.bottom - d.top) / d.height).toFixed(2) }; })()`)));
 /* and OFF again */
 await p.setMedia([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
 await p.eval(`window.scrollTo(0, 800); ${wait(1200)}`);
