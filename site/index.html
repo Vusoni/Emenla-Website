@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260828p">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260828q">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -476,13 +476,18 @@
     -->
 
     <!-- ============ FAQ ============ -->
-    <section class="section section--tight" id="faq">
-      <div class="wrap wrap--narrow">
-        <div class="section-head reveal">
-          <span class="label part">Questions</span>
-          <h2 class="heading-lg part">Questions people ask first.</h2>
+    <section class="section" id="faq">
+      <div class="wrap faq2">
+        <div class="faq2__intro reveal">
+          <h2 class="heading-lg part">Everything you need to know about Emenla.</h2>
+          <p class="muted part">Short answers, in plain words. If yours is not here, ask.</p>
+          <a class="btn part" href="mailto:hello@emenla.com?subject=A%20question%20about%20Emenla">Ask a question</a>
         </div>
         <div class="faq reveal">
+          <details class="part">
+            <summary>Is Emenla on the App Store?</summary>
+            <p class="answer">Not yet. It is an iPhone app and it is being built now. Leave your email below and you will get one message the day it opens.</p>
+          </details>
           <details class="part">
             <summary>Does Emenla tell me whether I have endometriosis?</summary>
             <p class="answer">No, and it never will. Emenla names symptoms in clinical language and keeps your words beside each term. Whether those symptoms add up to a condition is a conversation for you and a clinician.</p>
@@ -495,7 +500,45 @@
             <summary>Is there a streak, a score, or a daily reminder I will feel bad about?</summary>
             <p class="answer">No. There are no streaks anywhere in Emenla and there never will be. Reminders are optional and never leave your phone.</p>
           </details>
-          <p class="faq__link part muted">Anything else? Write to <a href="mailto:hello@emenla.com">hello@emenla.com</a>.</p>
+          <details class="part">
+            <summary>Does Emenla predict my period or my flares?</summary>
+            <p class="answer">No. Emenla does not predict anything. You can log period start dates and the app counts your logged days against them, looking backwards at what you wrote. It never forecasts what is coming.</p>
+          </details>
+          <details class="part">
+            <summary>What does it cost?</summary>
+            <p class="answer">Logging is free, always, and cannot be put behind a paywall because there is no account or server to lock. The optional doctor-summary export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase. It is not purchasable yet.</p>
+          </details>
+          <details class="part">
+            <summary>Who makes Emenla?</summary>
+            <p class="answer">One person, in Poland. It is a one-person project, and this site says so rather than implying a bigger team.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Contact ============ -->
+    <section class="section section--tight" id="contact">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label part">Contact</span>
+          <h2 class="heading-lg part">Contact us.</h2>
+          <p class="subheading part">One person reads the inbox, so a reply can take a day or two. Please do not send symptoms, photos or medical details by email; Emenla is built so they never have to leave your phone.</p>
+        </div>
+        <div class="contact reveal">
+          <a class="card contact__card part" href="mailto:hello@emenla.com">
+            <div>
+              <p class="contact__k">E-mail</p>
+              <p class="contact__v">hello@emenla.com</p>
+            </div>
+            <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20l18-12 18 12v20H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 20l18 12 18-12M6 40l14-11M42 40L28 29" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="card contact__card part" href="#notify">
+            <div>
+              <p class="contact__k">App Store</p>
+              <p class="contact__v">Coming soon. Be told the day it opens.</p>
+            </div>
+            <svg class="contact__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z" fill="currentColor"/></svg>
+          </a>
         </div>
       </div>
     </section>
@@ -529,7 +572,7 @@
           </div>
           <div class="footer__col">
             <p class="footer__head">Company</p>
-            <a href="mailto:hello@emenla.com">Contact</a>
+            <a href="#contact">Contact</a>
           </div>
           <div class="footer__col">
             <p class="footer__head">Legal</p>
@@ -546,7 +589,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260828p" defer></script>
-  <script src="assets/js/site.js?v=20260828p" defer></script>
+  <script src="assets/js/hero.js?v=20260828q" defer></script>
+  <script src="assets/js/site.js?v=20260828q" defer></script>
 </body>
 </html>

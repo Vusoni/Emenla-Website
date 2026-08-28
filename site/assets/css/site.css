@@ -1678,6 +1678,47 @@ body.at-end .edge-blur { opacity: 0; }
   .sci-hero { min-height: 480px; height: 72svh; }
 }
 
+/* ---------- FAQ, two columns: the question on the left, the answers on the right ---------- */
+.faq2 {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) 1.4fr;
+  gap: 40px 72px;
+  align-items: start;
+}
+.faq2__intro { position: sticky; top: 96px; }
+.faq2__intro > * + * { margin-top: 18px; }
+.faq2__intro .btn { margin-top: 26px; border-radius: var(--radius-pill); }
+.faq2 .faq { margin-top: 0; }
+.faq2 .faq details + details { margin-top: 12px; }
+@media (max-width: 900px) {
+  .faq2 { grid-template-columns: 1fr; gap: 28px; }
+  .faq2__intro { position: static; }
+}
+
+/* ---------- Contact: two cards, the way to reach us on the left of each, the icon on the right ---------- */
+.contact {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 760px;
+  margin: 44px auto 0;
+}
+.contact__card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+}
+.contact__card:hover { transform: translateY(-3px); box-shadow: var(--shadow-xl); }
+.contact__k { font-size: var(--text-body); font-weight: 500; }
+.contact__v { color: var(--stone); font-size: var(--text-body-sm); margin-top: 6px; }
+.contact__icon { width: 44px; height: 44px; flex: none; color: var(--stone); }
+@media (max-width: 720px) { .contact { grid-template-columns: 1fr; } }
+
 /* ---------- Entrances ---------- */
 .reveal .part,
 .reveal.part {
