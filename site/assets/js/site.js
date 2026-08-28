@@ -2,7 +2,6 @@
 (function () {
   'use strict';
 
-  var FORM_ENDPOINT = ''; /* Paste the Formspree endpoint here, e.g. https://formspree.io/f/abcdwxyz */
 
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
   function reduced() { return rm.matches; }
@@ -186,10 +185,24 @@
   var hsStack = window.matchMedia('(prefers-reduced-motion: reduce)');
   var hsNodes = [], hsCards = [], hsTrack = null, hsBase = null, hsDraw = null, hsStage = null;
   var hsSpacing = 440, hsPad = 0, hsTrackW = 0, hsX = -1, hsDrawn = -1, hsRange = 1;
-  var hsRead = 0.42, hsAmp = 0.2, hsCardW = 300;
+  var hsRead = 0.42, hsCardW = 300;
+  var hsNodeXY = [], hsCum = [], hsTotalLen = 1;
+  /* A drawn line, not a formula: nodes sit near the middle with a little wobble, and every gap between
+     two nodes carries one bump up and one bump down of uneven height, like the reference. */
+  var WOBBLE = [0.02, -0.03, 0.01, -0.02, 0.03, -0.01, 0.02, -0.02];
+  var UP = [0.20, 0.15, 0.22, 0.16, 0.19, 0.14, 0.21];
+  var DOWN = [0.16, 0.21, 0.14, 0.20, 0.15, 0.22, 0.17];
   var hsListening = false;
-  function hsY(x, vh) {
-    return vh * 0.5 + vh * hsAmp * Math.cos(Math.PI * (x - hsPad) / hsSpacing);
+  function splinePath(pts) {
+    if (pts.length < 2) return '';
+    var d = 'M ' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      var c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+      var c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+      d += ' C ' + c1x.toFixed(1) + ' ' + c1y.toFixed(1) + ', ' + c2x.toFixed(1) + ' ' + c2y.toFixed(1) + ', ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+    }
+    return d;
   }
   function hsLayout() {
     if (!hs) return;
@@ -206,25 +219,51 @@
     hsCardW = phone ? Math.min(300, vw - 64) : 300;
     hsSpacing = phone ? hsCardW + 44 : Math.max(380, Math.min(480, vw * 0.3));
     hsRead = phone ? 0.5 : 0.42;
-    hsAmp = phone ? 0.15 : 0.2;
     hsPad = vw * hsRead;
-    /* The scene ends with the last card a little short of the right edge and the line running on past it */
-    var tail = phone ? (vw - hsCardW) / 2 : vw * 0.37;
-    hsTrackW = hsPad + (hsNodes.length - 1) * hsSpacing + hsCardW / 2 + tail;
+    var mid = vh * (phone ? 0.55 : 0.5), scale = phone ? 0.7 : 1, n = hsNodes.length;
+    var pts = [];
+    hsNodeXY = [];
+    for (var i = 0; i < n; i++) {
+      var nx = hsPad + i * hsSpacing, ny = mid + vh * WOBBLE[i % WOBBLE.length];
+      hsNodeXY.push({ x: nx, y: ny });
+      pts.push({ x: nx, y: ny });
+      if (i < n - 1) {
+        pts.push({ x: nx + hsSpacing * 0.38, y: mid - vh * UP[i % UP.length] * scale });
+        pts.push({ x: nx + hsSpacing * 0.68, y: mid + vh * DOWN[i % DOWN.length] * scale });
+      }
+    }
+    /* The scene ends with the last card; the line starts at the first node and stops at the last */
+    var tail = phone ? (vw - hsCardW) / 2 : vw * 0.12;
+    hsTrackW = hsNodeXY[n - 1].x + hsCardW / 2 + tail;
     hsTrack.style.width = hsTrackW + 'px';
     var svg = hsTrack.querySelector('svg');
     svg.setAttribute('viewBox', '0 0 ' + hsTrackW + ' ' + vh);
-    var d = '';
-    var lineEnd = hsTrackW + vw;
-    for (var x = 0; x <= lineEnd; x += 12) d += (x ? ' L ' : 'M ') + x.toFixed(1) + ' ' + hsY(x, vh).toFixed(1);
-    svg.setAttribute('viewBox', '0 0 ' + lineEnd + ' ' + vh);
-    svg.style.width = lineEnd + 'px';
+    svg.style.width = hsTrackW + 'px';
+    var d = splinePath(pts);
     hsBase.setAttribute('d', d);
     hsDraw.setAttribute('d', d);
-    hsNodes.forEach(function (n, i) {
-      var x = hsPad + i * hsSpacing, y = hsY(x, vh);
-      n.style.left = x + 'px';
-      n.style.top = y + 'px';
+    /* Cumulative path length at each node, so the black line reaches exactly the node being read */
+    hsTotalLen = hsBase.getTotalLength();
+    hsCum = [];
+    var samples = 480, si = 0;
+    for (var k = 0; k < n; k++) {
+      var len = null;
+      if (k === 0) len = 0;
+      else if (k === n - 1) len = hsTotalLen;
+      else {
+        while (si <= samples) {
+          var L = hsTotalLen * si / samples;
+          if (hsBase.getPointAtLength(L).x >= hsNodeXY[k].x - 0.5) { len = L; break; }
+          si++;
+        }
+        if (len === null) len = hsTotalLen;
+      }
+      hsCum.push(len);
+    }
+    hsNodes.forEach(function (nd, i) {
+      var x = hsNodeXY[i].x, y = hsNodeXY[i].y;
+      nd.style.left = x + 'px';
+      nd.style.top = y + 'px';
       var c = hsCards[i];
       if (!c) return;
       c.style.width = hsCardW + 'px';
@@ -250,17 +289,19 @@
     if (x !== hsX) {
       hsX = x;
       hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
-      /* The reading point travels from the first node to the last as progress runs 0 to 1, so the
-         black line and the lit cards always agree, and the tail past the last node stays grey */
-      var readX = hsPad + p * (hsNodes.length - 1) * hsSpacing;
-      var drawn = p >= 0.995 ? 1 : Math.min(1, Math.max(0, readX / (hsTrackW + window.innerWidth)));
+      /* The reading point travels from the first node to the last as progress runs 0 to 1 */
+      var n = hsNodes.length;
+      var pos = p * (n - 1), lo = Math.floor(pos), hi = Math.min(n - 1, lo + 1), f = pos - lo;
+      var len = hsCum.length ? hsCum[lo] + (hsCum[hi] - hsCum[lo]) * f : 0;
+      var drawn = p >= 0.995 ? 1 : Math.min(1, Math.max(0, len / hsTotalLen));
       if (Math.abs(drawn - hsDrawn) > 0.004 || drawn === 1 || drawn === 0) {
         hsDrawn = drawn;
         hsDraw.style.setProperty('--draw', drawn.toFixed(4));
       }
-      hsNodes.forEach(function (n, i) {
+      var readX = hsPad + pos * hsSpacing;
+      hsNodes.forEach(function (nd, i) {
         var lit = hsPad + i * hsSpacing <= readX + 8;
-        if (n.classList.contains('lit') !== lit) { n.classList.toggle('lit', lit); if (hsCards[i]) hsCards[i].classList.toggle('lit', lit); }
+        if (nd.classList.contains('lit') !== lit) { nd.classList.toggle('lit', lit); if (hsCards[i]) hsCards[i].classList.toggle('lit', lit); }
       });
     }
   }
@@ -388,44 +429,6 @@
   Array.prototype.forEach.call(document.querySelectorAll('.counts__bars i'), function (bar, i) {
     bar.style.setProperty('--i', i);
   });
-
-  /* ---------- The email form ---------- */
-  var form = document.querySelector('form.capture');
-  if (form) {
-    var input = form.querySelector('input[type="email"]');
-    var submit = form.querySelector('button[type="submit"]');
-    var live = form.querySelector('.capture__status');
-    var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (FORM_ENDPOINT) form.setAttribute('action', FORM_ENDPOINT);
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var value = (input.value || '').trim();
-      if (!re.test(value)) {
-        input.setAttribute('aria-invalid', 'true');
-        live.textContent = 'Check the address. It needs an @ and a dot after it.';
-        input.focus();
-        return;
-      }
-      input.removeAttribute('aria-invalid');
-      if (!FORM_ENDPOINT) {
-        live.textContent = 'Sign-up is not connected yet. This is a build that has not been launched.';
-        return;
-      }
-      submit.disabled = true;
-      live.textContent = 'Sending…';
-      var body = new FormData(form);
-      fetch(FORM_ENDPOINT, { method: 'POST', body: body, headers: { 'Accept': 'application/json' } })
-        .then(function (r) {
-          if (!r.ok) throw new Error('send failed');
-          form.classList.add('is-done');
-          live.textContent = 'Noted. You will get one message on the day Emenla opens, and nothing else.';
-        })
-        .catch(function () {
-          submit.disabled = false;
-          live.textContent = 'That did not go through. Try again in a moment.';
-        });
-    });
-  }
 
   /* ---------- Reduced motion, live, in both directions ---------- */
   function onMotionChange() {
