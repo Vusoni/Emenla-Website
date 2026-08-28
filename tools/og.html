@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    .og { position: relative; width: 1200px; height: 630px; background: #fcf9f7; overflow: hidden; }
+    .og img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 0%; }
+    .og::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(252,249,247,0.98) 0%, rgba(252,249,247,0.92) 38%, rgba(252,249,247,0.35) 58%, rgba(252,249,247,0) 76%); }
+    .og::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(252,249,247,0.9) 0%, rgba(252,249,247,0) 30%); }
+    .og__copy { position: absolute; left: 72px; top: 64px; width: 600px; z-index: 1; }
+    .og__brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 26px; letter-spacing: -0.02em; margin-bottom: 44px; }
+    .og__brand img { width: 40px; height: 40px; }
+    .og__hook { font-size: 92px; line-height: 0.98; max-width: 12ch; animation: none !important; background-position: 40% 50% !important; }
+    .og__line { margin-top: 26px; font-size: 24px; line-height: 1.4; color: #2a2a2a; max-width: 26ch; }
+    .edge-blur { display: none; }
+  </style>
+</head>
+<body>
+  <div class="og">
+    <img class="bg" src="assets/img/hero-ending-v4.jpg" alt="">
+    <div class="og__copy">
+      <div class="og__brand"><img src="assets/img/logo-small.png" alt="">Emenla</div>
+      <div class="og__hook hook voice">You're not imagining it.</div>
+      <div class="og__line">Your words, their words, one clear page. Kept on your phone.</div>
+    </div>
+  </div>
+</body>
+</html>
