@@ -1,0 +1,13 @@
+{
+  // Konfiguracja Workera serwujacego wylacznie pliki statyczne z site/.
+  // Bez tego pliku Workers nie wie, ze /404.html ma byc strona bledu,
+  // ani ze /privacy/ ma prowadzic do site/privacy/index.html.
+  // Naglowki bezpieczenstwa czyta z site/_headers - tak samo jak Pages.
+  "name": "emenla-web",
+  "compatibility_date": "2026-08-28",
+  "assets": {
+    "directory": "./site/",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
