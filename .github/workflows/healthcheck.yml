@@ -1,0 +1,68 @@
+# Monitoring emenla.com. Sprawdza nie tylko czy strona zyje, ale czy nadal jest
+# bezpieczna - zly deploy potrafi zwrocic 200 i jednoczesnie zgubic naglowki.
+# Przy niepowodzeniu GitHub wysyla maila wlascicielowi repozytorium.
+name: Health check emenla.com
+
+on:
+  schedule:
+    - cron: '17 * * * *'      # co godzine, o 17. minucie (poza szczytem cron)
+  workflow_dispatch:           # mozna tez uruchomic recznie z zakladki Actions
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Strony odpowiadaja
+        run: |
+          for p in / /privacy/ /terms/ /support/ /robots.txt /sitemap.xml; do
+            c=$(curl -sS -o /dev/null -w '%{http_code}' -L --max-time 20 "https://emenla.com$p")
+            [ "$c" = "200" ] || { echo "::error::$p zwrocilo $c zamiast 200"; exit 1; }
+            echo "  OK  $p"
+          done
+
+      - name: Nieistniejacy adres daje 404, nie 200
+        run: |
+          c=$(curl -sS -o /dev/null -w '%{http_code}' -L --max-time 20 https://emenla.com/nie-istnieje-$RANDOM)
+          [ "$c" = "404" ] || { echo "::error::brak strony 404 (dostalem $c)"; exit 1; }
+
+      - name: HTTP przekierowuje na HTTPS
+        run: |
+          c=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 http://emenla.com/)
+          [ "$c" = "301" ] || [ "$c" = "308" ] || { echo "::error::HTTP nie przekierowuje (kod $c) - tresc leci nieszyfrowana"; exit 1; }
+
+      - name: Naglowki bezpieczenstwa nadal na miejscu
+        run: |
+          h=$(curl -sSI -L --max-time 20 https://emenla.com/)
+          for n in strict-transport-security content-security-policy permissions-policy \
+                   x-content-type-options x-frame-options referrer-policy; do
+            echo "$h" | grep -qi "^$n" || { echo "::error::zniknal naglowek $n - sprawdz site/_headers"; exit 1; }
+            echo "  OK  $n"
+          done
+          echo "$h" | grep -qi set-cookie && { echo "::error::strona ustawia ciasteczko - nie powinna"; exit 1; } || true
+
+      - name: Zero zasobow z obcych domen
+        run: |
+          curl -sS -L --max-time 20 https://emenla.com/ > p.html
+          if grep -oE '(src|href)="https?://[^"]+"' p.html \
+             | grep -vE 'emenla\.com|who\.int|nice\.org\.uk|acog\.org|eshre\.eu|ncbi\.nlm\.nih\.gov|doi\.org|creativecommons\.org|reportaproblem\.apple\.com' \
+             | grep -q .; then
+            echo "::error::pojawil sie zasob z obcej domeny - ktos dodal tracker albo CDN"
+            grep -oE '(src|href)="https?://[^"]+"' p.html | grep -v emenla.com
+            exit 1
+          fi
+
+      - name: Certyfikat wazny dluzej niz 10 dni
+        run: |
+          end=$(echo | openssl s_client -connect emenla.com:443 -servername emenla.com 2>/dev/null \
+                | openssl x509 -noout -enddate | cut -d= -f2)
+          left=$(( ( $(date -d "$end" +%s) - $(date +%s) ) / 86400 ))
+          echo "  certyfikat wygasa za $left dni"
+          [ "$left" -gt 10 ] || { echo "::error::certyfikat wygasa za $left dni - autoodnawianie moglo przestac dzialac"; exit 1; }
+
+      - name: Poczta i DNSSEC nadal skonfigurowane
+        run: |
+          [ "$(dig +short emenla.com MX | wc -l)" -ge 1 ] || { echo "::error::zniknely rekordy MX - hello@emenla.com odbija"; exit 1; }
+          dig +short emenla.com DS | grep -q . || { echo "::error::DNSSEC wylaczony"; exit 1; }
+          dig +short _dmarc.emenla.com TXT | grep -q 'p=reject' || { echo "::error::DMARC nie jest juz p=reject"; exit 1; }
+          echo "  OK  MX, DNSSEC, DMARC"
