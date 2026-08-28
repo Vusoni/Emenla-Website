@@ -3,7 +3,7 @@
   // Bez tego pliku Workers nie wie, ze /404.html ma byc strona bledu,
   // ani ze /privacy/ ma prowadzic do site/privacy/index.html.
   // Naglowki bezpieczenstwa czyta z site/_headers - tak samo jak Pages.
-  "name": "emenla-web",
+  "name": "emenla-website",
   "compatibility_date": "2026-08-28",
   "assets": {
     "directory": "./site/",
