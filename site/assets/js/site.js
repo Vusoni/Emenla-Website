@@ -67,7 +67,7 @@
 
   /* ---------- The nav stays clear; over the dark closing band the wordmark turns cream ---------- */
   var nav = document.querySelector('.nav');
-  var darkBand = document.querySelector('.close');
+  var darkBand = document.querySelector('.band-dark');
   var navDark = null;
   function updateNav() {
     if (!nav) return;
@@ -84,6 +84,14 @@
   updateNav();
   window.addEventListener('scroll', updateNav, { passive: true });
   window.addEventListener('resize', updateNav);
+
+  /* ---------- The bottom-edge blur steps aside while the giant footer wordmark is in view ---------- */
+  var giant = document.querySelector('.footer__giant');
+  if (giant && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      document.body.classList.toggle('at-end', entries[0].isIntersecting);
+    }, { threshold: 0.2 }).observe(giant);
+  }
 
   /* ---------- Entrances ---------- */
   var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));

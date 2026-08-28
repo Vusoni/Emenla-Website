@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260827e">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260827h">
 </head>
 <body>
   <div class="env" aria-hidden="true"></div>
@@ -472,16 +472,17 @@
     </section>
 
     <!-- ============ The close ============ -->
-    <section class="close" id="notify" data-loop>
+    <section class="close section" id="notify" data-loop>
       <div class="wrap">
-        <div class="close__inner reveal">
+        <div class="close__card card reveal">
+        <div class="close__inner">
           <h2 class="display voice part">Walk in with proof.</h2>
           <p class="body-lg muted part">One message, on the day Emenla is on the App Store. Nothing else.</p>
           <form class="capture part" action="#" method="post" novalidate>
             <label for="email">Email address</label>
             <div class="capture__row">
               <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
-              <button class="btn btn--light" type="submit">Be told the day it opens</button>
+              <button class="btn" type="submit">Be told the day it opens</button>
             </div>
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="vh" aria-hidden="true">
             <input type="hidden" name="_subject" value="Emenla: be told the day it opens">
@@ -489,29 +490,35 @@
             <p class="capture__status" role="status" aria-live="polite"></p>
           </form>
         </div>
-      </div>
-
-      <footer class="footer">
-        <div class="wrap">
-          <div class="footer__row">
-            <span class="footer__brand"><img class="footer__mark" src="assets/img/logo-small.png" alt="" width="32" height="32" loading="lazy" decoding="async">Emenla</span>
-            <nav class="footer__links" aria-label="Footer">
-              <a href="privacy/">Privacy</a>
-              <a href="terms/">Terms</a>
-              <a href="support/">Support</a>
-              <a href="support/#contact">Contact</a>
-            </nav>
-          </div>
-          <div class="footer__lines">
-            <p>Made in Poland. Emenla is not a medical device and does not give medical advice.</p>
-            <p>The people, paper and light on this site are generated images, not photographs. Nobody shown is a patient, and nobody shown is real.</p>
-          </div>
         </div>
-      </footer>
+      </div>
     </section>
   </main>
 
-  <script src="assets/js/hero.js?v=20260827e" defer></script>
-  <script src="assets/js/site.js?v=20260827e" defer></script>
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__top">
+        <nav class="footer__links" aria-label="Footer">
+          <a href="privacy/">Privacy</a>
+          <a href="terms/">Terms</a>
+          <a href="support/">Support</a>
+          <a href="support/#contact">Contact</a>
+        </nav>
+        <div class="footer__lines">
+          <p>Emenla is not a medical device and does not give medical advice.</p>
+          <p>The people, paper and light on this site are generated images, not photographs. Nobody shown is a patient, and nobody shown is real.</p>
+        </div>
+      </div>
+      <div class="footer__row">
+        <p>&copy; 2026 Emenla. All rights reserved.</p>
+        <p class="footer__built">Built with <svg class="footer__heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.6 5.3 6 4.6c2-.4 3.9.4 5 2 1.1-1.6 3-2.4 5-2 3.4.7 5 4 3.6 7.2C19.5 16.4 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="vh">love</span> in Poland</p>
+      </div>
+    </div>
+    <div class="footer__giant" aria-hidden="true"><span>emenla</span></div>
+  </footer>
+
+
+  <script src="assets/js/hero.js?v=20260827h" defer></script>
+  <script src="assets/js/site.js?v=20260827h" defer></script>
 </body>
 </html>
