@@ -1,10 +1,10 @@
 // Internal links must resolve to a built file. External links are listed for a
 // manual check, because this build environment cannot reach most of them.
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
-const dist = join(root, 'dist');
+const dist = join(root, 'site');
 
 function walk(dir, out = []) {
   for (const f of readdirSync(dir)) {
@@ -25,12 +25,15 @@ for (const file of walk(dist)) {
     if (href.startsWith('mailto:')) continue;
     if (href === '#') { console.log(`DEAD    ${file.replace(dist, '')}: href="#" (a TODO control)`); bad++; continue; }
     if (href.startsWith('#')) { if (!ids.has(href.slice(1))) { console.log(`ANCHOR  ${file.replace(dist, '')}: ${href}`); bad++; } continue; }
-    const [path, hash] = href.split('#');
-    const candidates = [join(dist, path), join(dist, path, 'index.html')];
+    // Hrefs in site/ are relative to the page, and carry ?v= cache busters.
+    const [rawPath, hash] = href.split('#');
+    const path = rawPath.split('?')[0];
+    const base = path.startsWith('/') ? join(dist, path) : join(dirname(file), path);
+    const candidates = [base, join(base, 'index.html')];
     if (!candidates.some(existsSync)) { console.log(`MISSING ${file.replace(dist, '')}: ${href}`); bad++; continue; }
     if (hash) {
       const target = candidates.find(existsSync);
-      const t = existsSync(join(dist, path, 'index.html')) ? join(dist, path, 'index.html') : target;
+      const t = existsSync(join(base, 'index.html')) ? join(base, 'index.html') : target;
       if (t.endsWith('.html')) {
         const tHtml = readFileSync(t, 'utf8');
         if (!tHtml.includes(`id="${hash}"`)) { console.log(`ANCHOR  ${file.replace(dist, '')}: ${href}`); bad++; }

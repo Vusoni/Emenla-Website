@@ -6,10 +6,11 @@
   "description": "Public website for Emenla. Static HTML, no framework, no third-party requests.",
   "scripts": {
     "assets": "python3 scripts/make-assets.py",
+    "build": "echo \"Static site: site/ is already built, nothing to compile.\"",
     "check": "node scripts/check-copy.mjs --strict && node scripts/check-links.mjs",
     "check:copy": "node scripts/check-copy.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "serve": "python3 -m http.server 8080 --directory dist",
+    "serve": "python3 -m http.server 8080 --directory site",
     "build:legacy": "node scripts/build.mjs",
     "prebuild:legacy": "npm run assets"
   }

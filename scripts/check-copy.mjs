@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
-const dist = join(root, 'dist');
+const dist = join(root, 'site');
 const banned = JSON.parse(readFileSync(join(root, 'content/banned-terms.json'), 'utf8'));
 const strict = process.argv.includes('--strict');
 
