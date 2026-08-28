@@ -1321,24 +1321,25 @@ ul, ol { padding: 0; list-style: none; }
   padding-top: clamp(28px, 5vh, 72px);
   height: calc(0.56em + clamp(28px, 5vh, 72px));
   font-family: var(--font);
-  font-size: clamp(120px, 32vw, 720px);
+  font-size: clamp(120px, 29vw, 720px);
   font-weight: 600;
-  letter-spacing: -0.055em;
+  letter-spacing: 0;
   line-height: 1;
   color: var(--ink);
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
+  padding-inline: 20px;
   -webkit-user-select: none;
   user-select: none;
 }
-.footer__giant span { display: block; margin-left: -0.035em; transform: translateY(-0.04em); }
+.footer__giant span { display: inline-block; letter-spacing: -0.045em; transform: translateY(-0.04em); }
 @media (max-width: 720px) {
   .footer { padding-top: 44px; }
   .footer__top { padding-bottom: 20px; }
   .footer__row { padding-top: 16px; }
   .footer { min-height: 0; }
-  .footer__giant { padding-top: 28px; font-size: 30vw; height: calc(0.62em + 28px); }
+  .footer__giant { padding-top: 28px; font-size: 30vw; height: calc(0.62em + 28px); padding-inline: 12px; }
 }
 
 /* ---------- Doc pages ---------- */

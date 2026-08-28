@@ -85,6 +85,24 @@
   window.addEventListener('scroll', updateNav, { passive: true });
   window.addEventListener('resize', updateNav);
 
+  /* ---------- The footer wordmark is sized to run from the left edge to the right edge ---------- */
+  var fitEl = document.querySelector('.footer__giant [data-fit]');
+  function fitGiant() {
+    if (!fitEl) return;
+    var box = fitEl.parentNode;
+    var cs = window.getComputedStyle(box);
+    var avail = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    fitEl.style.fontSize = '100px';
+    var w = fitEl.getBoundingClientRect().width;
+    if (w > 0 && avail > 0) { var fs = 100 * avail / w; fitEl.style.fontSize = fs.toFixed(2) + 'px'; box.style.height = 'calc(' + (fs * 0.56).toFixed(1) + 'px + ' + cs.paddingTop + ')'; }
+  }
+  if (fitEl) {
+    fitGiant();
+    window.addEventListener('resize', fitGiant);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitGiant);
+    window.setTimeout(fitGiant, 800);
+  }
+
   /* ---------- The bottom-edge blur steps aside while the giant footer wordmark is in view ---------- */
   var giant = document.querySelector('.footer__giant');
   if (giant && 'IntersectionObserver' in window) {
