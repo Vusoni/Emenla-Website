@@ -133,6 +133,28 @@
     reveals.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- The science page's big numbers count up once when they come into view ---------- */
+  var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count]'));
+  if (counters.length && !reduced() && 'IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        var el = e.target, end = parseFloat(el.getAttribute('data-count')), t0 = null, last = '';
+        function step(now) {
+          if (t0 === null) t0 = now;
+          var k = Math.min(1, (now - t0) / 1100);
+          var eased = 1 - Math.pow(1 - k, 3);
+          var v = String(Math.round(end * eased));
+          if (v !== last) { last = v; el.textContent = v; }
+          if (k < 1) window.requestAnimationFrame(step);
+        }
+        window.requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { el.textContent = '0'; cio.observe(el); });
+  }
+
   /* ---------- Loops pause off-screen and on hidden tabs ---------- */
   var loops = Array.prototype.slice.call(document.querySelectorAll('[data-loop]'));
   if ('IntersectionObserver' in window && loops.length) {

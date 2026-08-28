@@ -8,7 +8,8 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 | Path | What |
 |------|------|
 | `site/` | **The website. This is the folder that goes online.** `index.html` plus `assets/`, the privacy, terms and support pages, `404.html`, `og.png`, `robots.txt`, `sitemap.xml`, `.htaccess`. |
-| `site/assets/js/site.js` | Entrances, the hold moment, the email form. **The Formspree endpoint goes in `FORM_ENDPOINT` at the top.** |
+| `site/science/` | The science page: the evidence about endometriosis with 21 references (every DOI checked to resolve on 2026-08-28), the guidelines the app cites, and a plain statement of what has not been done (no trial, no clinician review). Update it when either changes. |
+| `site/assets/js/site.js` | Entrances, the hold moment, reduced motion. No form: the site collects nothing. |
 | `site/assets/js/hero.js` | The scroll-scrubbed hero. |
 | `site/assets/css/site.css` | One stylesheet for every page. Tokens at the top. |
 | `design-package.md` | Every design decision and every line of copy. |
@@ -48,12 +49,11 @@ page names Cloudflare; `site/_headers` carries the `.htaccess` caching rules ove
 Still open:
 
 0. The Support page is gone; `site/_redirects` sends `/support/` to `/#faq`. For App Store Connect use `https://emenla.com/#faq` as the support URL (the footer on every page carries hello@emenla.com).
-1. Create a free Formspree form, turn off reCAPTCHA, paste its endpoint into `FORM_ENDPOINT` in `site/assets/js/site.js`. **Until this is filled the waitlist button cannot collect a single address.**
-2. Set up `hello@emenla.com` — Cloudflare Email Routing, free, once the nameservers move.
-3. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
-4. Replace the empty phone screen in the privacy section with real app screenshots.
-5. Legal review of the terms, then remove the "Awaiting legal review" notice.
-6. At App Store launch: swap the "Be told" buttons for the App Store link (nav, hero settle, static hero, the close).
+1. Set up `hello@emenla.com` — Cloudflare Email Routing, free, once the nameservers move.
+2. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
+3. Replace the empty phone screen in the privacy section with real app screenshots.
+4. Legal review of the terms, then remove the "Awaiting legal review" notice.
+5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
 
 ## Deploy
 
