@@ -1,0 +1,6 @@
+# Jak zglosic podatnosc w emenla.com. Format: RFC 9116.
+Contact: mailto:hello@emenla.com
+Contact: https://emenla.com/support/
+Expires: 2027-08-28T00:00:00.000Z
+Preferred-Languages: pl, en
+Canonical: https://emenla.com/.well-known/security.txt
