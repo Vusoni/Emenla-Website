@@ -236,12 +236,33 @@ ul, ol { padding: 0; list-style: none; }
   from { background-position: 66.667% 50%; }
   to { background-position: 0% 50%; }
 }
-/* The hook arrives as one line: it drifts down and settles with the band's own progress */
+/* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
+   copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
+   Everything is a pure function of --k (assembly, with the one-time load ramp) and --op (band opacity). */
+.band--1 { position: absolute; }
 .band--1 .hook {
   --p: clamp(0, var(--k, 1) / 0.55, 1);
-  opacity: var(--p);
-  transform: translateY(calc((1 - var(--p)) * -18px));
+  --x: calc(1 - var(--op, 1));
+  position: relative;
+  transform: translateY(calc((1 - var(--p)) * 22px - var(--x) * 40px));
+  letter-spacing: calc(-0.005em - var(--p) * 0.015em);
+  -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
+  mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
+  -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: calc((1 - var(--p) + var(--x)) * 100%) 0;
+  mask-position: calc((1 - var(--p) + var(--x)) * 100%) 0;
   will-change: transform, opacity;
+}
+.band--1 h1.hook { opacity: clamp(0, var(--p) * 1.6, 1); }
+.band--1 .hook-soft {
+  position: absolute;
+  inset: 0;
+  filter: blur(9px);
+  opacity: clamp(0, (1 - var(--p)) * 1.2 + var(--x) * 0.8, 1);
+  pointer-events: none;
 }
 .display { font-size: var(--text-display); line-height: 1.1; }
 .heading-lg { font-size: var(--text-heading-lg); line-height: 1.2; }
@@ -640,7 +661,22 @@ ul, ol { padding: 0; list-style: none; }
   z-index: -1;
   background: linear-gradient(to top, rgba(var(--cream-rgb), 1) 0%, rgba(var(--cream-rgb), 0.92) 22%, rgba(var(--cream-rgb), 0.45) 42%, rgba(var(--cream-rgb), 0) 62%);
 }
-.hero__static-visual .hook { max-width: 12ch; position: relative; z-index: 1; }
+.hero__static-visual .hook {
+  max-width: 12ch;
+  position: relative;
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
+  mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
+  -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: hookIn 1.3s var(--ease-out) both;
+}
+@keyframes hookIn {
+  from { opacity: 0; transform: translateY(22px); -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to { opacity: 1; transform: none; -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
 .hero__static-copy p:nth-of-type(2) { display: none; }
 .hero__static-copy {
   max-width: 640px;
@@ -1246,7 +1282,9 @@ ul, ol { padding: 0; list-style: none; }
 .footer__mark { width: 36px; height: 36px; }
 .footer__name { color: var(--ink); font-size: 20px; font-weight: 500; letter-spacing: -0.01em; margin-top: 18px; }
 .footer__desc { color: var(--stone); font-size: var(--text-body-sm); line-height: 1.5; }
-.footer__place { color: var(--stone); font-size: var(--text-body-sm); }
+.footer__addr { color: var(--stone); font-size: 15px; line-height: 1.6; }
+.footer__addr a { color: var(--stone); text-decoration: none; }
+.footer__addr a:hover { color: var(--ink); text-decoration: underline; }
 .footer__note { color: var(--ash); font-size: var(--text-caption); line-height: 1.5; margin-top: 16px; }
 .footer__note .strong { color: var(--ink); }
 .footer__cols { display: contents; }
@@ -1278,8 +1316,6 @@ ul, ol { padding: 0; list-style: none; }
   font-size: var(--text-caption);
   color: var(--stone);
 }
-.footer__built { display: inline-flex; align-items: center; gap: 6px; }
-.footer__heart { width: 15px; height: 15px; margin-top: -1px; }
 .footer__giant {
   margin-top: auto;
   padding-top: clamp(28px, 5vh, 72px);

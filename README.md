@@ -47,6 +47,7 @@ page names Cloudflare; `site/_headers` carries the `.htaccess` caching rules ove
 
 Still open:
 
+0. The Support page is gone; `site/_redirects` sends `/support/` to `/#faq`. For App Store Connect use `https://emenla.com/#faq` as the support URL (the footer on every page carries hello@emenla.com).
 1. Create a free Formspree form, turn off reCAPTCHA, paste its endpoint into `FORM_ENDPOINT` in `site/assets/js/site.js`. **Until this is filled the waitlist button cannot collect a single address.**
 2. Set up `hello@emenla.com` — Cloudflare Email Routing, free, once the nameservers move.
 3. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
