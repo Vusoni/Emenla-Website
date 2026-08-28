@@ -1227,7 +1227,7 @@ ul, ol { padding: 0; list-style: none; }
   background: var(--canvas);
   color: var(--stone);
   font-size: var(--text-body-sm);
-  padding-top: clamp(104px, 15vh, 168px);
+  padding-top: clamp(100px, 13vh, 160px);
   overflow: hidden;
   min-height: 100svh;
   display: flex;
@@ -1237,17 +1237,17 @@ ul, ol { padding: 0; list-style: none; }
 .footer__top {
   display: grid;
   grid-template-columns: minmax(240px, 1.35fr) repeat(4, minmax(0, 1fr));
-  gap: 32px 40px;
-  padding-bottom: 44px;
+  gap: 28px 40px;
+  padding-bottom: 36px;
   border-bottom: 1px solid var(--haze);
 }
-.footer__about { max-width: 34ch; }
-.footer__about > * + * { margin-top: 14px; }
+.footer__about { max-width: 38ch; }
+.footer__about > * + * { margin-top: 12px; }
 .footer__mark { width: 36px; height: 36px; }
 .footer__name { color: var(--ink); font-size: 20px; font-weight: 500; letter-spacing: -0.01em; margin-top: 18px; }
 .footer__desc { color: var(--stone); font-size: var(--text-body-sm); line-height: 1.5; }
 .footer__place { color: var(--stone); font-size: var(--text-body-sm); }
-.footer__note { color: var(--ash); font-size: var(--text-caption); line-height: 1.55; margin-top: 22px; }
+.footer__note { color: var(--ash); font-size: var(--text-caption); line-height: 1.5; margin-top: 16px; }
 .footer__note .strong { color: var(--ink); }
 .footer__cols { display: contents; }
 .footer__col { display: grid; align-content: start; gap: 2px; }
@@ -1274,7 +1274,7 @@ ul, ol { padding: 0; list-style: none; }
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 32px;
-  padding: 22px 0 4px;
+  padding: 20px 0 0;
   font-size: var(--text-caption);
   color: var(--stone);
 }
@@ -1282,10 +1282,10 @@ ul, ol { padding: 0; list-style: none; }
 .footer__heart { width: 15px; height: 15px; margin-top: -1px; }
 .footer__giant {
   margin-top: auto;
-  padding-top: clamp(40px, 7vh, 96px);
-  height: calc(0.58em + clamp(40px, 7vh, 96px));
+  padding-top: clamp(28px, 5vh, 72px);
+  height: calc(0.56em + clamp(28px, 5vh, 72px));
   font-family: var(--font);
-  font-size: clamp(120px, 33vw, 760px);
+  font-size: clamp(120px, 32vw, 720px);
   font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 1;
