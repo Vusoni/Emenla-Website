@@ -74,6 +74,55 @@
   }
   Array.prototype.forEach.call(stage.querySelectorAll('[data-split]'), splitElement);
 
+  /* The headline: letters inside nowrap words, then each letter learns its x so its slice of the
+     gradient lines up with its neighbours. Measured again when the fonts land and on resize. */
+  var hookEl = stage.querySelector('.band--1 p.hook');
+  var hookLetters = [];
+  function splitHook(el) {
+    var text = el.textContent.trim();
+    var sr = document.createElement('span');
+    sr.className = 'vh';
+    sr.textContent = text;
+    var vis = document.createElement('span');
+    vis.className = 'split';
+    vis.setAttribute('aria-hidden', 'true');
+    var words = text.split(/\s+/);
+    words.forEach(function (word, wi) {
+      var w = document.createElement('span');
+      w.className = 'hw';
+      Array.prototype.forEach.call(word, function (ch) {
+        var k = document.createElement('span');
+        k.className = 'hk';
+        k.textContent = ch;
+        w.appendChild(k);
+        hookLetters.push(k);
+      });
+      vis.appendChild(w);
+      if (wi < words.length - 1) vis.appendChild(document.createTextNode(' '));
+    });
+    el.textContent = '';
+    el.appendChild(sr);
+    el.appendChild(vis);
+    el.classList.add('is-split');
+  }
+  function measureHook() {
+    if (!hookEl) return;
+    var box = hookEl.getBoundingClientRect();
+    var xs = hookLetters.map(function (k) { return k.getBoundingClientRect().left - box.left; });
+    hookEl.style.setProperty('--hw', box.width.toFixed(1) + 'px');
+    hookLetters.forEach(function (k, i) { k.style.setProperty('--ox', xs[i].toFixed(1) + 'px'); });
+  }
+  if (hookEl && window.CSS && CSS.registerProperty) {
+    splitHook(hookEl);
+    measureHook();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHook);
+    var hookResize = null;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(hookResize);
+      hookResize = window.setTimeout(measureHook, 120);
+    });
+  }
+
   /* ---------- Ink under your hand ----------
      On fine pointers, the letters and words near the pointer lift a little and warm to violet, then
      settle back. Each frame reads every unit's rect first and writes afterwards, so there is one
@@ -82,7 +131,7 @@
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
     var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!fine.matches) return;
-    var units = Array.prototype.filter.call(stage.querySelectorAll('.band .split .c, .band .split .w'), function (u) { return !u.querySelector('.c'); });
+    var units = Array.prototype.filter.call(stage.querySelectorAll('.band .split .c, .band .split .w, .band .split .hk'), function (u) { return !u.querySelector('.c'); });
     if (!units.length) return;
     var R = 150, px = -1e4, py = -1e4, raf = null, over = false;
     var vals = units.map(function () { return 0; });

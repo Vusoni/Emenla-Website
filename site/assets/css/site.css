@@ -607,6 +607,29 @@ ul, ol { padding: 0; list-style: none; }
 }
 .band .split .w:has(.c) { translate: none; color: inherit; }
 
+/* The headline, split into letters so it can answer the pointer too. Each letter carries the whole
+   gradient, sized to the headline and shifted by the letter's own x, so the colour stays continuous
+   across the words; --bt sweeps a full period, so the loop is seamless. */
+@property --bt { syntax: '<number>'; inherits: true; initial-value: 0; }
+.hook.voice.is-split {
+  background-image: none;
+  animation: hookSweep 8s linear infinite;
+}
+@keyframes hookSweep { from { --bt: 0; } to { --bt: 1; } }
+.hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
+.hook.voice.is-split .hk {
+  display: inline-block;
+  background-image: linear-gradient(90deg, #6c79da 0%, #5b48d6 25%, #3428a6 50%, #5b48d6 75%, #6c79da 100%);
+  background-size: calc(var(--hw, 600px) * 4) 100%;
+  background-position: calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  translate: 0 calc(var(--h, 0) * -0.09em);
+  filter: drop-shadow(0 0 calc(var(--h, 0) * 0.14em) rgba(91, 72, 214, calc(var(--h, 0) * 0.55)));
+}
+
 /* Split text: .w words hold .c characters, each with --th */
 .split { display: inline-block; }
 .w { display: inline-block; white-space: nowrap; }

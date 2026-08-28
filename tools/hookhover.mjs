@@ -1,0 +1,23 @@
+// The headline under the pointer. node tools/hookhover.mjs <url> <outdir>
+import { connect } from './drive.mjs';
+import { mkdirSync } from 'node:fs';
+const [url, out] = process.argv.slice(2);
+mkdirSync(out, { recursive: true });
+const b = await connect();
+const p = await b.page(url, { width: 1440, height: 900 });
+await p.eval(`new Promise(r => { const st = document.querySelector('.hero__stage'); const t = setInterval(() => { if (st.classList.contains('video-ready') || st.classList.contains('video-failed')) { clearInterval(t); r(); } }, 100); setTimeout(r, 8000); })`);
+await p.eval('new Promise(r => setTimeout(r, 2200))');
+const info = await p.eval("(() => { const h = document.querySelector('.band--1 p.hook'); const ks = h.querySelectorAll('.hk'); const b = h.getBoundingClientRect(); return { split: h.classList.contains('is-split'), letters: ks.length, hw: h.style.getPropertyValue('--hw'), ox3: ks[3] && ks[3].style.getPropertyValue('--ox'), rect: [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)], bt: getComputedStyle(h).getPropertyValue('--bt') }; })()");
+console.log(JSON.stringify(info));
+const [l, t, w, h] = info.rect;
+await p.shot(`${out}/hook-rest.png`);
+await p.mouse('mouseMoved', l + w * 0.45, t + h * 0.3);
+await p.eval('new Promise(r => setTimeout(r, 700))');
+await p.shot(`${out}/hook-hover.png`);
+const lifted = await p.eval("Array.from(document.querySelectorAll('.band--1 .hk')).filter(k => parseFloat(k.style.getPropertyValue('--h') || 0) > 0).length");
+await p.mouse('mouseMoved', 1300, 100);
+await p.eval('new Promise(r => setTimeout(r, 800))');
+const back = await p.eval("Array.from(document.querySelectorAll('.band--1 .hk')).filter(k => parseFloat(k.style.getPropertyValue('--h') || 0) > 0).length");
+await p.shot(`${out}/hook-back.png`);
+console.log(JSON.stringify({ lifted, back }), p.errors.length ? p.errors : 'console clean');
+await p.close(); b.close();
