@@ -1,6 +1,7 @@
-# One hostname only. Without this, www.emenla.com serves a byte-identical 200
-# and Google sees two sites. Cloudflare Pages honours absolute-URL sources.
-https://www.emenla.com/* https://emenla.com/:splat 301
+# www -> apex is NOT here on purpose. This is a Worker with static assets, and
+# _redirects only accepts relative URLs: an absolute source is rejected at deploy
+# time with "Only relative URLs are allowed" (code 100324). The 301 lives as a
+# Cloudflare Dynamic Redirect rule on the zone instead. See scripts/setup-seo.sh.
 
 /support/ /#faq 301
 /support/* /#faq 301

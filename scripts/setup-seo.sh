@@ -8,7 +8,9 @@
 # Does two things:
 #   1. deploys site/ to the Worker (only if the live site is behind the repo)
 #   2. adds the www -> apex 301 as a Cloudflare Redirect Rule, appending to the
-#      dynamic-redirect phase instead of overwriting whatever else lives there
+#      dynamic-redirect phase instead of overwriting whatever else lives there.
+#      It cannot go in site/_redirects: absolute sources are rejected at deploy
+#      time with "Only relative URLs are allowed" (code 100324).
 set -uo pipefail
 
 APEX=emenla.com
@@ -56,8 +58,13 @@ RECIPE
   exit 1
 fi
 
+json_ok() { python3 -c "
+import sys,json
+try: sys.exit(0 if json.load(sys.stdin).get('success') is True else 1)
+except Exception: sys.exit(1)"; }
+
 verify=$(cf GET /user/tokens/verify)
-if echo "$verify" | grep -q '"success":true'; then
+if echo "$verify" | json_ok; then
   pass "token is valid and active"
 else
   bad "token rejected by Cloudflare"; echo "$verify" | head -3; exit 1
@@ -117,7 +124,7 @@ keep.append({
 print(json.dumps({'rules':keep}))" <<<"$existing")
 
   res=$(cf PUT "$PHASE" "$BODY")
-  if echo "$res" | grep -q '"success":true'; then
+  if echo "$res" | json_ok; then
     pass "301 rule created (appended, existing rules preserved)"
   else
     bad "could not create the rule"; echo "$res" | python3 -m json.tool 2>/dev/null | head -20
