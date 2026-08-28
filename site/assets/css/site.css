@@ -1231,25 +1231,40 @@ ul, ol { padding: 0; list-style: none; }
   overflow: hidden;
 }
 .footer__top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px 40px;
-  padding-bottom: 28px;
+  display: grid;
+  grid-template-columns: minmax(240px, 1.35fr) repeat(4, minmax(0, 1fr));
+  gap: 32px 40px;
+  padding-bottom: 44px;
   border-bottom: 1px solid var(--haze);
 }
-.footer__links { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-left: -10px; }
-.footer__links a {
+.footer__about { max-width: 34ch; }
+.footer__about > * + * { margin-top: 14px; }
+.footer__mark { width: 36px; height: 36px; }
+.footer__name { color: var(--ink); font-size: var(--text-subheading); font-weight: 500; letter-spacing: -0.015em; margin-top: 16px; }
+.footer__desc { color: var(--stone); font-size: var(--text-body-sm); line-height: 1.5; }
+.footer__place { color: var(--stone); font-size: var(--text-body-sm); }
+.footer__note { color: var(--ash); font-size: var(--text-caption); line-height: 1.55; margin-top: 22px; }
+.footer__note .strong { color: var(--ink); }
+.footer__cols { display: contents; }
+.footer__col { display: grid; align-content: start; gap: 2px; }
+.footer__head { color: var(--ink); font-weight: 500; font-size: var(--text-body-sm); margin-bottom: 10px; }
+.footer__col a {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 10px;
-  color: var(--ink);
+  min-height: 36px;
+  color: var(--stone);
   text-decoration: none;
+  font-size: var(--text-body-sm);
+  width: fit-content;
 }
-.footer__links a:hover { text-decoration: underline; }
-.footer__lines { display: grid; gap: 6px; max-width: 52ch; font-size: var(--text-caption); color: var(--ash); }
+.footer__col a:hover { color: var(--ink); text-decoration: underline; }
+@media (max-width: 900px) {
+  .footer__top { grid-template-columns: 1fr 1fr; }
+  .footer__about { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .footer__top { gap: 24px 20px; }
+}
 .footer__row {
   display: flex;
   flex-wrap: wrap;
