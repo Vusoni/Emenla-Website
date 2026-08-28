@@ -1481,12 +1481,12 @@ ul, ol { padding: 0; list-style: none; }
   .hcard .card { padding: 16px 18px 18px; }
   .hcard__year { font-size: 30px; }
   .hcard__img { aspect-ratio: 2 / 1; }
-  .hcard__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .hcard__body { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   .hcard .card { gap: 8px; }
 }
 @media (max-height: 960px) and (min-width: 721px) {
   .hcard__img { aspect-ratio: 2 / 1; }
-  .hcard__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .hcard__body { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   .hcard .card { gap: 8px; }
 }
 /* Stacked under reduced motion only, character for character the same query as in site.js */

@@ -220,7 +220,7 @@
     hsSpacing = phone ? hsCardW + 44 : Math.max(380, Math.min(480, vw * 0.3));
     hsRead = phone ? 0.5 : 0.42;
     hsPad = vw * hsRead;
-    var mid = vh * (phone ? 0.55 : 0.5), scale = phone ? 0.7 : 1, n = hsNodes.length;
+    var mid = vh * (phone ? 0.55 : 0.52), scale = phone ? 0.7 : 1, n = hsNodes.length;
     var pts = [];
     hsNodeXY = [];
     for (var i = 0; i < n; i++) {
