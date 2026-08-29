@@ -218,21 +218,26 @@ ul, ol { padding: 0; list-style: none; }
 }
 /* One hue, plum: deep to soft and back, travelling left to right on a seamless loop:
    the gradient repeats every two text widths, so the sweep never jumps */
-/* One hue, plum: deep to soft and back, travelling left to right on a seamless loop */
+/* Liquid glass, neutral: the letters are almost clear, so the wall reads through them; a dark edge, a
+   white highlight along the top of every glyph, a band of light travelling through them, and a soft
+   shadow beneath give the glass its shape. No colour: white and black only. */
 .hook.voice {
-  --plum: linear-gradient(90deg, #4a2352 0%, #7d4a86 25%, #35183d 50%, #7d4a86 75%, #4a2352 100%);
-  background-image: var(--plum);
-  background-size: 400% 100%;
-  background-position: 66.667% 50%;
+  --glass-top: linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.14) 46%, rgba(255, 255, 255, 0.36) 100%);
+  --glass-sweep: linear-gradient(90deg, rgba(5, 6, 11, 0.12) 0%, rgba(5, 6, 11, 0.12) 17%, rgba(255, 255, 255, 0.4) 23%, rgba(255, 255, 255, 0.7) 25.5%, rgba(255, 255, 255, 0.4) 28%, rgba(5, 6, 11, 0.12) 34%, rgba(5, 6, 11, 0.12) 100%);
+  background-image: var(--glass-top), var(--glass-sweep);
+  background-size: 100% 100%, 400% 100%;
+  background-position: 0 0, 66.667% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px rgba(5, 6, 11, 0.78);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) drop-shadow(0 8px 18px rgba(5, 6, 11, 0.12));
   animation: voiceSweep 8s linear infinite;
 }
 @keyframes voiceSweep {
-  from { background-position: 66.667% 50%; }
-  to { background-position: -66.667% 50%; }
+  from { background-position: 0 0, 66.667% 50%; }
+  to { background-position: 0 0, -66.667% 50%; }
 }
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
@@ -602,15 +607,19 @@ ul, ol { padding: 0; list-style: none; }
 @property --bt { syntax: '<number>'; inherits: true; initial-value: 0; }
 .hook.voice.is-split {
   background-image: none;
+  -webkit-text-stroke: 0;
+  filter: none;
   animation: hookSweep 8s linear infinite;
 }
+.hook.voice.is-split .split { filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) drop-shadow(0 8px 18px rgba(5, 6, 11, 0.12)); }
 @keyframes hookSweep { from { --bt: 0; } to { --bt: 1; } }
 .hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
 .hook.voice.is-split .hk {
   display: inline-block;
-  background-image: var(--plum);
-  background-size: calc(var(--hw, 600px) * 4) 100%;
-  background-position: calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
+  background-image: var(--glass-top), var(--glass-sweep);
+  background-size: 100% 100%, calc(var(--hw, 600px) * 4) 100%;
+  background-position: 0 0, calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
+  -webkit-text-stroke: 1.5px rgba(5, 6, 11, 0.78);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -642,9 +651,9 @@ ul, ol { padding: 0; list-style: none; }
   inset: 0;
   border-radius: 999px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.34);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  backdrop-filter: blur(12px) saturate(1.2);
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(9px) saturate(1.15);
+  backdrop-filter: blur(9px) saturate(1.15);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1px 0 rgba(5, 6, 11, 0.06),
@@ -667,8 +676,8 @@ ul, ol { padding: 0; list-style: none; }
   will-change: transform;
 }
 .band--1 .lens__copy { -webkit-mask-image: none; mask-image: none; margin: 0; }
-.lens__layer--sharp .lens__copy { filter: url(#liquid); }
-.lens__layer--blur .lens__copy { filter: url(#liquid) blur(3px); }
+.lens__layer--sharp .hook.voice.lens__copy { filter: url(#liquid); }
+.lens__layer--blur .hook.voice.lens__copy { filter: url(#liquid) blur(3px); }
 .lens::after {
   content: '';
   position: absolute;

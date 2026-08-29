@@ -369,3 +369,10 @@ been." is the professionals panel: 1000px white, 56px corners, three 392×492 wa
 white portrait area melting into the card, the third cut by the panel's edge, a translucent 48px
 chevron at the right. The portrait areas are held white (the founder's rule for generated pictures)
 until a real clinician exists.
+
+### The headline, neutral glass, 29 August 2026
+
+"You're not imagining it." is clear glass in white and black only: an almost transparent body with
+a dark edge, a white highlight along the top of every glyph, a band of light travelling through
+the words, and a soft shadow beneath. No plum. The lens is smaller now (2.3 × 1.12 headline ems)
+and warps the letters harder, as in the Liquid Glass demo the founder sent.

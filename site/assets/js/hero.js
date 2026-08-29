@@ -150,10 +150,10 @@
     });
     lens.appendChild(inner);
     band.appendChild(lens);
-    var SCALE = 1.12, on = false, tx = 0, ty = 0, x = 0, y = 0, raf = null, lw = 300, lh = 150, ox = 0, oy = 0;
+    var SCALE = 1.16, on = false, tx = 0, ty = 0, x = 0, y = 0, raf = null, lw = 300, lh = 150, ox = 0, oy = 0;
     function size() {
       var fs = parseFloat(getComputedStyle(hookEl).fontSize) || 80;
-      lw = Math.round(fs * 3.2); lh = Math.round(fs * 1.5);
+      lw = Math.round(fs * 2.3); lh = Math.round(fs * 1.12);
       lens.style.setProperty('--lw', lw + 'px');
       lens.style.setProperty('--lh', lh + 'px');
       var hr = hookEl.getBoundingClientRect(), br = band.getBoundingClientRect();
