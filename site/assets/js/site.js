@@ -350,7 +350,7 @@
   var hsNodes = [], hsCards = [], hsLabels = [], hsSince = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
   var hsTrack = null, hsBase = null, hsDraw = null, hsStage = null, hsHead = null, hsYearEl = null, hsNowEl = null, hsHint = null, hsTickBox = null, hsPen = null;
   var hsX0 = 0, hsX1 = 1, hsK = 1, hsU0 = 1, hsRuleY = 0, hsCardW = 300, hsTrackW = 0, hsRange = 1;
-  var hsX = -1, hsLitTicks = 0, hsNow = -1, hsYear = '', hsLine = '', hsHintGone = false, hsPenNear = false, hsListening = false;
+  var hsX = -1, hsLitTicks = 0, hsNow = -1, hsYear = '', hsLine = '', hsHintGone = false, hsPenNear = false, hsPinned = false, hsListening = false;
   /* One scale for the whole rule: distance from today, square-rooted, so recent decades are wide and distant ones
      tight, the way time looks when you look back. "Today" sits two years past 2026 so it has a place of its own;
      the readout itself never passes 2026. */
@@ -390,6 +390,7 @@
         if (hsCards[i]) { hsCards[i].classList.add('lit'); hsCards[i].classList.remove('now'); hsCards[i].style.left = ''; hsCards[i].style.width = ''; }
       });
       hsDraw.style.setProperty('--draw', '1');
+      if (hsPinned) { hsPinned = false; document.body.classList.remove('hs-pinned'); }
       return;
     }
     var vw = window.innerWidth, vh = window.innerHeight, n = hsNodes.length, i;
@@ -516,6 +517,9 @@
     if (line !== hsLine) { hsLine = line; if (hsNowEl) hsNowEl.textContent = line; }
     var gone = p > 0.08;
     if (gone !== hsHintGone) { hsHintGone = gone; if (hsHint) hsHint.classList.toggle('is-gone', gone); }
+    /* While the scene is pinned nothing scrolls in from below, so the page's bottom blur strip steps aside */
+    var pinned = p > 0.01 && p < 0.99;
+    if (pinned !== hsPinned) { hsPinned = pinned; document.body.classList.toggle('hs-pinned', pinned); }
   }
   function armHistory() {
     if (!hs) return;

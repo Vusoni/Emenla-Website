@@ -26,13 +26,16 @@ const check = `(() => {
     nowIdx: [...hs.querySelectorAll('.hnode')].findIndex(n => n.classList.contains('now')), visible: vis.length, touching, overlap, headClash, labelsClear, headClear, pin, nowCut, shown, nowOp,
     compact: hs.classList.contains('hscroll--compact'), tight: hs.classList.contains('hscroll--tight'), spacer: hs.offsetHeight, hint: getComputedStyle(hs.querySelector('.hscroll__hint')).opacity };
 })()`;
+const settle = `new Promise(r => { let last = -1, still = 0, n = 0; const t = setInterval(() => { const y = scrollY; const now = document.querySelector('.hcard.now'); const op = now ? parseFloat(getComputedStyle(now).opacity) : 1; if (y === last && op >= 0.99) still++; else still = 0; last = y; if (still >= 6 || ++n > 200) { clearInterval(t); setTimeout(r, 250); } }, 50); })`;
 async function frames(p, tag, ps) {
   const geo = await p.eval(`(() => { const hs = document.querySelector('[data-hscroll]'); const r = hs.getBoundingClientRect(); return { top: r.top + scrollY, h: hs.offsetHeight, vh: innerHeight }; })()`);
   for (const f of ps) {
     await p.scroll(Math.round(geo.top + f * (geo.h - geo.vh)));
     /* The page glides under its own damper after scrollTo; wait until it has stood still and the current card has finished fading in */
-    await p.eval(`new Promise(r => { let last = -1, still = 0, n = 0; const t = setInterval(() => { const y = scrollY; const now = document.querySelector('.hcard.now'); const op = now ? parseFloat(getComputedStyle(now).opacity) : 1; if (y === last && op >= 0.99) still++; else still = 0; last = y; if (still >= 6 || ++n > 200) { clearInterval(t); setTimeout(r, 400); } }, 50); })`);
+    await p.eval(settle); await p.eval(`new Promise(r => { let last = -1, still = 0, n = 0; const t = setInterval(() => { const y = scrollY; const now = document.querySelector('.hcard.now'); const op = now ? parseFloat(getComputedStyle(now).opacity) : 1; if (y === last && op >= 0.99) still++; else still = 0; last = y; if (still >= 6 || ++n > 200) { clearInterval(t); setTimeout(r, 400); } }, 50); })`);
     await p.shot(`${out}/${tag}-${String(f).replace('.', '_')}.png`);
+    /* Capturing re-emulates the viewport and fires resize; let the layout and the fades settle again before measuring */
+    await p.eval(settle);
     const c = await p.eval(check);
     const bad = c.touching || c.overlap || c.headClash || c.nowCut || !c.labelsClear || !c.headClear || c.nowOp < 0.99;
     if (bad) failed++;

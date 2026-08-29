@@ -70,3 +70,21 @@ augen screenshot the founder supplied. Every line is something a critic can chec
   carries her words and the clinical term beside them.
 - Loops breathe: any looping clip moves at the pace of a breath or slower (a 4 second cycle or more),
   and returns to its first frame so the join is invisible.
+
+## The record: the history section's own bar (29 August 2026)
+
+Five things a critic can check by looking at rendered frames of `#history`, on top of mechanisms 3, 4 and 7.
+
+10. **The rule is straight and nothing sits on it.** One hairline across the scene; every card ends
+    above it on a short stem, so the line never passes behind or through a card, lit or ghosted.
+11. **The spacing is honest.** Gaps between milestones are visibly unequal: 1690 to 1860 is the
+    longest, the last three are the tightest. Decade ticks make the empty stretches read as time
+    passing, and each long stretch carries one short serif caption.
+12. **Exactly one solid dot.** The milestone being read is the only large filled dot on screen; passed
+    ones are small and filled, future ones hollow. The giant serif year at the top left reads the
+    same year the ink has reached on the rule.
+13. **Three type sizes on a card, plus mono micro-labels.** Serif year, sans title, grey body; the
+    label pill and the years under the rule are the only mono. No fourth size, no colour beyond ink,
+    stone, ash, the cream ground and the warm tint of a figure panel.
+14. **Motion resolves one way.** The ink advances left to right, ticks and cards only brighten, the
+    active card lifts once by a few pixels. Nothing bounces, nothing loops.

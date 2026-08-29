@@ -1740,6 +1740,8 @@ ul, ol { padding: 0; list-style: none; }
 @media (max-width: 720px) { .edge-blur { height: 90px; } }
 .edge-blur { transition: opacity 500ms var(--ease-soft); }
 body.at-end .edge-blur { opacity: 0; }
+/* Nothing scrolls in from below while the history scene is pinned, so the strip steps aside and the big year stays crisp */
+body.hs-pinned .edge-blur { opacity: 0; }
 
 /* ---------- What's in the app: the people grid ---------- */
 .grid5 {
