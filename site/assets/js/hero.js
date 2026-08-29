@@ -74,39 +74,6 @@
   }
   Array.prototype.forEach.call(stage.querySelectorAll('[data-split]'), splitElement);
 
-  /* ---------- The headline, lit by the pointer ----------
-     On fine pointers the headline's shadow falls away from the cursor and the letters lean a few
-     pixels toward it, eased; both settle back when the pointer leaves the stage. */
-  (function () {
-    var hookEl = stage.querySelector('.band--1 p.hook');
-    if (!hookEl) return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var tx = 0, ty = 0, sx = 0, sy = 2, raf = null, want = { sx: 0, sy: 2, px: 0, py: 0 }, px = 0, py = 0;
-    function frame() {
-      raf = null;
-      sx += (want.sx - sx) * 0.12; sy += (want.sy - sy) * 0.12;
-      px += (want.px - px) * 0.12; py += (want.py - py) * 0.12;
-      hookEl.style.setProperty('--sx', sx.toFixed(2) + 'px');
-      hookEl.style.setProperty('--sy', sy.toFixed(2) + 'px');
-      hookEl.style.setProperty('--px', px.toFixed(2) + 'px');
-      hookEl.style.setProperty('--py', py.toFixed(2) + 'px');
-      if (Math.abs(want.sx - sx) > 0.05 || Math.abs(want.sy - sy) > 0.05 || Math.abs(want.px - px) > 0.05 || Math.abs(want.py - py) > 0.05) raf = window.requestAnimationFrame(frame);
-    }
-    function kick() { if (raf === null) raf = window.requestAnimationFrame(frame); }
-    stage.addEventListener('pointermove', function (e) {
-      if (rmq.matches) return;
-      var r = hookEl.getBoundingClientRect();
-      var dx = (e.clientX - (r.left + r.width / 2)) / Math.max(1, window.innerWidth / 2);
-      var dy = (e.clientY - (r.top + r.height / 2)) / Math.max(1, window.innerHeight / 2);
-      dx = Math.max(-1, Math.min(1, dx)); dy = Math.max(-1, Math.min(1, dy));
-      want.sx = -dx * 7; want.sy = 2 - dy * 6;   /* the shadow falls away from the light */
-      want.px = dx * 5; want.py = dy * 3;        /* the letters lean toward it */
-      kick();
-    });
-    stage.addEventListener('pointerleave', function () { want.sx = 0; want.sy = 2; want.px = 0; want.py = 0; kick(); });
-  })();
-
   /* ---------- Ink under your hand ----------
      On fine pointers, the letters and words near the pointer lift a little and warm to violet, then
      settle back. Each frame reads every unit's rect first and writes afterwards, so there is one

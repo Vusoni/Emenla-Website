@@ -72,7 +72,7 @@
   --font: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  --text-hook: clamp(34px, 4.6vw, 66px);
+  --text-hook: clamp(38px, 4.2vw, 62px);
   --text-display: clamp(36px, 4vw, 52px);
   --text-heading-lg: clamp(30px, 3vw, 38px);
   --text-heading: clamp(28px, 2.8vw, 36px);
@@ -201,62 +201,13 @@ ul, ol { padding: 0; list-style: none; }
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-.hook { font-size: var(--text-hook); line-height: 1.08; letter-spacing: -0.025em; }
+.hook { font-size: var(--text-hook); line-height: 1.1; letter-spacing: -0.03em; }
 /* Her voice: the serif italic, and on the two voice headlines a slow violet gradient */
 .voice {
   font-family: var(--font-voice);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.005em;
-}
-.hook.voice {
-  font-size: clamp(46px, 6.2vw, 92px);
-  line-height: 1.0;
-  text-shadow: none;
-  padding: 0.1em 0.12em 0.24em 0.06em; /* room for the italic's descenders; the margin gives it back */
-  margin: -0.1em -0.12em -0.24em -0.06em;
-}
-/* One hue, plum: deep to soft and back, travelling left to right on a seamless loop:
-   the gradient repeats every two text widths, so the sweep never jumps */
-/* The headline: white, lit. Solid white letters with a real shadow (which is what keeps white readable
-   on a pale wall); the shadow and the letters lean a little away from the pointer, as if it were the
-   light; and a faint warm light passes through the letters every eight seconds on an overlay copy, so
-   the shadow never touches a gradient. Nothing sits on or around the text. */
-.hook.voice {
-  --sx: 0px;
-  --sy: 2px;
-  --px: 0px;
-  --py: 0px;
-  position: relative;
-  background: none;
-  color: #ffffff;
-  -webkit-text-fill-color: #ffffff;
-  text-shadow: 0 1px 1px rgba(5, 6, 11, 0.42), var(--sx) var(--sy) 4px rgba(5, 6, 11, 0.36), 0 18px 38px rgba(5, 6, 11, 0.3);
-  translate: var(--px) var(--py);
-  transition: translate 600ms var(--ease-out);
-}
-.hook.voice::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  padding: inherit; /* the same box as the letters, so the light lands exactly on them */
-  margin: 0;
-  box-sizing: border-box;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
-  background-image: linear-gradient(90deg, rgba(240, 235, 228, 0) 0%, rgba(240, 235, 228, 0) 18%, rgba(236, 229, 220, 0.95) 25%, rgba(240, 235, 228, 0) 32%, rgba(240, 235, 228, 0) 100%);
-  background-size: 400% 100%;
-  background-position: 66.667% 50%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: voiceSweep 8s linear infinite;
-  pointer-events: none;
-}
-.hook-soft::after { content: none; }
-@keyframes voiceSweep {
-  from { background-position: 66.667% 50%; }
-  to { background-position: -66.667% 50%; }
 }
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
@@ -267,7 +218,7 @@ ul, ol { padding: 0; list-style: none; }
   --x: calc(1 - var(--op, 1));
   position: relative;
   transform: translateY(calc((1 - var(--p)) * 22px - var(--x) * 40px));
-  letter-spacing: calc(-0.005em - var(--p) * 0.015em);
+  letter-spacing: calc(-0.015em - var(--p) * 0.015em);
   -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
   mask-image: linear-gradient(100deg, #000 0%, #000 42%, rgba(0, 0, 0, 0) 62%);
   -webkit-mask-size: 260% 100%;
@@ -278,7 +229,7 @@ ul, ol { padding: 0; list-style: none; }
   mask-position: calc((1 - var(--p) + var(--x)) * 100%) 0;
   will-change: transform, opacity;
 }
-.band--1 h1.hook { opacity: clamp(0, var(--p) * 1.6, 1); }
+.band--1 .hook:not(.hook-soft) { opacity: clamp(0, var(--p) * 1.6, 1); }
 .band--1 .hook-soft {
   position: absolute;
   inset: 0;

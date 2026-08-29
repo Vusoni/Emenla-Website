@@ -49,7 +49,7 @@ for (const [step, count] of [[120, Math.ceil(range / 120) + 2], [240, Math.ceil(
 /* Worst-frame audit */
 const bands = await p.eval(`window.__emenlaHero.bands.map(b => ({a: b.a, b: b.b}))`);
 const sels = ['.band--1 .band__text', '.band--2 .band__text', '.band--3 .band__text', '.band--4 .band__text'];
-const kinds = ['violet', 'ink', 'ink', 'ink'];
+const kinds = ['ink', 'ink', 'ink', 'ink'];
 for (let i = 0; i < bands.length; i++) {
   const mid = (bands[i].a + bands[i].b) / 2;
   const probes = [bands[i].a + (bands[i].b - bands[i].a) * 0.25, mid, bands[i].a + (bands[i].b - bands[i].a) * 0.75];
@@ -63,11 +63,10 @@ for (let i = 0; i < bands.length; i++) {
     await p.shot(shot);
     await p.eval(`(() => { const el = document.querySelector('${sels[i]}'); el.style.visibility = ''; })()`);
     const raw = execFileSync('ffmpeg', ['-v', 'error', '-i', shot, '-vf', `crop=${box.w}:${box.h}:${box.x}:${box.y},format=rgb24`, '-f', 'rawvideo', '-'], { maxBuffer: 64 * 1024 * 1024 });
-    let minL = 1, maxL = 0;
-    for (let k = 0; k < raw.length; k += 3) { const L = lum(raw[k], raw[k + 1], raw[k + 2]); if (L < minL) minL = L; if (L > maxL) maxL = L; }
-    /* The voice headline is a gradient: its lightest stop (#8f9be8, L 0.33) against the lightest pixel,
-       its deepest stop (#3428a6, L 0.03) against the darkest pixel */
-    const c = kinds[i] === 'violet' ? contrast(0, minL) /* white letters carried by a dark shadow: the shadow's contrast is what a reader gets; luminance of pure white vs the wall is ~1:1 by design */ : contrast(0, minL);
+    let minL = 1;
+    for (let k = 0; k < raw.length; k += 3) { const L = lum(raw[k], raw[k + 1], raw[k + 2]); if (L < minL) minL = L; }
+    /* Every band is flat ink: the darkest pixel of the frame under the text box is what the ink competes with */
+    const c = contrast(0, minL);
     worst = Math.min(worst, c);
   }
   log(`audit band${i + 1} (${kinds[i]}): worst ${worst.toFixed(2)}:1 ${worst >= 3.5 ? 'ok' : 'FAIL'}`);

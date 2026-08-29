@@ -418,3 +418,16 @@ mid-scroll moment leaves a half-cut card. `body.hs-pinned` lifts the page's bott
 the scene is pinned. Reduced motion keeps the stacked list, capped at 560px. Render and assert with
 `node tools/histshots.mjs http://127.0.0.1:8080/ <dir>`, which waits for the page to stand still and
 the current card to reach full opacity before and after every frame.
+
+### The headline, re-set to the reference, 29 August 2026
+
+The founder sent the Alveos One and Lóvi heroes: both are a clean grotesque sans, one flat colour,
+no effects. "You’re not imagining it." now matches that register — Hanken Grotesk 500 at
+clamp(38px, 4.2vw, 62px), tracking -0.03em, leading 1.1, flat ink, carried by the cream halo every
+band already uses. Alveos can set white because its ground is a mid-tone sky; Emenla's wall is pale
+cream, which is why white there needed a drop shadow, and that shadow was the thing that read cheap.
+
+Gone with it: the serif italic on this line (the voice token stays for quotes and the science
+title), the three-part shadow, the light-sweep overlay and the pointer-lit lean. Kept: the cream
+mask wipe, the rise, the exit lift and the blurred twin — the entrance is the motion, and neither
+reference animates its headline. The apostrophe is typographic now, which shows at this size.
