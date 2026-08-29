@@ -1730,7 +1730,7 @@ body.at-end .edge-blur { opacity: 0; }
     linear-gradient(to bottom, rgba(5, 6, 11, 0.42) 0%, rgba(5, 6, 11, 0) 18%),
     linear-gradient(to top, rgba(5, 6, 11, 0.80) 0%, rgba(5, 6, 11, 0.52) 26%, rgba(5, 6, 11, 0.14) 52%, rgba(5, 6, 11, 0) 72%);
 }
-.sci-hero__copy { padding-bottom: clamp(40px, 6vh, 72px); }
+.sci-hero__copy { width: 100%; padding: 0 var(--gutter) clamp(40px, 6vh, 72px); }   /* the copy sits on the page edge, not in the centred column, like the reference */
 .sci-hero__copy > * + * { margin-top: 18px; }
 .sci-hero__title { max-width: 14ch; font-size: clamp(40px, 5.2vw, 72px); line-height: 1.02; }
 .sci-hero__title .voice { color: #cfc6f6; }
