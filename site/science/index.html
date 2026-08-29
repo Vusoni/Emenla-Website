@@ -27,7 +27,8 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/site.css?v=20260829l">
+  <link rel="preload" as="image" href="../assets/img/appointment-page.avif" type="image/avif" fetchpriority="high">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20260829o">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -55,8 +56,8 @@
       "mainContentOfPage": {
         "@id": "https://emenla.com/#app"
       },
-      "lastReviewed": "2026-08-28",
-      "dateModified": "2026-08-28",
+      "lastReviewed": "2026-08-29",
+      "dateModified": "2026-08-29",
       "citation": [
         {
           "@type": "CreativeWork",
@@ -198,50 +199,47 @@
     </div>
   </header>
 
-  <main id="main" tabindex="-1">
+  <main id="main" class="sci" tabindex="-1">
 
-    <!-- ============ Opening: the full-width photograph ============ -->
-    <section class="sci-hero" aria-label="The science behind Emenla">
+    <!-- ============ Opening: the photograph, the title in white ============ -->
+    <section class="sci-hero band-dark" aria-label="The science behind Emenla">
       <picture>
-        <source type="image/avif" srcset="../assets/img/cast-document.avif">
-        <img class="sci-hero__img" src="../assets/img/cast-document.jpg" alt="" fetchpriority="high" decoding="async">
+        <source type="image/avif" srcset="../assets/img/appointment-page.avif">
+        <img class="sci-hero__img" src="../assets/img/appointment-page.jpg" alt="" width="1539" height="1022" fetchpriority="high" decoding="async">
       </picture>
       <div class="wrap sci-hero__copy">
-        <span class="label">Science</span>
         <h1 class="display sci-hero__title">The science behind <em class="voice">Emenla</em>.</h1>
-        <p class="body-lg sci-hero__lede">What the published evidence says about endometriosis, the years it takes to be believed, and what a record kept in your own words can do. Every claim on this page has a source.</p>
+        <p class="sci-hero__lede">What the published evidence says about endometriosis, the years it takes to be believed, and what a record kept in your own words can do. Every claim on this page has a source.</p>
       </div>
     </section>
 
     <!-- ============ What the evidence says ============ -->
     <section class="section" id="evidence">
       <div class="wrap">
-        <p class="mono meta sci-kicker">What the evidence says · Sources at the end of the page</p>
-        <div class="sci-grid reveal">
-          <div class="part">
-            <h2 class="heading-lg sci-h2">A common disease, a long wait, and a diagnosis that no longer needs surgery.</h2>
-          </div>
-          <div class="prose part sci-prose">
+        <p class="sci-kicker reveal part">What the evidence says · WHO, ESHRE, NICE and ACOG</p>
+        <div class="reveal">
+          <h2 class="display sci-h2 part">A common disease, a long wait, and a diagnosis that no longer needs surgery.</h2>
+          <div class="prose sci-lede part">
             <p>Endometriosis affects roughly one in ten women and girls of reproductive age, around 190 million people worldwide.<a class="ref" href="#ref-1">[1]</a> The lesions can sit on the ovaries, the peritoneum, the bowel or the bladder, and the pain they cause does not track their size.<a class="ref" href="#ref-10">[10]</a><a class="ref" href="#ref-11">[11]</a></p>
             <p>The wait for a name is long. Studies across Europe and the United Kingdom put the delay between first symptoms and a diagnosis at several years, commonly between four and eleven,<a class="ref" href="#ref-5">[5]</a><a class="ref" href="#ref-7">[7]</a><a class="ref" href="#ref-8">[8]</a> and a large part of that delay is symptoms being treated as normal, by the person and by the clinician in front of her.<a class="ref" href="#ref-6">[6]</a><a class="ref" href="#ref-15">[15]</a></p>
-            <p>The diagnosis itself has changed. The European guideline of 2022 no longer treats laparoscopy as the required first step,<a class="ref" href="#ref-2">[2]</a> a position specialists had argued for as a call to action in 2019,<a class="ref" href="#ref-13">[13]</a> and in 2026 the American College of Obstetricians and Gynecologists said a clinical diagnosis made from symptoms, history and an examination is enough to begin treatment.<a class="ref" href="#ref-4">[4]</a> The history is the evidence. That is what a record is for.</p>
+            <p>The diagnosis itself has changed. The European guideline of 2022 no longer requires laparoscopy as the first step,<a class="ref" href="#ref-2">[2]</a> a position specialists had argued for as a call to action in 2019,<a class="ref" href="#ref-13">[13]</a> and in 2026 the American College of Obstetricians and Gynecologists said a clinical diagnosis made from symptoms, history and an examination is enough to begin treatment.<a class="ref" href="#ref-4">[4]</a> The history is the evidence. That is what a record is for.</p>
           </div>
         </div>
 
         <div class="stats reveal" aria-label="Key numbers">
-          <div class="card stat part">
-            <p class="stat__n"><span data-count="10">10</span>%</p>
+          <div class="stat part">
+            <p class="stat__n">10%</p>
             <p class="stat__t">of women and girls of reproductive age are affected worldwide, by the World Health Organization's estimate. <a class="ref" href="#ref-1">[1]</a></p>
           </div>
-          <div class="card stat part">
-            <p class="stat__n"><span data-count="190">190</span> million</p>
+          <div class="stat part">
+            <p class="stat__n">190 million</p>
             <p class="stat__t">people living with endometriosis, the same estimate. <a class="ref" href="#ref-1">[1]</a></p>
           </div>
-          <div class="card stat part">
+          <div class="stat part">
             <p class="stat__n">4 to 11 years</p>
             <p class="stat__t">the delay between first symptoms and a diagnosis that studies commonly report. <a class="ref" href="#ref-5">[5]</a><a class="ref" href="#ref-7">[7]</a><a class="ref" href="#ref-8">[8]</a></p>
           </div>
-          <div class="card stat part">
+          <div class="stat part">
             <p class="stat__n">No surgery</p>
             <p class="stat__t">is required first: a clinical diagnosis from symptoms, history and examination is enough to begin treatment. <a class="ref" href="#ref-2">[2]</a><a class="ref" href="#ref-4">[4]</a></p>
           </div>
@@ -252,17 +250,17 @@
     <!-- ============ Insights ============ -->
     <section class="section section--tight" id="insights">
       <div class="wrap">
-        <h2 class="heading sci-h2 reveal part">What that means for a record.</h2>
+        <h2 class="heading-lg reveal part">What that means for a record.</h2>
         <div class="insights reveal">
-          <div class="card insight part">
+          <div class="insight part">
             <h3 class="subheading strong">Your words first.</h3>
             <p>People with endometriosis struggle to make their pain understood in the clinic; the language available to describe it fails them, and the failure costs time.<a class="ref" href="#ref-14">[14]</a><a class="ref" href="#ref-15">[15]</a> Emenla keeps the sentence you actually wrote and prints the clinical term beside it, with its source, so the match can be checked at a glance.</p>
           </div>
-          <div class="card insight part">
+          <div class="insight part">
             <h3 class="subheading strong">Counted, never predicted.</h3>
             <p>The guidelines describe endometriosis pain by its pattern over time: cyclical, chronic, with periods, with sex, with the bowel.<a class="ref" href="#ref-2">[2]</a><a class="ref" href="#ref-3">[3]</a> Emenla counts what you logged against the periods you logged and reports the count. It forecasts nothing.</p>
           </div>
-          <div class="card insight part">
+          <div class="insight part">
             <h3 class="subheading strong">Honest by design.</h3>
             <p>Emenla is a record-keeping app, not a medical device. It has not been studied in a trial and no clinician has reviewed its term list yet. This page cites the evidence about the disease and about what helps a diagnosis. It makes no claim about what the app does for your health.</p>
           </div>
@@ -272,41 +270,47 @@
 
     <!-- ============ What we have not done ============ -->
     <section class="section section--tight" id="not-done">
-      <div class="wrap wrap--narrow">
-        <div class="prose reveal">
-          <h2 class="heading sci-h2 part">Beyond the record: what we have not done.</h2>
+      <div class="wrap">
+        <div class="beyond reveal">
+          <h2 class="heading part">Beyond the record: what we have not done.</h2>
           <p class="part">Where a device company would show you its validation study, we can only show you the standard we hold ourselves to. The clinical terms in Emenla come from three published guidelines, each cited inside the app.<a class="ref" href="#ref-2">[2]</a><a class="ref" href="#ref-3">[3]</a><a class="ref" href="#ref-4">[4]</a> The quality-of-life and cost burden of the disease is documented in large multicentre studies.<a class="ref" href="#ref-9">[9]</a><a class="ref" href="#ref-17">[17]</a> Health data is special category data under GDPR, which is why nothing you write leaves your phone.<a class="ref" href="#ref-21">[21]</a></p>
         </div>
         <div class="callout reveal">
-          <a class="btn part" href="#references">Read the sources</a>
+          <a class="btn btn--pill btn--roll part" href="#references"><span class="btn__roll" data-text="Read the sources">Read the sources</span></a>
           <p class="part">Emenla has not been studied in a clinical trial. No clinician has reviewed it. It does not diagnose, treat or predict anything, and nothing on this page is a claim about the app's effect on your health. If any of that changes, this page will say so, with a source.</p>
         </div>
       </div>
     </section>
 
-    <!-- ============ Guidelines we follow ============ -->
-    <section class="section" id="guidelines">
+    <!-- ============ Guidelines we follow: the grey panel ============ -->
+    <section class="section sci-panel" id="guidelines">
       <div class="wrap">
         <div class="section-head reveal">
-          <span class="label part">Guidelines we follow</span>
-          <h2 class="heading-lg part">Three guidelines, cited in the app.</h2>
-          <p class="subheading part">Every clinical term Emenla prints comes from one of these, with the source shown beside it.</p>
+          <p class="sci-kicker part">Guidelines we follow</p>
+          <h2 class="display part">Three guidelines, cited in the app.</h2>
+          <p class="subheading muted part">Every clinical term Emenla prints comes from one of these, with the source shown beside it.</p>
         </div>
+        <ul class="marks reveal" aria-label="Sources">
+          <li class="part">World Health Organization</li>
+          <li class="part">ESHRE</li>
+          <li class="part">NICE</li>
+          <li class="part">ACOG</li>
+        </ul>
         <div class="guides reveal">
-          <a class="card guide part" href="https://doi.org/10.1093/hropen/hoac009" rel="noopener">
-            <p class="mono meta">ESHRE · 2022</p>
+          <a class="guide guide--flat part" href="https://doi.org/10.1093/hropen/hoac009" rel="noopener noreferrer">
+            <p class="guide__kicker">ESHRE · 2022</p>
             <h3 class="subheading strong">European guideline on endometriosis</h3>
             <p>The European Society of Human Reproduction and Embryology's guideline: diagnosis, treatment, and the shift away from laparoscopy as the required first step.</p>
             <span class="guide__link">Read the guideline</span>
           </a>
-          <a class="card guide part" href="https://www.nice.org.uk/guidance/ng73" rel="noopener">
-            <p class="mono meta">NICE · NG73</p>
+          <a class="guide guide--flat part" href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">
+            <p class="guide__kicker">NICE · NG73</p>
             <h3 class="subheading strong">Endometriosis: diagnosis and management</h3>
             <p>The UK guideline that tells clinicians to suspect endometriosis when someone reports chronic pelvic pain, period pain that affects daily life, or pain during or after sex.</p>
             <span class="guide__link">Read the guideline</span>
           </a>
-          <a class="card guide part" href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener">
-            <p class="mono meta">ACOG · 2026</p>
+          <a class="guide guide--flat part" href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">
+            <p class="guide__kicker">ACOG · 2026</p>
             <h3 class="subheading strong">Clinical Practice Guideline No. 11</h3>
             <p>The American guideline: a clinical diagnosis from symptoms, history and a physical examination is enough for a clinician to begin treatment.</p>
             <span class="guide__link">Read the guideline</span>
@@ -315,15 +319,134 @@
       </div>
     </section>
 
-    <!-- ============ The statement band ============ -->
-    <section class="sci-band" aria-label="Why">
+    <!-- ============ The evidence base: the band, and the three parts hanging off it ============ -->
+    <section class="sci-band" aria-label="The evidence base">
       <picture>
         <source type="image/avif" srcset="../assets/img/still-sheets.avif">
-        <img src="../assets/img/still-sheets.jpg" alt="" loading="lazy" decoding="async">
+        <img src="../assets/img/still-sheets.jpg" alt="" width="1200" height="670" loading="lazy" decoding="async">
       </picture>
       <div class="sci-band__copy reveal">
-        <p class="mono sci-band__kicker part">Why this page exists</p>
-        <p class="heading sci-band__text part">Emenla is built on published guidelines and on how people with endometriosis describe their pain. This is what we record, what we never say, and why.</p>
+        <p class="sci-band__kicker part">The evidence base</p>
+        <p class="sci-band__text part">Emenla is built on published guidelines and on how people with endometriosis describe their pain. Here is what the evidence says about the disease, the delay, and the diagnosis, and what the app does with it.</p>
+      </div>
+    </section>
+    <section class="section section--tight parts-section" id="parts" aria-label="Three parts">
+      <div class="wrap">
+        <div class="parts reveal">
+          <div class="card card--xl pcard part">
+            <p class="pcard__label">Part 1. <span class="muted">The disease</span></p>
+            <h3 class="subheading strong">What endometriosis is, and why the pain does not track the lesion</h3>
+            <a class="btn btn--pill btn--white btn--roll pcard__btn" href="#part-1"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="btn__roll" data-text="The disease">The disease</span></a>
+          </div>
+          <div class="card card--xl pcard part">
+            <p class="pcard__label">Part 2. <span class="muted">The delay</span></p>
+            <h3 class="subheading strong">Why it takes years to be believed</h3>
+            <a class="btn btn--pill btn--white btn--roll pcard__btn" href="#part-2"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="btn__roll" data-text="The delay">The delay</span></a>
+          </div>
+          <div class="card card--xl pcard part">
+            <p class="pcard__label">Part 3. <span class="muted">The diagnosis</span></p>
+            <h3 class="subheading strong">What the guidelines changed, and what a record is for</h3>
+            <a class="btn btn--pill btn--white btn--roll pcard__btn" href="#part-3"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="btn__roll" data-text="The diagnosis">The diagnosis</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Part 1: the disease ============ -->
+    <section class="section section--tight lf" id="part-1">
+      <div class="wrap">
+        <header class="lf__head reveal">
+          <h2 class="lf__title part">1. The disease: what endometriosis is</h2>
+          <p class="lf__lede part">Tissue like the lining of the womb, growing where it should not, in roughly one in ten women and girls of reproductive age.</p>
+        </header>
+        <hr class="lf__rule">
+        <div class="lf__grid">
+          <aside class="lf__aside"><p class="lf__aside-title">The disease</p></aside>
+          <div class="lf__prose prose reveal part">
+            <h3 class="lf__sub">Lesions outside the uterus</h3>
+            <p>Endometriosis is a condition in which tissue similar to the lining of the uterus grows outside it. The World Health Organization describes it as chronic and often painful, and estimates that it affects about 10% of women and girls of reproductive age worldwide, around 190 million people.<a class="ref" href="#ref-1">[1]</a> The lesions most often sit on the ovaries and on the peritoneum, the lining of the pelvis, but they can involve the bowel, the bladder and, rarely, sites beyond the pelvis.<a class="ref" href="#ref-10">[10]</a><a class="ref" href="#ref-12">[12]</a> The disease is inflammatory and depends on oestrogen, which is why it tends to appear after the first period and quieten after the menopause.<a class="ref" href="#ref-10">[10]</a></p>
+            <h3 class="lf__sub">A systemic disease, not a pelvic one</h3>
+            <p>For a long time endometriosis was described as a disease of the pelvis. A 2021 review in The Lancet argues that it is better understood as a systemic disease: it changes metabolism, immune signalling and the processing of pain far from the lesions themselves, and it is associated with fatigue, anxiety and low mood.<a class="ref" href="#ref-11">[11]</a> The New England Journal of Medicine review of 2020 makes a similar point from the clinic: the presentations vary widely, from severe period pain to bowel symptoms to infertility with little pain at all.<a class="ref" href="#ref-10">[10]</a></p>
+            <h3 class="lf__sub">Pain does not track the lesion</h3>
+            <p>The amount of disease found at surgery does not correspond to how much it hurts. Small, superficial lesions can cause severe pain, and extensive disease is sometimes found in people who report none.<a class="ref" href="#ref-10">[10]</a><a class="ref" href="#ref-11">[11]</a> Part of the explanation is that persistent pain changes the nervous system itself, a process called central sensitisation, so that pain can outlast and spread beyond its original source.<a class="ref" href="#ref-11">[11]</a><a class="ref" href="#ref-12">[12]</a> This is why the story matters as much as the scan: what a person reports, when, and in what pattern carries information that imaging cannot.<a class="ref" href="#ref-12">[12]</a></p>
+            <h3 class="lf__sub">An old disease with a short modern history</h3>
+            <p>Descriptions that match endometriosis appear in medical writing going back centuries, under other names and with other explanations.<a class="ref" href="#ref-19">[19]</a> The modern account begins in 1927, when John Sampson proposed that menstrual tissue flowing backwards through the fallopian tubes could implant in the pelvis.<a class="ref" href="#ref-20">[20]</a> Retrograde menstruation happens in most women, though, and only some develop the disease, so no single theory explains every lesion. Genetics, immunity and the hormonal environment all play a part, and the causes are still debated.<a class="ref" href="#ref-18">[18]</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Part 2: the delay ============ -->
+    <section class="section section--tight lf" id="part-2">
+      <div class="wrap">
+        <header class="lf__head reveal">
+          <h2 class="lf__title part">2. The delay: why it takes years to be believed</h2>
+          <p class="lf__lede part">The interval between the first symptoms and a name for them is measured in years, and much of it is spent not being believed.</p>
+        </header>
+        <hr class="lf__rule">
+        <div class="lf__grid">
+          <aside class="lf__aside"><p class="lf__aside-title">The delay</p></aside>
+          <div class="lf__prose prose reveal part">
+            <h3 class="lf__sub">Four to eleven years</h3>
+            <p>Studies of the delay between first symptoms and a diagnosis keep returning the same order of magnitude. A 2024 scoping review of the published research put the range at roughly four to eleven years, depending on the country and the method.<a class="ref" href="#ref-5">[5]</a> In Austria and Germany, a multicentre study of 171 patients found a median of 10.4 years, and 74% had been given a different explanation first.<a class="ref" href="#ref-7">[7]</a> In the United Kingdom, a specialist centre reported a median of 8 years, with a quarter of patients waiting 14 years or more, and concluded that the delay had not improved in two decades.<a class="ref" href="#ref-8">[8]</a></p>
+            <h3 class="lf__sub">Normalised at both ends</h3>
+            <p>Why so long? In a qualitative study of women in the UK, Ballard and colleagues found that the delay had two halves. First the person normalises the pain: periods are expected to hurt, and the people around her say so. Then the clinician does the same, so the symptoms are read as ordinary, or put down to something else, and the consultation ends without a plan.<a class="ref" href="#ref-6">[6]</a> Denny's interviews describe the same experience from the inside: being told repeatedly that nothing is wrong, and beginning to doubt the pain oneself.<a class="ref" href="#ref-15">[15]</a> The Austrian and German study found that normalisation of period pain, by patients and by their mothers, measurably lengthened the delay.<a class="ref" href="#ref-7">[7]</a></p>
+            <h3 class="lf__sub">The language of pain</h3>
+            <p>Pain that is hard to describe is harder to act on. Bullo's analysis of how people with endometriosis talk about their pain found that they reach for metaphor because the plain vocabulary of the clinic does not fit: being stabbed, being set on fire, something pulling from the inside.<a class="ref" href="#ref-14">[14]</a> Those descriptions carry information about the kind of pain and its pattern, but they are easy to dismiss as exaggeration, and the gap between the two vocabularies costs credibility and time.<a class="ref" href="#ref-14">[14]</a><a class="ref" href="#ref-15">[15]</a></p>
+            <h3 class="lf__sub">What the wait costs</h3>
+            <p>The burden is measurable. Across sixteen centres in ten countries, Nnoaham and colleagues found that each affected woman lost on average 10.8 hours of work a week, mostly through working less effectively while in pain, after a delay of 6.7 years between symptoms and a surgical diagnosis.<a class="ref" href="#ref-9">[9]</a> In referral centres across ten countries, Simoens and colleagues put the average annual cost at 9,579 euros per person, two thirds of it lost productivity, a burden they describe as similar to diabetes, Crohn's disease and rheumatoid arthritis.<a class="ref" href="#ref-17">[17]</a> The Endometriosis Health Profile, a questionnaire built in 2001 to measure quality of life in this condition specifically, exists because the general instruments missed what the disease does to daily life.<a class="ref" href="#ref-16">[16]</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Part 3: the diagnosis ============ -->
+    <section class="section section--tight lf" id="part-3">
+      <div class="wrap">
+        <header class="lf__head reveal">
+          <h2 class="lf__title part">3. The diagnosis: what the guidelines changed</h2>
+          <p class="lf__lede part">Three guidelines now say that a diagnosis can begin with the history. That is what a record is for.</p>
+        </header>
+        <hr class="lf__rule">
+        <div class="lf__grid">
+          <aside class="lf__aside"><p class="lf__aside-title">The diagnosis</p></aside>
+          <div class="lf__prose prose reveal part">
+            <h3 class="lf__sub">A call to action, 2019</h3>
+            <p>For decades the definitive diagnosis was surgical: laparoscopy, with the lesions seen and, ideally, confirmed under a microscope. In 2019 a group of specialists led by Agarwal argued, in a paper they called a call to action, that waiting for surgery was itself the delay, and that a clinical diagnosis made from the symptoms, an examination and imaging was enough to start treatment.<a class="ref" href="#ref-13">[13]</a></p>
+            <h3 class="lf__sub">ESHRE, 2022</h3>
+            <p>The European guideline of 2022 adopted that position. Laparoscopy is no longer the required first step; a diagnosis can rest on the history, an examination and imaging, and treatment can begin without surgery. The guideline also recognises that much of the diagnosis is the pattern of symptoms over time, and it lists the ones to ask about: pain with periods, chronic pelvic pain, pain with sex, with the bowel and with the bladder, and infertility.<a class="ref" href="#ref-2">[2]</a></p>
+            <h3 class="lf__sub">NICE NG73</h3>
+            <p>The UK guideline tells clinicians to suspect endometriosis in anyone presenting with one or more of the following: chronic pelvic pain, period pain that affects daily activities and quality of life, deep pain during or after sex, period-related or cyclical bowel symptoms, period-related or cyclical urinary symptoms, or infertility together with any of these.<a class="ref" href="#ref-3">[3]</a> Every one of those is something a person notices and can write down, with a date, long before anyone examines her.</p>
+            <h3 class="lf__sub">ACOG, 2026</h3>
+            <p>In March 2026 the American College of Obstetricians and Gynecologists published its own practice guideline, and it says the same in plainer words: a clinical diagnosis made from the symptoms, the history and a physical examination is enough to begin treatment, and surgery is not needed to confirm it first.<a class="ref" href="#ref-4">[4]</a></p>
+            <h3 class="lf__sub">Whose record it is</h3>
+            <p>If the diagnosis begins with the history, then the history is evidence, and it belongs to the person who lived it. A dated record of what hurt, when, and how it lined up with periods is what all three guidelines ask a clinician to look for. It is also health data, which the General Data Protection Regulation places in a special category with stricter rules than almost any other kind of information.<a class="ref" href="#ref-21">[21]</a> That is the reason nothing written in Emenla leaves the phone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ How Emenla uses this ============ -->
+    <section class="section section--tight" id="uses">
+      <div class="wrap">
+        <div class="uses reveal">
+          <div class="ucard ucard--head part">
+            <h2 class="ucard__title">How Emenla uses this</h2>
+            <p class="ucard__sub">What the app does with the evidence:</p>
+          </div>
+          <div class="ucard part">
+            <h3>We record:</h3>
+            <p>Your sentence is kept word for word. Beside it, Emenla prints the clinical term that matches, with the guideline it comes from, so that you and your clinician can compare the two at a glance and disagree if you need to.<a class="ref" href="#ref-2">[2]</a><a class="ref" href="#ref-3">[3]</a><a class="ref" href="#ref-4">[4]</a></p>
+          </div>
+          <div class="ucard part">
+            <h3>We count:</h3>
+            <p>Each entry is counted against the periods you logged: how many days, which days, how often the pain came with a period and how often it did not. The count is shown as a count. Nothing in Emenla is a prediction.</p>
+          </div>
+          <div class="ucard part">
+            <h3>We print:</h3>
+            <p>One page for the appointment: your words, the matching terms, the counts and the dates. It is built on the phone and it stays there unless you choose to share it.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -403,6 +526,6 @@
     </div>
     <div class="footer__giant" aria-hidden="true"><span data-fit>emenla</span></div>
   </footer>
-  <script src="../assets/js/site.js?v=20260829l" defer></script>
+  <script src="../assets/js/site.js?v=20260829o" defer></script>
 </body>
 </html>

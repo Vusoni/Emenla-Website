@@ -341,3 +341,13 @@ shadow beneath for thickness. The entrance wipe, the pointer lift and the phone 
 
 The "What Emenla will never do" dark card (`#never`) is gone at the founder's request. Its promises
 still live in the FAQ answers, the privacy rows and the pricing card.
+
+### The two bands, second pass (Lóvi 1:1), 29 August 2026
+
+"We asked before we built." now reads like the review carousel: a display heading alone, a
+full-bleed rail centred on three tall flat white cards with the neighbours peeking in under wide
+fades (the rail opens one stride in on desktop), body text in ink, the explanatory copy as one note
+under the rail. "Built on what the guideline actually says." reads like the professionals band: a
+48px-radius white panel, tall soft-grey cards whose visual, a rendered white sheet carrying the
+guideline's real title, fades into the name, the organisation and date, the one-line finding and
+the link. No clinician faces: there is no clinician to show.

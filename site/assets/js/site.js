@@ -229,6 +229,8 @@
     if (next) next.addEventListener('click', function () { go(1); });
     rail.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
+    var startAt = parseInt(wrap.getAttribute('data-carousel-start') || '0', 10);
+    if (startAt > 0 && maxLeft() > 0 && window.innerWidth > 720) rail.scrollLeft = Math.min(maxLeft(), startAt * stride()); /* open with a neighbour peeking in from the left; on phones the first card leads */
     update();
 
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
