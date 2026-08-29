@@ -1826,6 +1826,19 @@ body.at-end .edge-blur { opacity: 0; }
   gap: 16px;
   margin-top: 40px;
 }
+.guide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+}
+.guide:hover { transform: translateY(-3px); box-shadow: var(--shadow-xl); }
+.guide p { color: var(--stone); font-size: var(--text-body-sm); line-height: 1.55; }
+.guide .subheading { font-size: 20px; }
+.guide__link { margin-top: auto; color: var(--ink); font-size: var(--text-body-sm); text-decoration: underline; text-underline-offset: 0.16em; }
 .guide--flat { padding: 32px; background: var(--panel); border-radius: 20px; box-shadow: none; }
 .guide--flat:hover { box-shadow: var(--shadow-md); transform: none; }
 .guide--flat .subheading { font-size: var(--text-subheading); }
