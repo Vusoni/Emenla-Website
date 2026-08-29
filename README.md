@@ -60,6 +60,7 @@ Still open:
    New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
 5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
+6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
 
 ## Deploy
 

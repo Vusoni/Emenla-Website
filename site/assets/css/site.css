@@ -751,39 +751,56 @@ ul, ol { padding: 0; list-style: none; }
   .hero__static { display: flex; }
 }
 
-/* ---------- Settle strip ---------- */
-.strip {
-  position: relative;
-  padding: 26px 0;
+/* ---------- Three promises: an icon in a soft disc, a two-line title, one footnote ---------- */
+.promises__row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  text-align: center;
 }
-.strip::before, .strip::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  width: 100%;
-  height: 1px;
-  background: var(--clay);
-  transform: translateX(-50%) scaleX(var(--line, 1));
-  transform-origin: center;
-  transition: transform 1200ms var(--ease-out);
-}
-.strip::before { top: 0; }
-.strip::after { bottom: 0; }
-.strip.reveal:not(.in) { --line: 0; }
-.strip__row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px 40px;
-  color: var(--stone);
-}
-.strip__row li { display: flex; align-items: center; gap: 12px; }
-.strip__row li::before {
-  content: '';
-  width: 5px; height: 5px;
+.promise { display: flex; flex-direction: column; align-items: center; }
+.promise__icon {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  background: var(--clay);
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #f4f1ee 70%, #ece8e4 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 24px rgba(5, 6, 11, 0.06), 0 1px 2px rgba(5, 6, 11, 0.04);
+  transition: transform 500ms var(--ease-out), box-shadow 500ms var(--ease-out);
 }
+.promise:hover .promise__icon { transform: translateY(-4px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 16px 34px rgba(5, 6, 11, 0.09), 0 1px 2px rgba(5, 6, 11, 0.04); }
+.promise__icon svg { width: 30px; height: 30px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.promise__title { margin-top: 26px; font-weight: 500; }
+.promise__sup { font-size: 0.55em; vertical-align: 0.6em; margin-left: 0.05em; }
+.promises__note { text-align: center; max-width: 60ch; margin: 36px auto 0; }
+@media (max-width: 720px) {
+  .promises__row { grid-template-columns: 1fr; gap: 36px; }
+  .promise__icon { width: 84px; height: 84px; }
+  .promise__title br { display: none; }
+  .promises__note { margin-top: 32px; }
+}
+
+/* ---------- Logo row: a seamless slow marquee, faded at both edges. Two identical tracks, the
+   second hidden from readers, so the loop never shows a seam. ---------- */
+.logos {
+  display: flex;
+  overflow: hidden;
+  padding: 8px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.logos__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 6vw, 96px);
+  padding-right: clamp(48px, 6vw, 96px);
+  flex: none;
+  animation: logosMove 40s linear infinite;
+}
+.logos__track li { display: flex; align-items: center; }
+.logos__track img { height: 28px; width: auto; max-width: 160px; opacity: 0.85; }
+@keyframes logosMove { to { transform: translateX(-100%); } }
 
 /* ---------- The statement: words light from a lavender ghost to ink as the paragraph scrolls through.
    JS splits the text into .w spans with --i and sets --n and one --p on the paragraph; the rest is CSS.
@@ -1945,7 +1962,6 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
   }
   html { scroll-behavior: auto; }
   .reveal .part, .reveal.part { opacity: 1; transform: none; }
-  .strip { --line: 1; }
   .statement__text .w, .statement__text .glyph { --k: 1; }
   .panel__device { transform: translate(-50%, var(--phone-hide)); }
   .counts__bars i { transform: scaleY(1); }
