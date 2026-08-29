@@ -431,3 +431,11 @@ Gone with it: the serif italic on this line (the voice token stays for quotes an
 title), the three-part shadow, the light-sweep overlay and the pointer-lit lean. Kept: the cream
 mask wipe, the rise, the exit lift and the blurred twin — the entrance is the motion, and neither
 reference animates its headline. The apostrophe is typographic now, which shows at this size.
+
+### The hover in the hero, 30 August 2026
+
+The headline is still: neither reference animates its hero line, and this one is a statement, not a
+control. The three caption lines keep the proximity lift (letters near the pointer rise 5px and
+settle back) but have lost the violet they used to warm to. A word that changes hue under the cursor
+both shouts and reads worse than the ink around it: lit, those words fell from about 18:1 to 6:1.
+The lift alone is the effect now, in ink, on fine pointers only.
