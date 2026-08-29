@@ -1664,13 +1664,14 @@ ul, ol { padding: 0; list-style: none; }
 .hcard__row .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }
 .hcard__year { font-size: 30px; line-height: 1; color: var(--ink); }
 .hcard__media { display: block; width: 100%; aspect-ratio: 2 / 1; border-radius: 14px; overflow: hidden; }
-/* The photo fades from sepia in 1690 to full colour today: --age runs 1 to 0 along the rule */
+/* Every picture shares one warm monochrome key; --age (1 at 1690, 0 today) only decides how brown it is,
+   so the archival plates and the laparoscopy photographs read as one set against the cream */
 .hcard__img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: sepia(calc(var(--age, 0) * 0.75)) grayscale(calc(var(--age, 0) * 0.7)) contrast(0.96) brightness(1.02);
+  filter: grayscale(0.88) sepia(calc(0.3 + var(--age, 0) * 0.4)) contrast(0.95) brightness(1.03);
 }
 /* A figure where no honest picture exists yet: a ledger line between two hairlines, not a stand-in for a photograph */
 .hcard__fig { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
@@ -1692,7 +1693,7 @@ ul, ol { padding: 0; list-style: none; }
 .hscroll--compact .hcard__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .hscroll--compact .hcard .card { gap: 8px; }
 /* The second step down, for very short windows: a small year close to the edge and a shallower picture */
-.hscroll--tight .hs-year { font-size: 56px; }
+.hscroll--tight .hs-year { font-size: 76px; }
 .hscroll--tight .hs-head { bottom: 100px; }
 .hscroll--tight .hs-now { margin-bottom: 6px; }
 .hscroll--tight .hcard__media { aspect-ratio: 5 / 2; }
@@ -1709,6 +1710,7 @@ ul, ol { padding: 0; list-style: none; }
   .hcard__body { font-size: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   /* The card stays over the reading point while the rule slides beneath it; only the one being read is shown */
   .hscroll--pin .hcard { transform: translateX(calc(var(--tx, 0) * 1px)); opacity: 0; transition: opacity 420ms var(--ease-out); }
+  .hscroll--pin .hcard::after { display: none; }
   .hscroll--pin .hcard.now { opacity: 1; }
 }
 /* Stacked under reduced motion only, character for character the same query as in site.js */
