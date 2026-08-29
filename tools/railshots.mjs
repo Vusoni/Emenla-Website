@@ -5,6 +5,7 @@ const p = await b.page(url, { width: 1440, height: 900 });
 for (const id of ['asked', 'context']) {
   await p.scroll(await p.eval(`document.getElementById('${id}').offsetTop - 40`)); await p.eval(wait(1600));
   await p.shot(`${out}/${id}-d.png`);
+  { const rr = await p.eval(`(() => { const r = document.querySelector('#${id} .rail').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()`); await p.mouse('mouseMoved', rr.x, rr.y); await p.eval(wait(350)); }
   const nb = await p.eval(`(() => { const r = document.querySelector('#${id} [data-carousel-next]').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, vis: getComputedStyle(document.querySelector('#${id} [data-carousel-next]')).visibility }; })()`);
   console.log(id, 'next button', JSON.stringify(nb));
   await p.mouse('mousePressed', nb.x, nb.y); await p.mouse('mouseReleased', nb.x, nb.y); await p.eval(wait(900));

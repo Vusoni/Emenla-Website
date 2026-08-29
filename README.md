@@ -60,8 +60,8 @@ Still open:
    New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
 5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
-7. Reviews: `#asked` ("Reviews, after launch") is five empty slots. After launch, replace a slot with a screenshot of an App Store review; the HTML comment above the section gives the markup and size (780×960). Keep one honest slot until there are three reviews.
-8. Specialists: `#context` ("Specialists, once they have reviewed it") is three empty slots. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 840×700, name, credentials, what they reviewed and when). Never before.
+7. Reviews: `#asked` is three cards marked Example (the App Store format, the rated format, the consented-quote format) and three empty slots. After launch, replace an Example card with a real review typed in the same markup, exactly as posted; delete `<span class="example">` and the `qcard--example` class. The HTML comment above the section has the rules. Keep one honest slot until there are three real reviews.
+8. Clinicians: `#context` is three cards marked Example whose portrait area is a blank white panel. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 784×708, name, credentials, what they reviewed and when). Remove the pill and the `gcard--slot` class with the portrait, then update the note under the rail and `PLACEHOLDERS.md`. Never before.
 6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
 
 ## Deploy
@@ -99,8 +99,9 @@ Run the measure script after adding media, and keep the phone first load under 3
 
 ## Adding a consented quote
 
-If a woman agrees, in writing and naming this site, to a sentence of hers appearing on it, put it
-in the reviews rail as a `.qcard--quote` (styles exist): instrument and month only, no name, no
-handle, no photo. A sentence about how it felt is allowed ("it helped me feel heard"); anything
-about an outcome ("it got me diagnosed", "the pain is better") is not, even if said. The quote
-files themselves stay out of this repository.
+If a woman agrees, in writing and naming this site, to a sentence of hers appearing on it, use the
+third Example card in `#asked` as the format (who line "Consented quote", "Month year / Structured
+interview", her sentence as the title or the body): instrument and month only, no name, no handle,
+no photo. A sentence about how it felt is allowed ("it helped me feel heard"); anything about an
+outcome ("it got me diagnosed", "the pain is better") is not, even if said. `.qcard--quote` remains
+as the serif-voice alternative. The quote files themselves stay out of this repository.

@@ -1184,6 +1184,16 @@ ul, ol { padding: 0; list-style: none; }
   50% { opacity: 1; }
 }
 
+/* Held-open image card: white panel, ink type, no scrim. Used wherever a generated
+   picture has been withdrawn before launch. Matches .hcard__img--blank on the timeline. */
+.imgcard--blank { background: #ffffff; border: 1px solid var(--haze); box-shadow: none; }
+.imgcard--blank::before, .imgcard--blank::after { display: none; }
+.imgcard--blank .imgcard__copy { color: var(--ink); }
+.imgcard--blank .imgcard__copy p { color: var(--stone); }
+.imgcard__soon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+.imgcard__soon::before { animation: breathe2 4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .imgcard__soon::before { animation: none; } }
+
 /* ---------- Privacy: phone and rows ---------- */
 .privacy {
   display: grid;
@@ -1516,9 +1526,6 @@ ul, ol { padding: 0; list-style: none; }
 
 /* ---------- The wide image card and the try-it card ---------- */
 .imgcard--wide { margin-top: 56px; min-height: 420px; }
-/* Above the 900px breakpoint the wide card takes the photograph's own 3:2 shape.
-   At 420px tall the crop cut the page out of the frame, which is the whole subject. */
-@media (min-width: 901px) { .imgcard--wide { min-height: 0; aspect-ratio: 3 / 2; } }
 .imgcard--wide .imgcard__copy { width: 100%; text-align: center; padding: 32px; }
 .try {
   display: grid;
@@ -1888,6 +1895,10 @@ body.at-end .edge-blur { opacity: 0; }
 .sci-band__copy > * + * { margin-top: 20px; }
 .sci-band__kicker { font-size: var(--text-body-sm); font-weight: 500; color: rgba(255, 255, 255, 0.8); }
 .sci-band__text { font-size: clamp(28px, 3vw, 40px); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+/* Held-open evidence band: white panel, ink type, no scrim. */
+.sci-band--blank { background: #ffffff; color: var(--ink); border-block: 1px solid var(--haze); }
+.sci-band--blank::after { display: none; }
+.sci-band--blank .sci-band__kicker { color: var(--stone); }
 .parts-section { padding-top: 0; }
 .parts {
   position: relative;
@@ -2101,101 +2112,151 @@ body.at-end .edge-blur { opacity: 0; }
 .rail-wrap--static .rail__btn { display: none; }
 @media (hover: none), (max-width: 720px) { .rail__btn { display: none; } }
 
-/* ---------- We asked before we built: the research record ---------- */
-/* The Lóvi review-card anatomy: name, grey date line, title, body in ink; tall, flat, white. */
-.asked .section-head h2 { line-height: 1.08; }
+/* ---------- Reviews: the Lóvi review rail. A 1000px centred container, cards fading out at its edges,
+   opened one card in. Three cards marked Example show the format; the rest are honest empties. ---------- */
+.asked .section-head h2 { font-size: clamp(32px, 3.05vw, 44px); line-height: 1.05; font-weight: 340; letter-spacing: -0.012em; }
 .asked .rail-wrap {
-  --rail-card: clamp(320px, 27vw, 390px);
-  --rail-edge: max(var(--gutter), (100% - 3 * var(--rail-card) - 2 * var(--rail-gap)) / 2); /* three cards centred; the neighbours peek in under the fade */
-  margin-top: 52px;
+  --rail-card: 310px;
+  --rail-gap: 12px;
+  --rail-edge: 0px; /* keep the unit: it feeds calc() */
+  width: min(100% - 2 * var(--gutter), 1024px); /* three cards, and the fourth peeks 58px under the fade */
+  margin: 46px auto 0;
 }
+.asked .rail { padding-top: 0; }
 .asked .rail-fade {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 11%, #000 89%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 11%, #000 89%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
-.asked .rail__btn--prev { left: calc(var(--rail-edge) - 60px); }
-.asked .rail__btn--next { right: calc(var(--rail-edge) - 60px); }
-.qcard { flex-direction: column; gap: 4px; min-height: 480px; padding: 26px 28px 30px; border-radius: 28px; box-shadow: none; }
-.qcard__who { font-size: var(--text-body-sm); font-weight: 500; line-height: 1.4; }
-.qcard__meta { font-size: 15px; color: var(--ash); line-height: 1.5; }
-.qcard__title { margin-top: 22px; font-size: 22px; line-height: 1.25; font-weight: 500; letter-spacing: -0.014em; }
-.qcard__body { margin-top: 12px; font-size: 17px; line-height: 1.5; color: var(--ink); }
-/* A consented sentence, when there is one: her words in her voice, then what she agreed to */
+/* Lóvi shows the chevrons only while the pointer is over the rail; keyboard focus counts too */
+.asked .rail__btn { top: calc(50% - 40px); opacity: 0; visibility: hidden; }
+.asked .rail-wrap.in:hover .rail__btn:not(.is-off),
+.asked .rail-wrap.in:focus-within .rail__btn:not(.is-off) { opacity: 1; visibility: visible; }
+.asked .rail__btn--prev { left: -24px; }
+.asked .rail__btn--next { right: -24px; }
+.qcard { position: relative; flex-direction: column; gap: 0; min-height: 378px; padding: 20px 20px 22px; border-radius: 24px; background: var(--panel); box-shadow: none; }
+.qcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.qcard__who { font-size: 16px; font-weight: 500; line-height: 1.4; }
+.qcard__meta, .qcard__date, .qcard__tag { font-size: 15px; line-height: 1.45; color: var(--ash); }
+.qcard__meta { margin-top: 2px; }
+.qcard__date { flex: none; white-space: nowrap; }
+.qcard__rating { display: flex; justify-content: space-between; align-items: center; gap: 12px; height: 22px; margin-top: 2px; }
+.qcard__rating .example--flow { padding: 4px 8px 3px; }
+.qcard__stars { display: inline-flex; gap: 3px; }
+.qcard__stars i { width: 14px; height: 14px; background: var(--haze); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.qcard__stars--filled i { background: #00b67a; }
+.qcard__tag--verified { color: #00b67a; }
+.qcard__title { margin-top: 28px; font-size: 22px; line-height: 1.25; font-weight: 500; letter-spacing: -0.014em; }
+.qcard__body { margin-top: 10px; font-size: 16px; line-height: 1.5; color: var(--ink); }
+/* A consented sentence in her own voice, if that form is ever preferred over the plain card */
 .qcard--quote > figure { display: flex; flex-direction: column; flex: 1; gap: 6px; }
 .qcard__quote { font-family: var(--font-voice); font-style: italic; font-weight: 400; color: var(--voice); font-size: clamp(22px, 1.9vw, 26px); line-height: 1.22; letter-spacing: 0; }
 .qcard__tail { margin-top: auto; padding-top: 14px; font-size: var(--text-caption); line-height: 1.5; color: var(--stone); }
 .asked__note { margin: 12px auto 0; max-width: 64ch; text-align: center; }
 
-/* ---------- Context: one white panel holding the guidelines ----------
-   The Lóvi anatomy: a big white panel, a generous heading, tall cards on soft grey whose visual
-   fades into a name and grey credentials. The visual here is the document itself, a rendered sheet
-   with the guideline's real title, because there is no clinician to photograph. ---------- */
+/* ---------- Clinicians: one white panel, the Lóvi anatomy. 1000px, radius 56, three 392px cards on warm grey,
+   the third cut hard by the panel's edge, a translucent round button at the right. ---------- */
 .panel-band {
+  width: min(100%, 960px);
+  margin-inline: auto;
   background: var(--panel);
-  border-radius: 48px;
+  border-radius: 64px;
   box-shadow: var(--shadow-md);
-  padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
+  padding: 40px 0 44px;
   overflow: hidden;
   overflow: clip;
 }
 .panel-band .section-head { padding-inline: var(--gutter); }
-.panel-band .section-head h2 { font-size: var(--text-display); line-height: 1.08; }
-.panel-band .rail-wrap { --rail-card: clamp(320px, 31vw, 420px); --rail-edge: clamp(24px, 4vw, 56px); margin-top: 48px; }
-.panel-band .rail__btn--prev { left: 14px; }
-.panel-band .rail__btn--next { right: 14px; }
+.panel-band .section-head h2 { font-size: clamp(32px, 3.05vw, 44px); line-height: 1.05; font-weight: 340; letter-spacing: -0.012em; }
+.panel-band .rail-wrap { --rail-card: 392px; --rail-gap: 10px; --rail-edge: 32px; margin-top: 28px; }
+.panel-band .rail { padding-block: 0; }
+.panel-band .rail-fade { -webkit-mask-image: none; mask-image: none; }
+.panel-band .rail__btn {
+  top: calc(50% - 24px);
+  width: 48px; height: 48px;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px rgba(5, 6, 11, 0.05);
+}
+.panel-band .rail__btn svg { width: 20px; height: 20px; stroke-width: 1.6; }
+.panel-band .rail__btn--prev { left: 12px; }
+.panel-band .rail__btn--next { right: 12px; }
 .gcard {
-  --gbg: #f4f2f0;
+  --gbg: #faf9f8; /* the tone the card reaches under the caption */
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 0;
-  height: 560px;
+  height: 492px;
   border-radius: 28px;
-  background: var(--gbg);
+  background: linear-gradient(180deg, #f2f0ee 0%, #f5f3f1 45%, var(--gbg) 100%);
   box-shadow: none;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
 }
-.gcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
-.gcard__visual { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+a.gcard:hover .gcard__name { text-decoration: underline; }
+.gcard__visual { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
 .gcard__visual::after {
   content: '';
   position: absolute;
   inset: auto 0 0 0;
-  height: 42%;
-  background: linear-gradient(180deg, rgba(244, 242, 240, 0) 0%, var(--gbg) 100%);
+  height: 38%;
+  background: linear-gradient(180deg, rgba(247, 245, 243, 0) 0%, #f8f7f5 100%);
 }
-.gcard__body { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 26px 26px; }
-.gcard__name { font-size: var(--text-body); font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; }
-.gcard__cred { font-size: var(--text-body-sm); line-height: 1.5; color: var(--ash); }
+.gcard__body { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; min-height: 28%; padding: 0 32px 26px; }
+.gcard__name { font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; }
+.gcard__cred { font-size: 16px; line-height: 1.35; color: var(--ash); }
 .gcard .guide__link { margin-top: 10px; align-self: flex-start; }
-/* ---------- Reserved slots: honest empties until there are reviews and reviewers ---------- */
-.qcard--slot { align-items: center; justify-content: center; text-align: center; gap: 12px; border: 1px dashed var(--clay); box-shadow: none; }
+.gcard__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+/* The held portrait: a soft, out-of-focus figure in the tone of the card, where a photograph will sit */
+.slot__figure { display: none; }
+.gcard--slot .gcard__visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 21% 24% at 50% 30%, rgba(5, 6, 11, 0.16) 0%, rgba(5, 6, 11, 0.12) 60%, rgba(5, 6, 11, 0) 100%),
+    radial-gradient(ellipse 50% 36% at 50% 96%, rgba(5, 6, 11, 0.13) 0%, rgba(5, 6, 11, 0.08) 55%, rgba(5, 6, 11, 0) 100%);
+}
+.context__note { margin: 28px auto 0; max-width: 64ch; text-align: center; font-size: var(--text-body-sm); line-height: 1.6; color: var(--stone); }
+.context__note a { color: var(--stone); text-decoration: underline; }
+
+/* ---------- The Example pill: on every card that shows a format rather than a fact. Delete it with the card. ---------- */
+.example {
+  position: absolute; top: 14px; right: 14px; z-index: 2;
+  display: inline-block;
+  padding: 6px 10px 5px;
+  border: 1px solid var(--haze);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--stone);
+  font-family: var(--mono); font-size: var(--text-micro); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1;
+  pointer-events: none;
+}
+.example--flow { position: static; }
+
+/* ---------- Reserved slots: honest empties in the review rail ---------- */
+.qcard--slot { align-items: center; justify-content: center; text-align: center; gap: 12px; background: var(--panel); }
 .qcard--image { padding: 0; overflow: hidden; }
 .qcard--image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .slot__disc { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--canvas); margin-bottom: 6px; }
 .slot__disc svg { width: 26px; height: 26px; fill: var(--clay); }
 .slot__label { font-size: var(--text-body-sm); font-weight: 500; }
 .slot__stars { display: inline-flex; gap: 5px; }
-.slot__stars i { width: 16px; height: 16px; background: var(--haze); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.slot__stars i { width: 14px; height: 14px; background: var(--haze); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .slot__line { max-width: 24ch; font-size: var(--text-body-sm); line-height: 1.5; color: var(--ash); }
-.gcard--slot { border: 1px dashed var(--clay); }
-.gcard--slot .gcard__name { color: var(--stone); }
-.slot__figure { position: absolute; left: 50%; bottom: -8%; width: 58%; transform: translateX(-50%); fill: none; stroke: var(--clay); stroke-width: 2; stroke-linecap: round; }
-.gcard__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
-.context__note { margin: 28px auto 0; padding-inline: var(--gutter); max-width: 70ch; text-align: center; font-size: var(--text-body-sm); line-height: 1.6; color: var(--stone); }
-.context__note a { color: var(--stone); text-decoration: underline; }
+
 @media (max-width: 720px) {
   .rail-wrap { --rail-card: min(84vw, 340px); --rail-gap: 14px; margin-top: 32px; }
-  .asked .rail-wrap { --rail-card: min(84vw, 340px); --rail-edge: var(--gutter); }
-  .asked .rail-fade { -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
-  .qcard { min-height: 0; }
   .rail { padding-bottom: 28px; }
-  .panel-band { border-radius: 28px; padding: 40px 0 32px; }
-  .panel-band .rail-wrap { --rail-card: min(80vw, 320px); }
-  .gcard { height: 500px; }
+  .asked .rail-wrap { --rail-card: min(84vw, 320px); --rail-gap: 12px; --rail-edge: var(--gutter); width: 100%; margin-top: 36px; }
+  .asked .rail-fade { -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+  .qcard { min-height: 300px; }
+  .panel-band { width: 100%; border-radius: 32px; padding: 36px 0 32px; }
+  .panel-band .rail-wrap { --rail-card: min(80vw, 300px); --rail-gap: 10px; --rail-edge: 20px; margin-top: 32px; }
+  .gcard { height: 440px; }
 }
 
 /* ---------- Entrances ---------- */

@@ -113,7 +113,7 @@ await p.close();
 /* ---------- Video blocked ---------- */
 const nb = await b.page(URL, { width: 1440, height: 900, block: ['*hero-scrub*'] });
 await nb.eval(wait(2500));
-log('video blocked: ' + JSON.stringify(await nb.eval(`({state: document.querySelector('.hero__stage').className, poster: document.querySelector('.hero__poster').classList.contains('is-set'), chevron: getComputedStyle(document.querySelector('.hero__chevron')).opacity})`)));
+log('video blocked: ' + JSON.stringify(await nb.eval(`({state: document.querySelector('.hero__stage').className, poster: document.querySelector('.hero__poster').classList.contains('is-set'), chevron: (el => el ? getComputedStyle(el).opacity : 'absent')(document.querySelector('.hero__chevron'))})`)));
 await nb.shot(`${OUT}/d-noVideo.png`);
 await nb.close();
 

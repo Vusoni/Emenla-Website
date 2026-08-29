@@ -358,3 +358,14 @@ At the founder's request the two bands are now reserved spaces, each saying it i
 invented) and "Specialists, once they have reviewed it." (three slots for licensed clinicians,
 filled only after a real review). The research record and the guideline cards live in git history
 (`f60ce86`); the guidelines stay on the science page.
+
+### The two bands matched to Lóvi, 29 August 2026
+
+"Reviews, after launch." is the Lóvi review rail measured from the reference: a 1000px centred
+container, 310×378 white cards with 12px gaps and 24px corners, fading at the container's edges,
+opened one card in, chevrons on hover. Three cards marked Example show the shape a review takes
+(App Store, rated, consented quote); three are honest empties. "Reviewed by clinicians, once it has
+been." is the professionals panel: 1000px white, 56px corners, three 392×492 warm-grey cards with a
+white portrait area melting into the card, the third cut by the panel's edge, a translucent 48px
+chevron at the right. The portrait areas are held white (the founder's rule for generated pictures)
+until a real clinician exists.
