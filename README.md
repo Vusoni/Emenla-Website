@@ -60,7 +60,8 @@ Still open:
    New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
 5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
-7. Quotes: `#asked` ("We asked before we built") shows the research record and no quotes. A woman's sentence goes on only with written consent that names this site; see "Adding a consented quote" below.
+7. Reviews: `#asked` ("Reviews, after launch") is five empty slots. After launch, replace a slot with a screenshot of an App Store review; the HTML comment above the section gives the markup and size (780×960). Keep one honest slot until there are three reviews.
+8. Specialists: `#context` ("Specialists, once they have reviewed it") is three empty slots. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 840×700, name, credentials, what they reviewed and when). Never before.
 6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
 
 ## Deploy
@@ -96,21 +97,10 @@ width; the hero video is encoded at its native 720p; loop videos carry no eager 
 for each viewport is preloaded; fonts are subset and self-hosted; nothing loads from a third party.
 Run the measure script after adding media, and keep the phone first load under 300 KB.
 
-## Adding a consented quote to "We asked before we built"
+## Adding a consented quote
 
-Only with written consent that names this site. Add one `<li>` to the `#asked` rail, after the
-"No reviews yet" card (keep that card until the app is on the App Store):
-
-```html
-<li class="card qcard qcard--quote part">
-  <figure>
-    <blockquote class="qcard__quote"><p>The sentence she agreed to, unchanged.</p></blockquote>
-    <p class="qcard__tail">What she agreed to: this sentence, on this page, until she asks for it to go.</p>
-    <figcaption class="qcard__meta">Instagram message · July 2026</figcaption>
-  </figure>
-</li>
-```
-
-Instrument and month only: no name, no handle, no photo. A sentence about how it felt is allowed
-("it helped me feel heard"); anything about an outcome ("it got me diagnosed", "the pain is
-better") is not, even if said. The quote files themselves stay out of this repository.
+If a woman agrees, in writing and naming this site, to a sentence of hers appearing on it, put it
+in the reviews rail as a `.qcard--quote` (styles exist): instrument and month only, no name, no
+handle, no photo. A sentence about how it felt is allowed ("it helped me feel heard"); anything
+about an outcome ("it got me diagnosed", "the pain is better") is not, even if said. The quote
+files themselves stay out of this repository.

@@ -2138,39 +2138,24 @@ body.at-end .edge-blur { opacity: 0; }
   height: 42%;
   background: linear-gradient(180deg, rgba(244, 242, 240, 0) 0%, var(--gbg) 100%);
 }
-.doc {
-  position: absolute;
-  left: 50%;
-  top: 36px;
-  width: 74%;
-  aspect-ratio: 3 / 4.1;
-  transform: translateX(-50%) rotate(-3deg);
-  transform-origin: 50% 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 26px 24px;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 30px 60px -20px rgba(5, 6, 11, 0.22), 0 2px 6px rgba(5, 6, 11, 0.05);
-  transition: transform 700ms var(--ease-out);
-}
-.gcard:hover .doc { transform: translateX(-50%) rotate(-1.5deg) translateY(-6px); }
-.doc__org { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ash); line-height: 1.4; }
-.doc__title { font-family: var(--font-voice); font-size: clamp(22px, 1.9vw, 27px); line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
-.doc__rule { display: block; height: 1px; background: var(--haze); margin-top: 4px; }
-.doc__bars { display: flex; flex-direction: column; gap: 9px; margin-top: 6px; }
-.doc__bars i { display: block; height: 7px; border-radius: 4px; background: #eeebe8; }
-.doc__bars i:nth-child(1) { width: 92%; }
-.doc__bars i:nth-child(2) { width: 78%; }
-.doc__bars i:nth-child(3) { width: 86%; }
-.doc__bars i:nth-child(4) { width: 64%; }
-.doc__bars i:nth-child(5) { width: 88%; }
-.doc__bars i:nth-child(6) { width: 52%; }
 .gcard__body { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 26px 26px; }
 .gcard__name { font-size: var(--text-body); font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; }
 .gcard__cred { font-size: var(--text-body-sm); line-height: 1.5; color: var(--ash); }
 .gcard .guide__link { margin-top: 10px; align-self: flex-start; }
+/* ---------- Reserved slots: honest empties until there are reviews and reviewers ---------- */
+.qcard--slot { align-items: center; justify-content: center; text-align: center; gap: 12px; border: 1px dashed var(--clay); box-shadow: none; }
+.qcard--image { padding: 0; overflow: hidden; }
+.qcard--image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slot__disc { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--canvas); margin-bottom: 6px; }
+.slot__disc svg { width: 26px; height: 26px; fill: var(--clay); }
+.slot__label { font-size: var(--text-body-sm); font-weight: 500; }
+.slot__stars { display: inline-flex; gap: 5px; }
+.slot__stars i { width: 16px; height: 16px; background: var(--haze); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.slot__line { max-width: 24ch; font-size: var(--text-body-sm); line-height: 1.5; color: var(--ash); }
+.gcard--slot { border: 1px dashed var(--clay); }
+.gcard--slot .gcard__name { color: var(--stone); }
+.slot__figure { position: absolute; left: 50%; bottom: -8%; width: 58%; transform: translateX(-50%); fill: none; stroke: var(--clay); stroke-width: 2; stroke-linecap: round; }
+.gcard__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .context__note { margin: 28px auto 0; padding-inline: var(--gutter); max-width: 70ch; text-align: center; font-size: var(--text-body-sm); line-height: 1.6; color: var(--stone); }
 .context__note a { color: var(--stone); text-decoration: underline; }
 @media (max-width: 720px) {
@@ -2209,7 +2194,7 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
 .loop-off, .loop-off *, .loop-off *::before, .loop-off *::after { animation-play-state: paused !important; }
 
 /* ---------- 404 ---------- */
-/* One screen, centred: the chip, the plum headline, one line, one black pill and a text link, and a
+/* One screen, centred: the chip, the headline in plain ink, one line, one black pill and a text link, and a
    slim footer on the same screen. No script on this page. The static styles are the finished state and
    every keyframe only carries a from-state, so the reduced-motion block below leaves everything settled. */
 .lost {
@@ -2274,12 +2259,14 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
 /* The words answer the pointer with the arrow, not the I-beam, as the hero lines do */
 .lost__stack > .chip, .lost__stack > h1, .lost__stack > p { cursor: default; }
 .lost__chip { font-weight: 500; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
-/* The headline keeps its sweep and gains the entrance: both must be named here, because .hook.voice
-   sets the animation shorthand itself and a single name would drop the other */
-.lost__stack .hook.voice {
-  font-size: clamp(52px, 7.4vw, 108px);
-  max-width: 14ch;
-  animation: voiceSweep 8s linear infinite, lostIn var(--t-reveal) var(--ease-out) 80ms backwards;
+/* The headline: plain ink in the grotesk, as the reference does it. Nothing clipped, nothing outlined. */
+.lost__title {
+  max-width: 16ch;
+  font-size: clamp(38px, 4.8vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+  color: var(--ink);
 }
 .lost__stack > p { max-width: 40ch; }
 .lost__actions {
@@ -2326,7 +2313,7 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
 .lost__sep { margin-inline: 0.35em; opacity: 0.7; }
 @media (max-width: 720px) {
   .lost { padding: 96px var(--gutter) 24px; }
-  .lost__stack .hook.voice { font-size: clamp(40px, 11vw, 64px); }
+  .lost__title { font-size: clamp(32px, 9vw, 44px); }
   .lost__stage::before { width: min(420px, 100vw); height: min(360px, 52vh); filter: blur(22px); }
   .lost__actions { flex-direction: column; gap: 14px; margin-top: 10px; }
   .lost__sep--mail { display: none; }

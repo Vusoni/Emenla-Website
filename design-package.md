@@ -353,3 +353,11 @@ under the rail. "Built on what the guideline actually says." reads like the prof
 48px-radius white panel, tall soft-grey cards whose visual, a rendered white sheet carrying the
 guideline's real title, fades into the name, the organisation and date, the one-line finding and
 the link. No clinician faces: there is no clinician to show.
+
+### Reserved, 29 August 2026
+
+At the founder's request the two bands are now reserved spaces, each saying it is empty:
+"Reviews, after launch." (five slots for App Store review screenshots; nothing paid for, edited or
+invented) and "Specialists, once they have reviewed it." (three slots for licensed clinicians,
+filled only after a real review). The research record and the guideline cards live in git history
+(`f60ce86`); the guidelines stay on the science page.
