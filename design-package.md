@@ -434,8 +434,16 @@ reference animates its headline. The apostrophe is typographic now, which shows 
 
 ### The hover in the hero, 30 August 2026
 
-The headline is still: neither reference animates its hero line, and this one is a statement, not a
-control. The three caption lines keep the proximity lift (letters near the pointer rise 5px and
+Every line in the hero answers the pointer now. The headline's words rise 12px and take 2.5% of
+scale with them, the nearest word most, its neighbours following in a falloff; the three caption
+lines keep the proximity lift (letters near the pointer rise 5px and
 settle back) but have lost the violet they used to warm to. A word that changes hue under the cursor
 both shouts and reads worse than the ink around it: lit, those words fell from about 18:1 to 6:1.
 The lift alone is the effect now, in ink, on fine pointers only.
+
+The headline was left still at first, on the grounds that neither reference animates its hero line.
+The founder asked for it twice, so it has one: transforms only, because a variable-weight change
+would alter the advance widths and reflow the line under the cursor. The reach scales with the type
+(`max(150px, lineHeight * 2.6)`), so a 60px headline word answers from further away than a 20px
+caption. Splitting the headline into words puts a screen-reader copy in the markup and hides the
+split one, so the sentence still reads as one line.

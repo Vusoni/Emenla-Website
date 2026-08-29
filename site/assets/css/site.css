@@ -567,6 +567,14 @@ ul, ol { padding: 0; list-style: none; }
   translate: 0 calc(var(--h, 0) * -5px);
 }
 .band .split .w:has(.c) { translate: none; }
+/* The headline is three times the size of the caption lines, so its words rise further and carry a
+   little scale with them. Transforms only: a weight change would alter the advance widths and make
+   the line reflow under the cursor. */
+.band--1 .split .w {
+  translate: 0 calc(var(--h, 0) * -12px);
+  scale: calc(1 + var(--h, 0) * 0.025);
+  transform-origin: 50% 100%;
+}
 
 /* Split text: .w words hold .c characters, each with --th */
 .split { display: inline-block; }

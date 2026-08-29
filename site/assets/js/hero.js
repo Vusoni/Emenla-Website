@@ -83,7 +83,7 @@
     if (!fine.matches) return;
     var units = Array.prototype.filter.call(stage.querySelectorAll('.band .split .c, .band .split .w'), function (u) { return !u.querySelector('.c'); });
     if (!units.length) return;
-    var R = 150, px = -1e4, py = -1e4, raf = null, over = false;
+    var px = -1e4, py = -1e4, raf = null, over = false;
     var vals = units.map(function () { return 0; });
     function frame() {
       raf = null;
@@ -92,6 +92,8 @@
       for (var i = 0; i < units.length; i++) {
         var r = rects[i], t = 0;
         if (over && r.width) {
+          /* the reach follows the type: a 60px headline word answers from further away than a caption */
+          var R = Math.max(150, r.height * 2.6);
           var d = Math.hypot(r.left + r.width / 2 - px, r.top + r.height / 2 - py);
           if (d < R) { t = 1 - d / R; t = t * t * (3 - 2 * t); }
         }
