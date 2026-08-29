@@ -1565,9 +1565,8 @@ ul, ol { padding: 0; list-style: none; }
   position: absolute;
   top: var(--rule-y);
   left: calc(var(--read-x, 0) * 1px);
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 1.5px;
+  height: 13px;
   background: var(--ink);
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -1620,12 +1619,13 @@ ul, ol { padding: 0; list-style: none; }
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: 22px;
+  margin-top: 20px;
   transform: translateX(-50%);
-  font-style: normal;
-  font-size: 11px;
+  font-family: var(--font-voice);
+  font-style: italic;
+  font-size: 16px;
   line-height: 1;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   color: var(--clay);
   white-space: nowrap;
   transition: color 300ms var(--ease-out);
@@ -1673,7 +1673,7 @@ ul, ol { padding: 0; list-style: none; }
   filter: sepia(calc(var(--age, 0) * 0.75)) grayscale(calc(var(--age, 0) * 0.7)) contrast(0.96) brightness(1.02);
 }
 /* A figure where no honest picture exists yet: a ledger line between two hairlines, not a stand-in for a photograph */
-.hcard__fig { aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 0 18px; text-align: center; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
+.hcard__fig { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
 .hcard__fig-n { font-size: 30px; line-height: 1; color: var(--ink); }
 .hcard__fig-c { font-size: 10px; letter-spacing: 0.14em; color: var(--ash); }
 .hcard__title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }

@@ -347,7 +347,7 @@
   /* ---------- A short history: the measured record slides left as the visitor scrolls down ---------- */
   var hs = document.querySelector('[data-hscroll]');
   var hsStack = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var hsNodes = [], hsCards = [], hsLabels = [], hsSince = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
+  var hsNodes = [], hsCards = [], hsLabels = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
   var hsTrack = null, hsBase = null, hsDraw = null, hsStage = null, hsHead = null, hsYearEl = null, hsNowEl = null, hsHint = null, hsTickBox = null, hsPen = null;
   var hsX0 = 0, hsX1 = 1, hsK = 1, hsU0 = 1, hsRuleY = 0, hsCardW = 300, hsTrackW = 0, hsRange = 1;
   var hsX = -1, hsLitTicks = 0, hsNow = -1, hsYear = '', hsLine = '', hsHintGone = false, hsPenNear = false, hsPinned = false, hsListening = false;
@@ -357,7 +357,6 @@
   var HS_TODAY = 2028;
   function hsU(y) { return Math.sqrt(Math.max(0, HS_TODAY - y)); }
   function yearToX(y) { return hsX0 + hsK * (hsU0 - hsU(y)); }
-  function xToYear(x) { var u = hsU0 - (x - hsX0) / hsK; return HS_TODAY - u * u; }
   function hsBuild() {
     /* Decade ticks from 1700 to 2020; every fiftieth year is taller and carries its label */
     for (var y = 1700; y <= 2020; y += 10) {
@@ -490,7 +489,7 @@
     for (i = 0; i < n; i++) {
       var lit = hsNodeX[i] <= readX + 8;
       if (lit) now = i;
-      if (Math.abs(hsNodeX[i] - readX) < 14) near = true;
+      if (Math.abs(hsNodeX[i] - readX) < 24) near = true;
       if (hsNodes[i].classList.contains('lit') !== lit) {
         hsNodes[i].classList.toggle('lit', lit);
         if (hsCards[i]) hsCards[i].classList.toggle('lit', lit);
@@ -507,13 +506,12 @@
     /* Ticks ink in one at a time as the reading point passes them, and un-ink on the way back */
     while (hsLitTicks < hsTicks.length && hsTicks[hsLitTicks].x <= readX) { hsTicks[hsLitTicks].el.classList.add('lit'); hsLitTicks++; }
     while (hsLitTicks > 0 && hsTicks[hsLitTicks - 1].x > readX) { hsLitTicks--; hsTicks[hsLitTicks].el.classList.remove('lit'); }
-    /* The big year: whole years only, never past 2026, and "Today" once the last node is reached. The line above
-       it is the milestone's label while the ink is on it, otherwise how long it has been since */
-    var yearNum = Math.min(2026, Math.floor(xToYear(readX)));
-    var yr = now === n - 1 ? 'Today' : String(yearNum);
+    /* The giant year is the milestone the ink has reached, so the year, the lit card, the solid dot and the year
+       under the rule all say the same thing at the same moment. The empty stretches do the counting instead. */
+    var at = now < 0 ? 0 : now;
+    var yr = at === n - 1 ? 'Today' : String(hsYears[at]);
     if (yr !== hsYear) { hsYear = yr; hsSetYear(yr); }
-    var since = now >= 0 ? yearNum - hsYears[now] : 0;
-    var line = (now < 0 || now === n - 1 || since < 1) ? (hsLabels[now] || '') : since + (since === 1 ? ' year after ' : ' years after ') + hsSince[now];
+    var line = hsLabels[at] || '';
     if (line !== hsLine) { hsLine = line; if (hsNowEl) hsNowEl.textContent = line; }
     var gone = p > 0.08;
     if (gone !== hsHintGone) { hsHintGone = gone; if (hsHint) hsHint.classList.toggle('is-gone', gone); }
@@ -543,7 +541,6 @@
     hsGaps = Array.prototype.slice.call(hs.querySelectorAll('.hs-gap'));
     hsGaps.forEach(function (g) { hsGapMap[parseInt(g.getAttribute('data-gap'), 10)] = g; });
     hsYears = hsNodes.map(function (nd) { var y = nd.getAttribute('data-year'); return y === 'today' ? HS_TODAY : parseInt(y, 10); });
-    hsSince = hsNodes.map(function (nd) { return nd.getAttribute('data-since') || ''; });
     hsLabels = hsCards.map(function (c) { var l = c.querySelector('.label'); return l ? l.textContent : ''; });
     if (hsTickBox) hsBuild();
     armHistory();

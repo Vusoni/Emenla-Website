@@ -77,12 +77,14 @@ Five things a critic can check by looking at rendered frames of `#history`, on t
 
 10. **The rule is straight and nothing sits on it.** One hairline across the scene; every card ends
     above it on a short stem, so the line never passes behind or through a card, lit or ghosted.
-11. **The spacing is honest.** Gaps between milestones are visibly unequal: 1690 to 1860 is the
-    longest, the last three are the tightest. Decade ticks make the empty stretches read as time
-    passing, and each long stretch carries one short serif caption.
-12. **Exactly one solid dot.** The milestone being read is the only large filled dot on screen; passed
-    ones are small and filled, future ones hollow. The giant serif year at the top left reads the
-    same year the ink has reached on the rule.
+11. **One scale, foreshortened toward today.** A single curve governs the whole rule with no reset at
+    any milestone, so the decade ticks tighten going back and open out coming forward, and 1690 to
+    1860 is by far the longest run. The geometry cannot carry a span of two years and a span of two
+    hundred at once, so where it cannot, the words do: every long stretch says how long it was.
+12. **Everything on screen says the same year.** The milestone being read is the only large filled dot;
+    passed ones are small and filled, future ones hollow. The giant serif year at the bottom left names
+    that milestone, and the lit card, the solid dot and the year under the rule agree with it. The ink
+    front is a thin cursor, never a dot, so it cannot be read as a milestone of its own.
 13. **Three type sizes on a card, plus mono micro-labels.** Serif year, sans title, grey body; the
     label pill and the years under the rule are the only mono. No fourth size, no colour beyond ink,
     stone, ash, the cream ground and the warm tint of a figure panel.
