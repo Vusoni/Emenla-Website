@@ -60,7 +60,7 @@ Still open:
    New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
 5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
-7. Reviews: `#asked` is three cards marked Example (the App Store format, the rated format, the consented-quote format) and three empty slots. After launch, replace an Example card with a real review typed in the same markup, exactly as posted; delete `<span class="example">` and the `qcard--example` class. The HTML comment above the section has the rules. Keep one honest slot until there are three real reviews.
+7. Reviews: `#asked` is six empty slots on a rail that loops without end. After launch, replace a slot with a real review typed in the same markup, exactly as posted (the HTML comment above the section gives the formats, including a rated one and a consented quote). Drop the `qcard--slot` class with the slot. Keep one honest slot until there are three real reviews.
 8. Clinicians: `#context` is three cards marked Example whose portrait area is a blank white panel. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 784×708, name, credentials, what they reviewed and when). Remove the pill and the `gcard--slot` class with the portrait, then update the note under the rail and `PLACEHOLDERS.md`. Never before.
 6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
 

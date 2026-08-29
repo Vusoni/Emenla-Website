@@ -376,3 +376,11 @@ until a real clinician exists.
 a dark edge, a white highlight along the top of every glyph, a band of light travelling through
 the words, and a soft shadow beneath. No plum. The lens is smaller now (2.3 × 1.12 headline ems)
 and warps the letters harder, as in the Liquid Glass demo the founder sent.
+
+### Reviews rail, six slots and no end, 29 August 2026
+
+Every card in "Reviews, after launch." is the plain App Store slot (glyph, "App Store review", five
+hollow stars, "Reviews appear here after launch, as they were written."); the Example format cards
+are gone, their markup kept in the HTML comment. Both rails now loop: a copy of the card set sits on
+either side and the scroll position is moved back by one set whenever it drifts half a set away,
+onto identical cards, so scrolling right or left never reaches an end.

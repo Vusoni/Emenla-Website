@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260829s">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260829t">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -625,7 +625,7 @@
           <div class="section-head reveal">
             <h2 class="display part">Reviewed by clinicians,<br>once it has been.</h2>
           </div>
-          <div class="rail-wrap reveal" data-carousel>
+          <div class="rail-wrap reveal" data-carousel data-carousel-loop>
             <div class="rail-fade">
               <ul class="rail" role="list" tabindex="0" aria-label="Clinicians. Three cards hold the place; nobody has reviewed Emenla yet. Scroll sideways, or use the arrow keys.">
                 <li class="part">
@@ -701,47 +701,48 @@
     </section>
 
     <!-- ============ Reviews, after launch ============
-         Three cards marked Example show the shape a review takes; three slots are honest empties. Emenla is not on
-         the App Store yet. To add a real review: copy an Example card, delete <span class="example">, drop the
-         qcard--example class, and type the review exactly as posted: the name as the store shows it, "Month year /
-         App Store", her title, her body. For a rated one (second format): the date in qcard__row, qcard__stars--filled,
-         and a qcard__tag reading "Verified" only if the platform itself verified it. Keep one honest slot until there
-         are three real reviews. The rail opens one card in (data-carousel-start="1"), so keep an Example or a real
-         card in positions 2 to 4. A screenshot works too: <li class="card qcard qcard--image part"><img src="assets/img/review-01.jpg" alt="App Store review: its first sentence, by first name and initial." width="620" height="756" loading="lazy" decoding="async"></li> -->
+         Six empty slots on a rail that loops; Emenla is not on the App Store yet. To add a real review, replace a
+         slot's contents, typed exactly as posted:
+           <p class="qcard__who">First name, initial.</p><p class="qcard__meta">Month year / App Store</p>
+           <p class="qcard__title">Her title</p><p class="qcard__body">Her review, unchanged.</p>
+         and drop the qcard--slot class and data-slot. For a rated one: <div class="qcard__row"><p class="qcard__who">Name</p><p class="qcard__date">Month year</p></div>
+           <div class="qcard__rating"><span class="qcard__stars qcard__stars--filled" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="qcard__tag qcard__tag--verified">Verified</span></div>
+         ("Verified" only if the platform itself verified it). A consented quote: who "Consented quote", meta "Month year /
+         Structured interview", her sentence as the title or body, instrument and month only. A screenshot also works:
+           <li class="card qcard qcard--image part"><img src="assets/img/review-01.jpg" alt="App Store review: its first sentence, by first name and initial." width="620" height="756" loading="lazy" decoding="async"></li>
+         Keep one honest slot until there are three real reviews. -->
     <section class="section asked" id="asked">
       <div class="wrap">
         <div class="section-head reveal">
           <h2 class="display part">Reviews,<br>after launch.</h2>
         </div>
       </div>
-      <div class="rail-wrap reveal" data-carousel data-carousel-start="1">
+      <div class="rail-wrap reveal" data-carousel data-carousel-loop data-carousel-start="1">
         <div class="rail-fade">
-          <ul class="rail" role="list" tabindex="0" aria-label="Reviews. Empty until launch; three cards show the format. Scroll sideways, or use the arrow keys.">
+          <ul class="rail" role="list" tabindex="0" aria-label="Reviews. Empty until launch. Scroll sideways, or use the arrow keys.">
             <li class="card qcard qcard--slot part" data-slot="review">
               <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
               <p class="slot__label">App Store review</p>
               <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
               <p class="slot__line">Reviews appear here after launch, as they were written.</p>
             </li>
-            <li class="card qcard qcard--example part">
-              <span class="example">Example</span>
-              <p class="qcard__who">First name, initial.</p>
-              <p class="qcard__meta">Month year / App Store</p>
-              <p class="qcard__title">The title, as she wrote it.</p>
-              <p class="qcard__body">The review itself, unchanged. Nothing here is paid for, edited or invented.</p>
+            <li class="card qcard qcard--slot part" data-slot="review">
+              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
+              <p class="slot__label">App Store review</p>
+              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
             </li>
-            <li class="card qcard qcard--example part">
-              <div class="qcard__row"><p class="qcard__who">First name, initial.</p><p class="qcard__date">Month year</p></div>
-              <div class="qcard__rating"><span class="qcard__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="example example--flow">Example</span></div>
-              <p class="qcard__title">The title, as she wrote it.</p>
-              <p class="qcard__body">The rating she gave and the words under it, exactly as posted. Where it was verified goes on the right.</p>
+            <li class="card qcard qcard--slot part" data-slot="review">
+              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
+              <p class="slot__label">App Store review</p>
+              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
             </li>
-            <li class="card qcard qcard--example part">
-              <span class="example">Example</span>
-              <p class="qcard__who">Consented quote</p>
-              <p class="qcard__meta">Month year / Structured interview</p>
-              <p class="qcard__title">Her sentence, agreed.</p>
-              <p class="qcard__body">One sentence a woman agreed to, with the instrument and the month only. No name, no handle, no photo.</p>
+            <li class="card qcard qcard--slot part" data-slot="review">
+              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
+              <p class="slot__label">App Store review</p>
+              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
             </li>
             <li class="card qcard qcard--slot part" data-slot="review">
               <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
@@ -761,7 +762,7 @@
         <button type="button" class="rail__btn rail__btn--next" data-carousel-next aria-label="Next cards"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
       <div class="wrap">
-        <p class="asked__note body-sm muted reveal part">Not on the App Store yet, so no reviews. The cards marked Example show only the shape a review will take; real ones will be shown as they were written, never paid for, edited or invented.</p>
+        <p class="asked__note body-sm muted reveal part">Not on the App Store yet, so no reviews. When there are, they will be shown as they were written, never paid for, edited or invented.</p>
       </div>
     </section>
 
@@ -907,7 +908,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260829s" defer></script>
-  <script src="assets/js/site.js?v=20260829s" defer></script>
+  <script src="assets/js/hero.js?v=20260829t" defer></script>
+  <script src="assets/js/site.js?v=20260829t" defer></script>
 </body>
 </html>

@@ -207,13 +207,39 @@
     var prev = wrap.querySelector('[data-carousel-prev]');
     var next = wrap.querySelector('[data-carousel-next]');
     if (!rail) return;
+    /* A looping rail carries a copy of its cards on either side; whenever the scroll position drifts
+       half a set away from the middle it is moved back by one whole set, in the same frame, onto
+       identical content, so there is never an end to reach. */
+    var loop = wrap.hasAttribute('data-carousel-loop');
+    var base = Array.prototype.slice.call(rail.children);
+    if (loop && base.length > 1) {
+      var before = document.createDocumentFragment(), after = document.createDocumentFragment();
+      base.forEach(function (li) {
+        var a = li.cloneNode(true), b = li.cloneNode(true);
+        a.setAttribute('aria-hidden', 'true'); b.setAttribute('aria-hidden', 'true');
+        a.classList.add('is-clone'); b.classList.add('is-clone');
+        after.appendChild(a); before.appendChild(b);
+      });
+      rail.insertBefore(before, rail.firstChild);
+      rail.appendChild(after);
+    }
     var items = Array.prototype.slice.call(rail.children);
-    var raf = null;
+    var count = base.length;
+    var raf = null, startLeft = 0;
     function stride() { return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : rail.clientWidth; }
+    function setWidth() { return count * stride(); }
     function maxLeft() { return Math.max(0, rail.scrollWidth - rail.clientWidth); }
     function setOff(btn, off) { if (!btn) return; btn.classList.toggle('is-off', off); btn.setAttribute('aria-disabled', off ? 'true' : 'false'); }
+    function recentre() {
+      if (!loop) return 0;
+      var sw = setWidth(), x = rail.scrollLeft, d = 0;
+      if (x < sw * 0.5) d = sw; else if (x >= sw * 2.5) d = -sw;
+      if (d) { rail.scrollLeft = x + d; startLeft += d; }
+      return d;
+    }
     function update() {
       raf = null;
+      if (loop) { recentre(); setOff(prev, false); setOff(next, false); wrap.classList.remove('rail-wrap--static'); return; }
       var x = rail.scrollLeft, m = maxLeft();
       setOff(prev, x <= 1);
       setOff(next, x >= m - 1);
@@ -222,6 +248,12 @@
     function schedule() { if (raf === null) raf = window.requestAnimationFrame(update); }
     function go(dir) {
       var s = stride();
+      if (loop) {
+        var sw = setWidth();
+        /* keep the step inside the middle sets, so the smooth scroll never needs a jump mid-flight */
+        if (dir > 0 && rail.scrollLeft + s >= sw * 2.5) rail.scrollLeft -= sw;
+        if (dir < 0 && rail.scrollLeft - s < sw * 0.5) rail.scrollLeft += sw;
+      }
       var left = Math.min(maxLeft(), Math.max(0, (Math.round(rail.scrollLeft / s) + dir) * s));
       rail.scrollTo({ left: left, behavior: reduced() ? 'auto' : 'smooth' });
     }
@@ -230,11 +262,12 @@
     rail.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     var startAt = parseInt(wrap.getAttribute('data-carousel-start') || '0', 10);
-    if (startAt > 0 && maxLeft() > 0 && window.innerWidth > 720) rail.scrollLeft = Math.min(maxLeft(), startAt * stride()); /* open with a neighbour peeking in from the left; on phones the first card leads */
+    var openAt = (loop ? setWidth() : 0) + ((startAt > 0 && window.innerWidth > 720) ? startAt * stride() : 0); /* a neighbour peeks in from the left; on phones the first card leads */
+    if (openAt > 0 && maxLeft() > 0) rail.scrollLeft = Math.min(maxLeft(), openAt);
     update();
 
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    var down = false, dragging = false, suppress = false, startX = 0, startLeft = 0, pid = null, settleTimer = null;
+    var down = false, dragging = false, suppress = false, startX = 0, pid = null, settleTimer = null;
     function settled() {
       if (settleTimer !== null) { window.clearTimeout(settleTimer); settleTimer = null; }
       rail.removeEventListener('scrollend', settled);
@@ -255,6 +288,7 @@
         try { rail.setPointerCapture(pid); } catch (err) {}
       }
       rail.scrollLeft = startLeft - dx;
+      recentre();
     });
     function release() {
       if (!down) return;
