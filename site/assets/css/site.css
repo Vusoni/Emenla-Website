@@ -810,6 +810,8 @@ ul, ol { padding: 0; list-style: none; }
   --n: 1;
   --ghost: #cfc6f6;
   max-width: min(100%, 24ch);
+  margin-inline: auto;
+  text-align: center;
   font-size: clamp(28px, 3.6vw, 48px);
   font-weight: 500;
   line-height: 1.15;
@@ -1296,19 +1298,6 @@ ul, ol { padding: 0; list-style: none; }
 .refusals h2 { margin-bottom: 20px; text-align: center; }
 .refusals .muted { color: var(--night-muted); }
 
-/* ---------- Context ---------- */
-.context {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 56px;
-  align-items: start;
-  margin-top: 44px;
-}
-@media (max-width: 900px) {
-  .context { grid-template-columns: 1fr; gap: 36px; }
-}
-.context .imgcard { min-height: 420px; position: sticky; top: 96px; }
-@media (max-width: 900px) { .context .imgcard { position: relative; top: auto; min-height: 320px; } }
 
 /* ---------- Pricing ---------- */
 .pricing {
@@ -1507,6 +1496,9 @@ ul, ol { padding: 0; list-style: none; }
 
 /* ---------- The wide image card and the try-it card ---------- */
 .imgcard--wide { margin-top: 56px; min-height: 420px; }
+/* Above the 900px breakpoint the wide card takes the photograph's own 3:2 shape.
+   At 420px tall the crop cut the page out of the frame, which is the whole subject. */
+@media (min-width: 901px) { .imgcard--wide { min-height: 0; aspect-ratio: 3 / 2; } }
 .imgcard--wide .imgcard__copy { width: 100%; text-align: center; padding: 32px; }
 .try {
   display: grid;
@@ -1927,6 +1919,121 @@ body.at-end .edge-blur { opacity: 0; }
 .ask__note { max-width: 40ch; }
 @media (prefers-reduced-motion: reduce) {
   .ask, .ask__card { transition: none; }
+}
+
+/* ---------- Card rails: a native horizontal scroller, faded at both edges, with two round buttons ----------
+   The mask sits on the wrapper and the scrolling on the child, so the fade never travels with the content.
+   The buttons are siblings of the masked box, so the fade never dims them. Touch and the trackpad's
+   sideways gesture are native; the buttons and the mouse drag are for fine pointers. */
+.rail-wrap {
+  --rail-card: clamp(300px, 34vw, 380px);
+  --rail-gap: 20px;
+  --rail-edge: max(var(--gutter), (100% - var(--max)) / 2); /* the .wrap's left edge, so the first card lines up with the heading */
+  position: relative;
+  margin-top: 44px;
+}
+.rail-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.rail {
+  display: flex;
+  gap: var(--rail-gap);
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px var(--rail-edge) 36px; /* room for the shadow and the hover lift; a scroller clips both otherwise */
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--rail-edge);
+  overscroll-behavior-x: contain; /* the end of the rail is not a back-swipe */
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail > li {
+  display: flex;
+  flex: 0 0 var(--rail-card);
+  width: var(--rail-card);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.rail:focus-visible { outline-offset: -3px; }
+.rail.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; -webkit-user-select: none; }
+@media (hover: hover) and (pointer: fine) { .rail { cursor: grab; } }
+
+.rail__btn {
+  position: absolute;
+  top: calc(50% - 36px);
+  z-index: 2;
+  width: 44px; height: 44px;
+  margin: 0; padding: 0;
+  border: 0; border-radius: 50%;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: var(--shadow-xl);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: opacity 200ms var(--ease-soft), visibility 200ms, transform 200ms var(--ease-soft);
+}
+.rail__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rail__btn--prev { left: calc(var(--rail-edge) - 22px); }
+.rail__btn--next { right: calc(var(--rail-edge) - 22px); }
+.rail__btn:hover { transform: scale(1.06); }
+.rail__btn.is-off, .reveal:not(.in) .rail__btn { opacity: 0; visibility: hidden; }
+.rail-wrap--static .rail__btn { display: none; }
+@media (hover: none), (max-width: 720px) { .rail__btn { display: none; } }
+
+/* ---------- We asked before we built: the research record ---------- */
+.qcard { flex-direction: column; gap: 6px; }
+.qcard__who { font-size: var(--text-body-sm); font-weight: 500; }
+.qcard__meta { font-size: var(--text-caption); color: var(--ash); line-height: 1.5; }
+.qcard__title { margin-top: 12px; font-size: 20px; line-height: 1.3; font-weight: 500; letter-spacing: -0.012em; }
+.qcard__body { margin-top: 4px; font-size: var(--text-body-sm); line-height: 1.55; color: var(--stone); }
+/* A consented sentence, when there is one: her words in her voice, then what she agreed to */
+.qcard--quote > figure { display: flex; flex-direction: column; flex: 1; gap: 6px; }
+.qcard__quote { font-family: var(--font-voice); font-style: italic; font-weight: 400; color: var(--voice); font-size: clamp(22px, 1.9vw, 26px); line-height: 1.22; letter-spacing: 0; }
+.qcard__tail { margin-top: auto; padding-top: 14px; font-size: var(--text-caption); line-height: 1.5; color: var(--stone); }
+.asked__note { margin: 4px auto 0; max-width: 60ch; text-align: center; }
+
+/* ---------- Context: one white panel holding the guidelines ---------- */
+.panel-band {
+  background: var(--panel);
+  border-radius: 32px;
+  box-shadow: var(--shadow-md);
+  padding: clamp(40px, 5vw, 72px) 0;
+  overflow: hidden;
+  overflow: clip;
+}
+.panel-band .section-head { padding-inline: var(--gutter); }
+.panel-band .rail-wrap { --rail-edge: clamp(24px, 4vw, 56px); margin-top: 40px; }
+.panel-band .rail__btn--prev { left: 12px; }
+.panel-band .rail__btn--next { right: 12px; }
+.gcard {
+  flex: 1;
+  background: var(--canvas);
+  border: 1px solid var(--haze);
+  box-shadow: none;
+  padding: 24px 26px 26px;
+  gap: 10px;
+}
+.gcard:hover { box-shadow: var(--shadow-md); }
+.gcard__portrait { display: grid; place-items: center; height: 132px; margin-bottom: 6px; }
+.gcard__year {
+  display: grid; place-items: center;
+  width: 132px; height: 132px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, var(--haze), rgba(236, 237, 239, 0) 72%);
+  font-family: var(--font-voice); font-style: normal; font-weight: 400;
+  font-size: clamp(64px, 6.5vw, 84px); line-height: 1; letter-spacing: -0.02em;
+  color: var(--voice);
+}
+.gcard .guide__link { padding-top: 4px; }
+.context__note { margin: 20px auto 0; padding-inline: var(--gutter); max-width: 70ch; text-align: center; font-size: var(--text-body-sm); line-height: 1.6; color: var(--stone); }
+.context__note a { color: var(--stone); text-decoration: underline; }
+@media (max-width: 720px) {
+  .rail-wrap { --rail-card: min(84vw, 340px); --rail-gap: 14px; margin-top: 32px; }
+  .rail { padding-bottom: 28px; }
+  .panel-band { border-radius: 24px; padding: 36px 0; }
+  .gcard__portrait { height: 112px; }
+  .gcard__year { width: 112px; height: 112px; font-size: 60px; }
 }
 
 /* ---------- Entrances ---------- */

@@ -314,3 +314,18 @@ one full period per 8 s so the loop is seamless. One colour breathing, not a rai
 healthcare product. Under a fine pointer its letters lift and glow
 plum; the other three caption lines lift and warm to violet. The hero lines show the arrow
 cursor, not the text I-beam. Everything else on the site keeps the violet voice.
+
+### Two bands from the Lóvi reference, 29 August 2026
+
+**We asked before we built** (`#asked`, between Pricing and the FAQ): the testimonial-carousel
+layout with research-record cards instead of reviews. Six cards on a card rail (round chevron
+buttons, faded edges, drag on the mouse, native swipe on touch): 515 comments · 108 questions ·
+two structured interviews · four replies · "No reviews yet". A consented quote is added later as a
+`.qcard--quote`, instrument and month only.
+
+**Built on what the guideline actually says** (`#context`): the "backed by professionals" layout,
+with named, dated, linked guidelines instead of faces. A white panel holding four cards, each with
+a large serif year as its portrait: ACOG 2026, ESHRE 2022, NICE NG73, WHO fact sheet. The
+subheading says plainly that nobody has reviewed Emenla clinically yet.
+
+The statement paragraph is now centred.

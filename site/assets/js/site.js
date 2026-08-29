@@ -33,6 +33,7 @@
     }
     window.addEventListener('wheel', function (e) {
       if (e.ctrlKey || e.metaKey) return;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && e.target.closest && e.target.closest('.rail')) return; /* a sideways swipe over a card rail is the rail's */
       var dy = e.deltaY;
       if (e.deltaMode === 1) dy *= 16; else if (e.deltaMode === 2) dy *= window.innerHeight;
       if (!dy) return;
@@ -195,6 +196,85 @@
   document.addEventListener('visibilitychange', function () {
     document.body.classList.toggle('paused', document.hidden);
   });
+
+  /* ---------- Card rails: a native horizontal scroller with snap, two round buttons and a mouse drag ----------
+     Touch and the trackpad's sideways gesture stay native; the buttons and the drag are for the mouse.
+     A vertical wheel over a rail is left to the page, so nobody is trapped inside a carousel.
+     Snapping is switched off for the length of a drag (browsers re-snap on every scrollLeft write),
+     then handed back once the rail has eased onto a snap point, so nothing jumps. */
+  function initRail(wrap) {
+    var rail = wrap.querySelector('.rail');
+    var prev = wrap.querySelector('[data-carousel-prev]');
+    var next = wrap.querySelector('[data-carousel-next]');
+    if (!rail) return;
+    var items = Array.prototype.slice.call(rail.children);
+    var raf = null;
+    function stride() { return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : rail.clientWidth; }
+    function maxLeft() { return Math.max(0, rail.scrollWidth - rail.clientWidth); }
+    function setOff(btn, off) { if (!btn) return; btn.classList.toggle('is-off', off); btn.setAttribute('aria-disabled', off ? 'true' : 'false'); }
+    function update() {
+      raf = null;
+      var x = rail.scrollLeft, m = maxLeft();
+      setOff(prev, x <= 1);
+      setOff(next, x >= m - 1);
+      wrap.classList.toggle('rail-wrap--static', m <= 1);
+    }
+    function schedule() { if (raf === null) raf = window.requestAnimationFrame(update); }
+    function go(dir) {
+      var s = stride();
+      var left = Math.min(maxLeft(), Math.max(0, (Math.round(rail.scrollLeft / s) + dir) * s));
+      rail.scrollTo({ left: left, behavior: reduced() ? 'auto' : 'smooth' });
+    }
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    rail.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var down = false, dragging = false, suppress = false, startX = 0, startLeft = 0, pid = null, settleTimer = null;
+    function settled() {
+      if (settleTimer !== null) { window.clearTimeout(settleTimer); settleTimer = null; }
+      rail.removeEventListener('scrollend', settled);
+      rail.classList.remove('is-dragging');
+    }
+    rail.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      settled();
+      down = true; dragging = false; startX = e.clientX; startLeft = rail.scrollLeft; pid = e.pointerId;
+    });
+    rail.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (!dragging) {
+        if (Math.abs(dx) < 6) return; /* a click on a card link stays a click */
+        dragging = true;
+        rail.classList.add('is-dragging');
+        try { rail.setPointerCapture(pid); } catch (err) {}
+      }
+      rail.scrollLeft = startLeft - dx;
+    });
+    function release() {
+      if (!down) return;
+      down = false;
+      if (!dragging) return;
+      dragging = false;
+      suppress = true;
+      window.setTimeout(function () { suppress = false; }, 0);
+      var s = stride(), m = maxLeft(), x = rail.scrollLeft;
+      var left = Math.min(m, Math.max(0, Math.round(x / s) * s));
+      if (Math.abs(m - x) < Math.abs(left - x)) left = m; /* the end of the rail is a resting place too */
+      if (reduced() || Math.abs(x - left) < 1) { rail.scrollLeft = left; settled(); return; }
+      if ('onscrollend' in rail) rail.addEventListener('scrollend', settled);
+      settleTimer = window.setTimeout(settled, 600);
+      rail.scrollTo({ left: left, behavior: 'smooth' });
+    }
+    rail.addEventListener('pointerup', release);
+    rail.addEventListener('pointercancel', release);
+    rail.addEventListener('click', function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } }, true);
+    rail.addEventListener('dragstart', function (e) { if (down || dragging) e.preventDefault(); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-carousel]'), initRail);
 
   /* ---------- The timeline rail draws itself on scroll ---------- */
   var rail = document.querySelector('[data-rail]');
