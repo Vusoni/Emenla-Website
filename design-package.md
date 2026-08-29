@@ -332,17 +332,14 @@ subheading says plainly that nobody has reviewed Emenla clinically yet.
 
 The statement paragraph is now centred.
 
-### Liquid glass letters, 29 August 2026
+### The liquid-glass lens, 29 August 2026
 
-"You're not imagining it." is set as glass, not on glass: the body of each letter is almost clear
-(a faint plum tint, the wall reads through it) with a darker plum edge, a highlight along the top of every glyph, a
-bright band of light that travels through the words once every eight seconds, and a soft plum
-shadow beneath for thickness. The entrance wipe, the pointer lift and the phone still are unchanged.
-
-### Removed, 29 August 2026
-
-The "What Emenla will never do" dark card (`#never`) is gone at the founder's request. Its promises
-still live in the FAQ answers, the privacy rows and the pricing card.
+"You're not imagining it." is solid plum again (the tonal sweep intact). The glass is a capsule
+that follows the pointer across the headline: frosted (12px backdrop blur), bright along its rim,
+carrying a second copy of the headline aligned to the first, magnified by 12% about the capsule's
+centre and run through a slow turbulence so the letters ripple as it moves; a blurred third copy
+fills in the rim. Fine pointers only; hidden under reduced motion; the phone still is untouched.
+The per-letter lift now belongs to the three caption lines only.
 
 ### The two bands, second pass (Lóvi 1:1), 29 August 2026
 

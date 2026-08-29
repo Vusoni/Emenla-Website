@@ -218,28 +218,21 @@ ul, ol { padding: 0; list-style: none; }
 }
 /* One hue, plum: deep to soft and back, travelling left to right on a seamless loop:
    the gradient repeats every two text widths, so the sweep never jumps */
-/* Liquid glass: the letters are translucent plum with a white rim, a highlight along the top of
-   every glyph, and a bright band of light that travels through them once every eight seconds.
-   The wall shows through the body of the letters; the shadows below give the glass its thickness. */
+/* One hue, plum: deep to soft and back, travelling left to right on a seamless loop */
 .hook.voice {
-  /* Transparent glass: the body of each letter is almost clear, so the wall reads through it; the
-     edge, the highlight along the top, the travelling light and the shadow beneath give it shape. */
-  --glass-top: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0.28) 100%);
-  --glass-sweep: linear-gradient(90deg, rgba(74, 35, 82, 0.22) 0%, rgba(74, 35, 82, 0.22) 17%, rgba(210, 190, 218, 0.6) 23%, rgba(255, 255, 255, 0.85) 25.5%, rgba(210, 190, 218, 0.6) 28%, rgba(74, 35, 82, 0.22) 34%, rgba(74, 35, 82, 0.22) 100%);
-  background-image: var(--glass-top), var(--glass-sweep);
-  background-size: 100% 100%, 400% 100%;
-  background-position: 0 0, 66.667% 50%;
+  --plum: linear-gradient(90deg, #4a2352 0%, #7d4a86 25%, #35183d 50%, #7d4a86 75%, #4a2352 100%);
+  background-image: var(--plum);
+  background-size: 400% 100%;
+  background-position: 66.667% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.6px rgba(58, 26, 66, 0.84);
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85)) drop-shadow(0 10px 22px rgba(74, 35, 82, 0.2));
   animation: voiceSweep 8s linear infinite;
 }
 @keyframes voiceSweep {
-  from { background-position: 0 0, 66.667% 50%; }
-  to { background-position: 0 0, -66.667% 50%; }
+  from { background-position: 66.667% 50%; }
+  to { background-position: -66.667% 50%; }
 }
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
@@ -629,26 +622,82 @@ ul, ol { padding: 0; list-style: none; }
 @property --bt { syntax: '<number>'; inherits: true; initial-value: 0; }
 .hook.voice.is-split {
   background-image: none;
-  -webkit-text-stroke: 0;
   animation: hookSweep 8s linear infinite;
 }
 @keyframes hookSweep { from { --bt: 0; } to { --bt: 1; } }
 .hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
 .hook.voice.is-split .hk {
   display: inline-block;
-  background-image: var(--glass-top), var(--glass-sweep);
-  background-size: 100% 100%, calc(var(--hw, 600px) * 4) 100%;
-  background-position: 0 0, calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
-  -webkit-text-stroke: 1.6px rgba(58, 26, 66, 0.84);
+  background-image: var(--plum);
+  background-size: calc(var(--hw, 600px) * 4) 100%;
+  background-position: calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   padding: 0.2em 0.12em 0.26em 0.06em; /* the italic's overhangs and descenders paint inside this box */
   margin: -0.2em -0.12em -0.26em -0.06em;
-  translate: 0 calc(var(--h, 0) * -0.09em);
-  filter: drop-shadow(0 0 calc(var(--h, 0) * 0.14em) rgba(125, 74, 134, calc(var(--h, 0) * 0.55)));
 }
+
+/* ---------- The lens: liquid glass over the headline ----------
+   A capsule of glass follows the pointer across the headline. Inside it lives a second copy of the
+   headline, aligned to the first, magnified a little and run through a slow turbulence so the letters
+   ripple as the lens moves; a blurred third copy fills in the rim. Fine pointers only. */
+.lens {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--lw, 300px);
+  height: var(--lh, 150px);
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-9999px, -9999px, 0);
+  transition: opacity 240ms var(--ease-soft);
+  will-change: transform;
+}
+.lens.is-on { opacity: 1; }
+.lens__inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.34);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(5, 6, 11, 0.06),
+    inset 4px 0 10px rgba(255, 255, 255, 0.6),
+    inset -4px 0 10px rgba(255, 255, 255, 0.6),
+    0 16px 36px rgba(74, 35, 82, 0.16),
+    0 2px 6px rgba(5, 6, 11, 0.05);
+}
+.lens__layer { position: absolute; inset: 0; }
+.lens__layer--blur {
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 50%, #000 92%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 50%, #000 92%);
+}
+.lens__copy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.band--1 .lens__copy { -webkit-mask-image: none; mask-image: none; margin: 0; }
+.lens__layer--sharp .lens__copy { filter: url(#liquid); }
+.lens__layer--blur .lens__copy { filter: url(#liquid) blur(3px); }
+.lens::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0) 68%, rgba(255, 255, 255, 0.3) 100%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) { .lens { display: none; } }
 
 /* Split text: .w words hold .c characters, each with --th */
 .split { display: inline-block; }
