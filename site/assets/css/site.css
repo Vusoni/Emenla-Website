@@ -523,26 +523,6 @@ ul, ol { padding: 0; list-style: none; }
   stroke-dashoffset: calc(126 - 126 * var(--ld, 0));
   transition: stroke-dashoffset 120ms linear;
 }
-.hero__chevron {
-  position: absolute;
-  left: 50%;
-  bottom: 26px;
-  transform: translateX(-50%);
-  width: 22px;
-  height: 22px;
-  color: var(--stone);
-  opacity: 0;
-  transition: opacity 300ms var(--ease-soft);
-  pointer-events: none;
-}
-.hero__stage.video-failed .hero__chevron,
-.hero__stage.video-ready .hero__chevron { opacity: 0.8; }
-.hero__stage.video-ready .hero__chevron { animation: nudge 2.6s var(--ease-soft) -1s infinite; }
-@keyframes nudge {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 6px); }
-}
-
 /* Bands */
 .band {
   position: absolute;
@@ -812,7 +792,7 @@ ul, ol { padding: 0; list-style: none; }
        (prefers-reduced-motion: reduce) {
   .hero { height: auto; }
   .hero__stage { position: relative; height: auto; overflow: visible; }
-  .hero__poster, .hero__video, .hero__scrim, .hero__ring, .hero__chevron, .band { display: none; }
+  .hero__poster, .hero__video, .hero__scrim, .hero__ring, .band { display: none; }
   .hero__static { display: flex; }
 }
 
