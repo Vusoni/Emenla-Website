@@ -1591,16 +1591,16 @@ ul, ol { padding: 0; list-style: none; }
 .hnode {
   position: absolute;
   z-index: 2;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   border: 1.5px solid var(--clay);
   background: var(--canvas);
   transition: background-color 400ms var(--ease-out), border-color 400ms var(--ease-out), width 300ms var(--ease-out), height 300ms var(--ease-out);
 }
-.hnode.lit { background: var(--ink); border-color: var(--ink); }
-.hnode.now { width: 18px; height: 18px; }
+.hnode.lit { width: 9px; height: 9px; background: var(--ink); border-color: var(--ink); }
+.hnode.now { width: 20px; height: 20px; }
 .hnode::before {
   content: '';
   position: absolute;
@@ -1717,7 +1717,7 @@ ul, ol { padding: 0; list-style: none; }
   .hscroll__stage::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: var(--clay); }
   .hscroll__hint, .hscroll__svg, .hs-head, .hs-ticks, .hs-pen, .hs-gap, .hnode__year { display: none; }
   .hscroll__track { position: relative; height: auto; transform: none !important; width: auto !important; }
-  .hnode { position: absolute; left: -36px !important; top: auto !important; transform: translate(-50%, 0); width: 12px; height: 12px; }
+  .hnode { position: absolute; left: -36px !important; top: auto !important; transform: translate(-50%, 0); width: 11px !important; height: 11px !important; }
   .hcard { position: relative; width: 100% !important; max-width: 560px; opacity: 1 !important; margin-bottom: 28px; left: auto !important; bottom: auto !important; }
   .hcard::after { display: none; }
   .hcard.now .card { transform: none; box-shadow: var(--shadow-md); }
