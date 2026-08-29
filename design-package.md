@@ -272,7 +272,9 @@ element, computed contrast, landmarks, skip link, focus-visible in violet, 44px 
 pointer, title, meta description, theme-color, inline SVG favicon, a DEPLOY STEP comment for og:url and
 og:image). Architecture: site/index.html plus site/assets/, plain HTML, CSS and vanilla JS, no build
 step. Three subpages (privacy, terms, support) and a 404 share the stylesheet; they exist because
-App Store Connect needs a live privacy URL and support URL.
+App Store Connect needs a live privacy URL and support URL. The 404 is one centred screen: the 404
+chip, the hook.voice headline, one line, a black pill back to the start and a text link to write to
+us, a slim footer line on the same screen, no script.
 
 ## 9. The copy gate
 
