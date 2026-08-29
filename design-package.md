@@ -332,7 +332,12 @@ The statement paragraph is now centred.
 
 ### Liquid glass letters, 29 August 2026
 
-"You're not imagining it." is set as glass, not on glass: the letters are translucent plum
-(the wall shows through them) with a white rim, a highlight along the top of every glyph, a
+"You're not imagining it." is set as glass, not on glass: the body of each letter is almost clear
+(a faint plum tint, the wall reads through it) with a darker plum edge, a highlight along the top of every glyph, a
 bright band of light that travels through the words once every eight seconds, and a soft plum
 shadow beneath for thickness. The entrance wipe, the pointer lift and the phone still are unchanged.
+
+### Removed, 29 August 2026
+
+The "What Emenla will never do" dark card (`#never`) is gone at the founder's request. Its promises
+still live in the FAQ answers, the privacy rows and the pricing card.
