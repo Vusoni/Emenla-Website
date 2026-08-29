@@ -329,3 +329,10 @@ a large serif year as its portrait: ACOG 2026, ESHRE 2022, NICE NG73, WHO fact s
 subheading says plainly that nobody has reviewed Emenla clinically yet.
 
 The statement paragraph is now centred.
+
+### Liquid glass letters, 29 August 2026
+
+"You're not imagining it." is set as glass, not on glass: the letters are translucent plum
+(the wall shows through them) with a white rim, a highlight along the top of every glyph, a
+bright band of light that travels through the words once every eight seconds, and a soft plum
+shadow beneath for thickness. The entrance wipe, the pointer lift and the phone still are unchanged.

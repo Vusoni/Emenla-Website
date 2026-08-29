@@ -218,19 +218,26 @@ ul, ol { padding: 0; list-style: none; }
 }
 /* One hue, plum: deep to soft and back, travelling left to right on a seamless loop:
    the gradient repeats every two text widths, so the sweep never jumps */
+/* Liquid glass: the letters are translucent plum with a white rim, a highlight along the top of
+   every glyph, and a bright band of light that travels through them once every eight seconds.
+   The wall shows through the body of the letters; the shadows below give the glass its thickness. */
 .hook.voice {
-  background-image: linear-gradient(90deg, #4a2352 0%, #7d4a86 25%, #35183d 50%, #7d4a86 75%, #4a2352 100%);
-  background-size: 400% 100%;
-  background-position: 66.667% 50%;
+  --glass-top: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.06) 46%, rgba(255, 255, 255, 0.2) 100%);
+  --glass-sweep: linear-gradient(90deg, rgba(74, 35, 82, 0.82) 0%, rgba(74, 35, 82, 0.82) 17%, rgba(190, 160, 200, 0.92) 23%, rgba(255, 255, 255, 0.9) 25.5%, rgba(190, 160, 200, 0.92) 28%, rgba(74, 35, 82, 0.82) 34%, rgba(74, 35, 82, 0.82) 100%);
+  background-image: var(--glass-top), var(--glass-sweep);
+  background-size: 100% 100%, 400% 100%;
+  background-position: 0 0, 66.667% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 12px 26px rgba(74, 35, 82, 0.18));
   animation: voiceSweep 8s linear infinite;
 }
 @keyframes voiceSweep {
-  from { background-position: 66.667% 50%; }
-  to { background-position: 0% 50%; }
+  from { background-position: 0 0, 66.667% 50%; }
+  to { background-position: 0 0, -66.667% 50%; }
 }
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
@@ -615,15 +622,17 @@ ul, ol { padding: 0; list-style: none; }
 @property --bt { syntax: '<number>'; inherits: true; initial-value: 0; }
 .hook.voice.is-split {
   background-image: none;
+  -webkit-text-stroke: 0;
   animation: hookSweep 8s linear infinite;
 }
 @keyframes hookSweep { from { --bt: 0; } to { --bt: 1; } }
 .hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
 .hook.voice.is-split .hk {
   display: inline-block;
-  background-image: linear-gradient(90deg, #4a2352 0%, #7d4a86 25%, #35183d 50%, #7d4a86 75%, #4a2352 100%);
-  background-size: calc(var(--hw, 600px) * 4) 100%;
-  background-position: calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
+  background-image: var(--glass-top), var(--glass-sweep);
+  background-size: 100% 100%, calc(var(--hw, 600px) * 4) 100%;
+  background-position: 0 0, calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
