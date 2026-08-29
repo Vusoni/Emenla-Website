@@ -344,102 +344,128 @@
   }
   if (reduced()) pinRail(); else armRail();
 
-  /* ---------- A short history: the wave slides left as the visitor scrolls down ---------- */
+  /* ---------- A short history: the measured record slides left as the visitor scrolls down ---------- */
   var hs = document.querySelector('[data-hscroll]');
   var hsStack = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var hsNodes = [], hsCards = [], hsTrack = null, hsBase = null, hsDraw = null, hsStage = null;
-  var hsSpacing = 440, hsPad = 0, hsTrackW = 0, hsX = -1, hsDrawn = -1, hsRange = 1;
-  var hsRead = 0.42, hsCardW = 300;
-  var hsNodeXY = [], hsCum = [], hsTotalLen = 1;
-  /* A drawn line, not a formula: nodes sit near the middle with a little wobble, and every gap between
-     two nodes carries one bump up and one bump down of uneven height, like the reference. */
-  var WOBBLE = [0.02, -0.03, 0.01, -0.02, 0.03, -0.01, 0.02, -0.02];
-  var UP = [0.20, 0.15, 0.22, 0.16, 0.19, 0.14, 0.21];
-  var DOWN = [0.16, 0.21, 0.14, 0.20, 0.15, 0.22, 0.17];
-  var hsListening = false;
-  function splinePath(pts) {
-    if (pts.length < 2) return '';
-    var d = 'M ' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
-    for (var i = 0; i < pts.length - 1; i++) {
-      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
-      var c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
-      var c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
-      d += ' C ' + c1x.toFixed(1) + ' ' + c1y.toFixed(1) + ', ' + c2x.toFixed(1) + ' ' + c2y.toFixed(1) + ', ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+  var hsNodes = [], hsCards = [], hsLabels = [], hsSince = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
+  var hsTrack = null, hsBase = null, hsDraw = null, hsStage = null, hsHead = null, hsYearEl = null, hsNowEl = null, hsHint = null, hsTickBox = null, hsPen = null;
+  var hsX0 = 0, hsX1 = 1, hsK = 1, hsU0 = 1, hsRuleY = 0, hsCardW = 300, hsTrackW = 0, hsRange = 1;
+  var hsX = -1, hsLitTicks = 0, hsNow = -1, hsYear = '', hsLine = '', hsHintGone = false, hsPenNear = false, hsListening = false;
+  /* One scale for the whole rule: distance from today, square-rooted, so recent decades are wide and distant ones
+     tight, the way time looks when you look back. "Today" sits two years past 2026 so it has a place of its own;
+     the readout itself never passes 2026. */
+  var HS_TODAY = 2028;
+  function hsU(y) { return Math.sqrt(Math.max(0, HS_TODAY - y)); }
+  function yearToX(y) { return hsX0 + hsK * (hsU0 - hsU(y)); }
+  function xToYear(x) { var u = hsU0 - (x - hsX0) / hsK; return HS_TODAY - u * u; }
+  function hsBuild() {
+    /* Decade ticks from 1700 to 2020; every fiftieth year is taller and carries its label */
+    for (var y = 1700; y <= 2020; y += 10) {
+      var t = document.createElement('span');
+      t.className = 'hs-tick' + (y % 50 === 0 ? ' hs-tick--50' : '');
+      if (y % 50 === 0) { var l = document.createElement('i'); l.className = 'hs-tick__label'; l.textContent = String(y); t.appendChild(l); }
+      hsTickBox.appendChild(t);
+      hsTicks.push({ year: y, el: t, x: 0 });
     }
-    return d;
+  }
+  function hsTallest() { var h = 0; hsCards.forEach(function (c) { h = Math.max(h, c.offsetHeight); }); return h; }
+  /* The card band starts under the navigation bar, the rule sits under the tallest card, and the big year sits at
+     the bottom of the frame. Room is what is left between the two. */
+  function hsFit(bandTop, stem) {
+    return { need: bandTop + hsTallest() + stem, room: (hsHead ? hsHead.offsetTop : 1e9) - 58 };
   }
   function hsLayout() {
     if (!hs) return;
     if (hsStack.matches) {
       hs.style.height = '';
+      hs.classList.remove('hscroll--compact');
+      hs.classList.remove('hscroll--tight');
+      hs.classList.remove('hscroll--pin');
       hsTrack.style.transform = '';
-      hsNodes.forEach(function (n, i) { n.style.left = ''; n.style.top = ''; n.classList.add('lit'); if (hsCards[i]) hsCards[i].classList.add('lit'); });
+      hsTrack.style.width = '';
+      hsTrack.style.removeProperty('--read-x');
+      hsTrack.style.removeProperty('--tx');
+      hsNodes.forEach(function (nd, i) {
+        nd.style.left = ''; nd.style.top = ''; nd.classList.add('lit'); nd.classList.remove('now');
+        if (hsCards[i]) { hsCards[i].classList.add('lit'); hsCards[i].classList.remove('now'); hsCards[i].style.left = ''; hsCards[i].style.width = ''; }
+      });
       hsDraw.style.setProperty('--draw', '1');
       return;
     }
-    var vw = window.innerWidth, vh = window.innerHeight;
-    /* Phones read at the centre with one card in view; desktops read at 42 percent with the next card ghosted beside it */
+    var vw = window.innerWidth, vh = window.innerHeight, n = hsNodes.length, i;
+    /* Phones read at the centre with the card pinned over the reading point; desktops read at 42 percent with the
+       next card ghosted beside it */
     var phone = vw <= 720;
-    hsCardW = phone ? Math.min(300, vw - 64) : 300;
-    hsSpacing = phone ? hsCardW + 44 : Math.max(380, Math.min(480, vw * 0.3));
-    hsRead = phone ? 0.5 : 0.42;
-    hsPad = vw * hsRead;
-    var mid = vh * (phone ? 0.55 : 0.52), scale = phone ? 0.7 : 1, n = hsNodes.length;
-    var pts = [];
-    hsNodeXY = [];
-    for (var i = 0; i < n; i++) {
-      var nx = hsPad + i * hsSpacing, ny = mid + vh * WOBBLE[i % WOBBLE.length];
-      hsNodeXY.push({ x: nx, y: ny });
-      pts.push({ x: nx, y: ny });
-      if (i < n - 1) {
-        pts.push({ x: nx + hsSpacing * 0.38, y: mid - vh * UP[i % UP.length] * scale });
-        pts.push({ x: nx + hsSpacing * 0.68, y: mid + vh * DOWN[i % DOWN.length] * scale });
-      }
-    }
-    /* The scene ends with the last card; the line starts at the first node and stops at the last */
+    hsCardW = phone ? vw - 64 : Math.max(300, Math.min(340, Math.round(vw * 0.22)));
+    var pad = vw * (phone ? 0.5 : 0.42);
+    var stem = phone ? 44 : 56;
+    var bandTop = phone ? 92 : 100;
+    /* On phones the card stays pinned over the reading point and the rule slides beneath it like a tape; the
+       card counter-translates by the track's own offset (--tx) and the next one crossfades in as its node passes */
+    hs.classList.toggle('hscroll--pin', phone);
+    if (!phone) hsTrack.style.removeProperty('--tx');
+    hsCards.forEach(function (c) { c.style.width = hsCardW + 'px'; });
+    /* The tightest gap must still hold a card (only a year label on phones), and the whole record should run
+       about 3.3 screens wide, 4 on phones */
+    hsU0 = hsU(hsYears[0]);
+    var gapMin = phone ? 120 : hsCardW + 48, minDu = Infinity;
+    for (i = 0; i < n - 1; i++) minDu = Math.min(minDu, hsU(hsYears[i]) - hsU(hsYears[i + 1]));
+    hsX0 = pad;
+    hsK = Math.max(gapMin / minDu, (phone ? 4 : 3.3) * vw / hsU0);
+    hsNodeX = hsYears.map(yearToX);
+    hsX1 = hsNodeX[n - 1];
+    /* The scene ends with the last card; the rule starts at the first node and stops at the last */
     var tail = phone ? (vw - hsCardW) / 2 : vw * 0.12;
-    hsTrackW = hsNodeXY[n - 1].x + hsCardW / 2 + tail;
+    hsTrackW = hsX1 + hsCardW / 2 + tail;
     hsTrack.style.width = hsTrackW + 'px';
     var svg = hsTrack.querySelector('svg');
-    svg.setAttribute('viewBox', '0 0 ' + hsTrackW + ' ' + vh);
+    svg.setAttribute('width', String(Math.ceil(hsTrackW)));
     svg.style.width = hsTrackW + 'px';
-    var d = splinePath(pts);
+    hs.classList.remove('hscroll--compact');
+    hs.classList.remove('hscroll--tight');
+    var fit = hsFit(bandTop, stem);
+    if (fit.need > fit.room) { hs.classList.add('hscroll--compact'); fit = hsFit(bandTop, stem); }
+    if (fit.need > fit.room) { hs.classList.add('hscroll--tight'); fit = hsFit(bandTop, stem); }
+    var ruleY = Math.round(fit.room >= fit.need ? fit.need + (fit.room - fit.need) * 0.5 : fit.need);
+    hsRuleY = ruleY;
+    hs.style.setProperty('--rule-y', ruleY + 'px');
+    hs.style.setProperty('--stem', stem + 'px');
+    var d = 'M ' + hsX0.toFixed(1) + ' ' + ruleY + ' L ' + hsX1.toFixed(1) + ' ' + ruleY;
     hsBase.setAttribute('d', d);
     hsDraw.setAttribute('d', d);
-    /* Cumulative path length at each node, so the black line reaches exactly the node being read */
-    hsTotalLen = hsBase.getTotalLength();
-    hsCum = [];
-    var samples = 480, si = 0;
-    for (var k = 0; k < n; k++) {
-      var len = null;
-      if (k === 0) len = 0;
-      else if (k === n - 1) len = hsTotalLen;
-      else {
-        while (si <= samples) {
-          var L = hsTotalLen * si / samples;
-          if (hsBase.getPointAtLength(L).x >= hsNodeXY[k].x - 0.5) { len = L; break; }
-          si++;
-        }
-        if (len === null) len = hsTotalLen;
-      }
-      hsCum.push(len);
-    }
-    hsNodes.forEach(function (nd, i) {
-      var x = hsNodeXY[i].x, y = hsNodeXY[i].y;
-      nd.style.left = x + 'px';
-      nd.style.top = y + 'px';
-      var c = hsCards[i];
-      if (!c) return;
-      c.style.width = hsCardW + 'px';
-      c.style.left = (x - hsCardW / 2) + 'px';
-      c.style.top = y + 'px';
-      c.classList.toggle('above', i % 2 === 0);
-      c.classList.toggle('below', i % 2 === 1);
+    hsNodes.forEach(function (nd, j) {
+      nd.style.left = hsNodeX[j].toFixed(1) + 'px';
+      nd.style.top = ruleY + 'px';
+      if (hsCards[j]) hsCards[j].style.left = ((phone ? pad : hsNodeX[j]) - hsCardW / 2).toFixed(1) + 'px';
+    });
+    hsTicks.forEach(function (t) {
+      t.x = yearToX(t.year); t.el.style.left = t.x.toFixed(1) + 'px'; t.el.classList.remove('lit');
+      /* A fifty-year label steps aside when a milestone's own year sits within reach of it */
+      var lab = t.el.firstChild;
+      if (lab) lab.classList.toggle('is-hidden', hsNodeX.some(function (nx) { return Math.abs(nx - t.x) < 44; }));
+    });
+    hsGaps.forEach(function (g) {
+      var gi = parseInt(g.getAttribute('data-gap'), 10);
+      if (hsNodeX[gi + 1] !== undefined) g.style.left = ((hsNodeX[gi] + hsNodeX[gi + 1]) / 2).toFixed(1) + 'px';
     });
     hsRange = hsTrackW - vw;
     hs.style.height = (hsRange + vh) + 'px';
-    hsX = -1; hsDrawn = -1;
+    hsX = -1; hsLitTicks = 0; hsNow = -1; hsYear = ''; hsLine = '';
     updateHistory();
+  }
+  function hsSetYear(yr) {
+    if (!hsYearEl) return;
+    if (/^\d{4}$/.test(yr)) {
+      hsYearEl.classList.remove('is-word');
+      if (hsYearEl.children.length !== 4) {
+        hsYearEl.textContent = '';
+        for (var j = 0; j < 4; j++) hsYearEl.appendChild(document.createElement('span'));
+      }
+      for (var i = 0; i < 4; i++) { var s = hsYearEl.children[i]; if (s.textContent !== yr.charAt(i)) s.textContent = yr.charAt(i); }
+    } else {
+      hsYearEl.classList.add('is-word');
+      hsYearEl.textContent = yr;
+    }
   }
   function updateHistory() {
     if (!hs || hsStack.matches) return;
@@ -450,24 +476,46 @@
     var span = Math.max(1, hs.offsetHeight - hsStage.offsetHeight);
     var p = Math.min(1, Math.max(0, travelled / span));
     var x = Math.round(p * hsRange);
-    if (x !== hsX) {
-      hsX = x;
-      hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
-      /* The reading point travels from the first node to the last as progress runs 0 to 1 */
-      var n = hsNodes.length;
-      var pos = p * (n - 1), lo = Math.floor(pos), hi = Math.min(n - 1, lo + 1), f = pos - lo;
-      var len = hsCum.length ? hsCum[lo] + (hsCum[hi] - hsCum[lo]) * f : 0;
-      var drawn = p >= 0.995 ? 1 : Math.min(1, Math.max(0, len / hsTotalLen));
-      if (Math.abs(drawn - hsDrawn) > 0.004 || drawn === 1 || drawn === 0) {
-        hsDrawn = drawn;
-        hsDraw.style.setProperty('--draw', drawn.toFixed(4));
+    if (x === hsX) return;
+    hsX = x;
+    hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
+    if (hs.classList.contains('hscroll--pin')) hsTrack.style.setProperty('--tx', String(x));
+    /* The reading point travels from the first node to the last as progress runs 0 to 1; the rule is
+       straight, so the inked share is simply that distance */
+    var readX = hsX0 + p * (hsX1 - hsX0);
+    hsTrack.style.setProperty('--read-x', readX.toFixed(1));
+    hsDraw.style.setProperty('--draw', (p >= 0.995 ? 1 : (readX - hsX0) / (hsX1 - hsX0)).toFixed(4));
+    var n = hsNodes.length, now = -1, near = false, i;
+    for (i = 0; i < n; i++) {
+      var lit = hsNodeX[i] <= readX + 8;
+      if (lit) now = i;
+      if (Math.abs(hsNodeX[i] - readX) < 14) near = true;
+      if (hsNodes[i].classList.contains('lit') !== lit) {
+        hsNodes[i].classList.toggle('lit', lit);
+        if (hsCards[i]) hsCards[i].classList.toggle('lit', lit);
+        if (hsGapMap[i]) hsGapMap[i].classList.toggle('lit', lit);
       }
-      var readX = hsPad + pos * hsSpacing;
-      hsNodes.forEach(function (nd, i) {
-        var lit = hsPad + i * hsSpacing <= readX + 8;
-        if (nd.classList.contains('lit') !== lit) { nd.classList.toggle('lit', lit); if (hsCards[i]) hsCards[i].classList.toggle('lit', lit); }
-      });
     }
+    if (now !== hsNow) {
+      if (hsNow >= 0) { hsNodes[hsNow].classList.remove('now'); if (hsCards[hsNow]) hsCards[hsNow].classList.remove('now'); }
+      if (now >= 0) { hsNodes[now].classList.add('now'); if (hsCards[now]) hsCards[now].classList.add('now'); }
+      hsNow = now;
+    }
+    /* The pen hides under a node so it never reads as a ninth milestone */
+    if (near !== hsPenNear) { hsPenNear = near; if (hsPen) hsPen.classList.toggle('is-near', near); }
+    /* Ticks ink in one at a time as the reading point passes them, and un-ink on the way back */
+    while (hsLitTicks < hsTicks.length && hsTicks[hsLitTicks].x <= readX) { hsTicks[hsLitTicks].el.classList.add('lit'); hsLitTicks++; }
+    while (hsLitTicks > 0 && hsTicks[hsLitTicks - 1].x > readX) { hsLitTicks--; hsTicks[hsLitTicks].el.classList.remove('lit'); }
+    /* The big year: whole years only, never past 2026, and "Today" once the last node is reached. The line above
+       it is the milestone's label while the ink is on it, otherwise how long it has been since */
+    var yearNum = Math.min(2026, Math.floor(xToYear(readX)));
+    var yr = now === n - 1 ? 'Today' : String(yearNum);
+    if (yr !== hsYear) { hsYear = yr; hsSetYear(yr); }
+    var since = now >= 0 ? yearNum - hsYears[now] : 0;
+    var line = (now < 0 || now === n - 1 || since < 1) ? (hsLabels[now] || '') : since + (since === 1 ? ' year after ' : ' years after ') + hsSince[now];
+    if (line !== hsLine) { hsLine = line; if (hsNowEl) hsNowEl.textContent = line; }
+    var gone = p > 0.08;
+    if (gone !== hsHintGone) { hsHintGone = gone; if (hsHint) hsHint.classList.toggle('is-gone', gone); }
   }
   function armHistory() {
     if (!hs) return;
@@ -480,8 +528,20 @@
     hsBase = hs.querySelector('.hscroll__base');
     hsDraw = hs.querySelector('.hscroll__draw');
     hsStage = hs.querySelector('.hscroll__stage');
+    hsHead = hs.querySelector('.hs-head');
+    hsYearEl = hs.querySelector('.hs-year');
+    hsNowEl = hs.querySelector('.hs-now');
+    hsHint = hs.querySelector('.hscroll__hint');
+    hsTickBox = hs.querySelector('.hs-ticks');
+    hsPen = hs.querySelector('.hs-pen');
     hsNodes = Array.prototype.slice.call(hs.querySelectorAll('.hnode'));
     hsCards = Array.prototype.slice.call(hs.querySelectorAll('.hcard'));
+    hsGaps = Array.prototype.slice.call(hs.querySelectorAll('.hs-gap'));
+    hsGaps.forEach(function (g) { hsGapMap[parseInt(g.getAttribute('data-gap'), 10)] = g; });
+    hsYears = hsNodes.map(function (nd) { var y = nd.getAttribute('data-year'); return y === 'today' ? HS_TODAY : parseInt(y, 10); });
+    hsSince = hsNodes.map(function (nd) { return nd.getAttribute('data-since') || ''; });
+    hsLabels = hsCards.map(function (c) { var l = c.querySelector('.label'); return l ? l.textContent : ''; });
+    if (hsTickBox) hsBuild();
     armHistory();
     window.addEventListener('resize', armHistory);
     if (hsStack.addEventListener) hsStack.addEventListener('change', armHistory);

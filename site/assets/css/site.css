@@ -218,26 +218,45 @@ ul, ol { padding: 0; list-style: none; }
 }
 /* One hue, plum: deep to soft and back, travelling left to right on a seamless loop:
    the gradient repeats every two text widths, so the sweep never jumps */
-/* Liquid glass, neutral: the letters are almost clear, so the wall reads through them; a dark edge, a
-   white highlight along the top of every glyph, a band of light travelling through them, and a soft
-   shadow beneath give the glass its shape. No colour: white and black only. */
+/* The headline: white, lit. Solid white letters with a real shadow (which is what keeps white readable
+   on a pale wall); the shadow and the letters lean a little away from the pointer, as if it were the
+   light; and a faint warm light passes through the letters every eight seconds on an overlay copy, so
+   the shadow never touches a gradient. Nothing sits on or around the text. */
 .hook.voice {
-  --glass-top: linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.14) 46%, rgba(255, 255, 255, 0.36) 100%);
-  --glass-sweep: linear-gradient(90deg, rgba(5, 6, 11, 0.12) 0%, rgba(5, 6, 11, 0.12) 17%, rgba(255, 255, 255, 0.4) 23%, rgba(255, 255, 255, 0.7) 25.5%, rgba(255, 255, 255, 0.4) 28%, rgba(5, 6, 11, 0.12) 34%, rgba(5, 6, 11, 0.12) 100%);
-  background-image: var(--glass-top), var(--glass-sweep);
-  background-size: 100% 100%, 400% 100%;
-  background-position: 0 0, 66.667% 50%;
-  -webkit-background-clip: text;
-  background-clip: text;
+  --sx: 0px;
+  --sy: 2px;
+  --px: 0px;
+  --py: 0px;
+  position: relative;
+  background: none;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 1px 1px rgba(5, 6, 11, 0.42), var(--sx) var(--sy) 4px rgba(5, 6, 11, 0.36), 0 18px 38px rgba(5, 6, 11, 0.3);
+  translate: var(--px) var(--py);
+  transition: translate 600ms var(--ease-out);
+}
+.hook.voice::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  padding: inherit; /* the same box as the letters, so the light lands exactly on them */
+  margin: 0;
+  box-sizing: border-box;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.5px rgba(5, 6, 11, 0.78);
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) drop-shadow(0 8px 18px rgba(5, 6, 11, 0.12));
+  text-shadow: none;
+  background-image: linear-gradient(90deg, rgba(240, 235, 228, 0) 0%, rgba(240, 235, 228, 0) 18%, rgba(236, 229, 220, 0.95) 25%, rgba(240, 235, 228, 0) 32%, rgba(240, 235, 228, 0) 100%);
+  background-size: 400% 100%;
+  background-position: 66.667% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
   animation: voiceSweep 8s linear infinite;
+  pointer-events: none;
 }
+.hook-soft::after { content: none; }
 @keyframes voiceSweep {
-  from { background-position: 0 0, 66.667% 50%; }
-  to { background-position: 0 0, -66.667% 50%; }
+  from { background-position: 66.667% 50%; }
+  to { background-position: -66.667% 50%; }
 }
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
@@ -564,7 +583,7 @@ ul, ol { padding: 0; list-style: none; }
   bottom: 14vh;
   width: min(46vw, 620px);
   text-align: left;
-  --wash: 0.45;
+  --wash: 0;
 }
 .band--2 {
   left: max(var(--gutter), 7vw);
@@ -600,93 +619,6 @@ ul, ol { padding: 0; list-style: none; }
     0 0 calc(var(--h, 0) * 14px) rgba(91, 72, 214, calc(var(--h, 0) * 0.4));
 }
 .band .split .w:has(.c) { translate: none; color: inherit; }
-
-/* The headline, split into letters so it can answer the pointer too. Each letter carries the whole
-   gradient, sized to the headline and shifted by the letter's own x, so the colour stays continuous
-   across the words; --bt sweeps a full period, so the loop is seamless. */
-@property --bt { syntax: '<number>'; inherits: true; initial-value: 0; }
-.hook.voice.is-split {
-  background-image: none;
-  -webkit-text-stroke: 0;
-  filter: none;
-  animation: hookSweep 8s linear infinite;
-}
-.hook.voice.is-split .split { filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) drop-shadow(0 8px 18px rgba(5, 6, 11, 0.12)); }
-@keyframes hookSweep { from { --bt: 0; } to { --bt: 1; } }
-.hook.voice.is-split .hw { display: inline-block; white-space: nowrap; }
-.hook.voice.is-split .hk {
-  display: inline-block;
-  background-image: var(--glass-top), var(--glass-sweep);
-  background-size: 100% 100%, calc(var(--hw, 600px) * 4) 100%;
-  background-position: 0 0, calc((var(--bt, 0) - 1) * var(--hw, 600px) * 4 - var(--ox, 0px)) 0;
-  -webkit-text-stroke: 1.5px rgba(5, 6, 11, 0.78);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  padding: 0.2em 0.12em 0.26em 0.06em; /* the italic's overhangs and descenders paint inside this box */
-  margin: -0.2em -0.12em -0.26em -0.06em;
-}
-
-/* ---------- The lens: liquid glass over the headline ----------
-   A capsule of glass follows the pointer across the headline. Inside it lives a second copy of the
-   headline, aligned to the first, magnified a little and run through a slow turbulence so the letters
-   ripple as the lens moves; a blurred third copy fills in the rim. Fine pointers only. */
-.lens {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--lw, 300px);
-  height: var(--lh, 150px);
-  z-index: 4;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(-9999px, -9999px, 0);
-  transition: opacity 240ms var(--ease-soft);
-  will-change: transform;
-}
-.lens.is-on { opacity: 1; }
-.lens__inner {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.3);
-  -webkit-backdrop-filter: blur(9px) saturate(1.15);
-  backdrop-filter: blur(9px) saturate(1.15);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(5, 6, 11, 0.06),
-    inset 4px 0 10px rgba(255, 255, 255, 0.6),
-    inset -4px 0 10px rgba(255, 255, 255, 0.6),
-    0 16px 36px rgba(74, 35, 82, 0.16),
-    0 2px 6px rgba(5, 6, 11, 0.05);
-}
-.lens__layer { position: absolute; inset: 0; }
-.lens__layer--blur {
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 50%, #000 92%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 50%, #000 92%);
-}
-.lens__copy {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin: 0;
-  transform-origin: 0 0;
-  will-change: transform;
-}
-.band--1 .lens__copy { -webkit-mask-image: none; mask-image: none; margin: 0; }
-.lens__layer--sharp .hook.voice.lens__copy { filter: url(#liquid); }
-.lens__layer--blur .hook.voice.lens__copy { filter: url(#liquid) blur(3px); }
-.lens::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0) 68%, rgba(255, 255, 255, 0.3) 100%);
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: reduce) { .lens { display: none; } }
 
 /* Split text: .w words hold .c characters, each with --th */
 .split { display: inline-block; }
@@ -1562,8 +1494,8 @@ ul, ol { padding: 0; list-style: none; }
   .device { width: min(100%, 240px); }
 }
 
-/* ---------- A short history: the pinned horizontal wave ---------- */
-.hscroll { position: relative; margin-top: 24px; }
+/* ---------- A short history: the measured record, a ruled track honest to the years ---------- */
+.hscroll { position: relative; margin-top: 24px; --stem: 56px; --rule-y: 70vh; }
 .hscroll__stage {
   position: sticky;
   top: 0;
@@ -1571,12 +1503,26 @@ ul, ol { padding: 0; list-style: none; }
   height: 100svh;
   overflow: hidden;
 }
+/* The year being read, fixed at the bottom left of the viewport under the rule, while the record slides above it */
+.hs-head { position: absolute; left: var(--gutter); bottom: 104px; z-index: 2; pointer-events: none; }
+.hs-year {
+  font-size: clamp(88px, 12vw, 172px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+/* Instrument Serif has no tabular figures, so every digit sits in its own cell and the year does not jitter as it rolls */
+.hs-year span { display: inline-block; width: 0.5em; text-align: center; }
+.hs-now { margin-bottom: 12px; color: var(--ash); max-width: 60vw; }
 .hscroll__hint {
   position: absolute;
-  left: var(--gutter);
-  bottom: 28px;
+  right: var(--gutter);
+  top: calc(var(--gutter) + 64px);
   z-index: 2;
+  transition: opacity 500ms var(--ease-soft);
 }
+.hscroll__hint.is-gone { opacity: 0; }
 .hscroll__track {
   position: absolute;
   left: 0;
@@ -1584,115 +1530,197 @@ ul, ol { padding: 0; list-style: none; }
   height: 100%;
   will-change: transform;
 }
+/* The rule: a hairline the whole way, inked as far as the reading point */
 .hscroll__svg { position: absolute; left: 0; top: 0; height: 100%; overflow: visible; }
-.hscroll__svg path { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.hscroll__svg path { fill: none; stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .hscroll__base { stroke: var(--clay); }
 .hscroll__draw {
   stroke: var(--ink);
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--draw, 0));
 }
+/* Decade ticks; every fiftieth year is taller and labelled. They ink in one at a time as the reading point passes */
+.hs-ticks { position: absolute; left: 0; top: var(--rule-y); height: 0; }
+.hs-tick { position: absolute; top: 0; width: 1px; height: 8px; margin-left: -0.5px; background: var(--clay); transition: background-color 300ms var(--ease-out); }
+.hs-tick--50 { height: 16px; }
+.hs-tick.lit { background: var(--ink); }
+.hs-tick__label {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--clay);
+  white-space: nowrap;
+  transition: color 300ms var(--ease-out);
+}
+.hs-tick.lit .hs-tick__label { color: var(--ash); }
+.hs-tick__label.is-hidden { display: none; }
+/* The pen: the ink front travelling along the rule */
+.hs-pen {
+  position: absolute;
+  top: var(--rule-y);
+  left: calc(var(--read-x, 0) * 1px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: opacity 200ms var(--ease-out);
+}
+/* Under a node the pen hides, so it never reads as a ninth milestone */
+.hs-pen.is-near { opacity: 0; }
+/* What the empty stretches say */
+.hs-gap {
+  position: absolute;
+  top: calc(var(--rule-y) - 52px);
+  transform: translateX(-50%);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--stone);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+.hs-gap.lit { opacity: 1; }
+/* Nodes: a hollow ring ahead, a filled dot behind, and one larger dot where the reader is */
 .hnode {
   position: absolute;
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  width: 12px;
+  height: 12px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid var(--clay);
-  background: var(--panel);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--ash);
-  transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out), border-color 400ms var(--ease-out);
+  border: 1.5px solid var(--clay);
+  background: var(--canvas);
+  transition: background-color 400ms var(--ease-out), border-color 400ms var(--ease-out), width 300ms var(--ease-out), height 300ms var(--ease-out);
 }
-.hnode::after { content: ''; position: absolute; inset: -9px; border-radius: 50%; border: 1px solid var(--haze); }
-.hnode.lit { background: var(--ink); color: #fff; border-color: var(--ink); }
-.hcard {
-  position: absolute;
-  width: 300px;
-  opacity: 0.22;
-  transition: opacity 600ms var(--ease-out);
-}
-.hcard.above { transform: translateY(calc(-100% - 48px)); }
-.hcard.below { transform: translateY(64px); }
-.hcard.lit { opacity: 1; }
-/* A lit card rises 8px off its stem */
-.hcard.above.lit { transform: translateY(calc(-100% - 56px)); }
-.hcard.below.lit { transform: translateY(56px); }
-.hcard__img--blank { background: #ffffff; border: 1px solid var(--haze); }
-/* One soft ring leaves the node when it lights */
+.hnode.lit { background: var(--ink); border-color: var(--ink); }
+.hnode.now { width: 18px; height: 18px; }
 .hnode::before {
   content: '';
   position: absolute;
-  inset: -9px;
+  inset: -6px;
   border-radius: 50%;
   border: 1px solid var(--ink);
   opacity: 0;
   pointer-events: none;
 }
-.hnode.lit::before { animation: nodePulse 700ms var(--ease-out) forwards; }
+.hnode.now::before { animation: nodePulse 700ms var(--ease-out) forwards; }
 @keyframes nodePulse {
   from { transform: scale(1); opacity: 0.45; }
-  to { transform: scale(1.7); opacity: 0; }
+  to { transform: scale(1.9); opacity: 0; }
 }
-/* The short stem between each card and its node, as on the reference */
+.hnode__year {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: 22px;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--clay);
+  white-space: nowrap;
+  transition: color 300ms var(--ease-out);
+}
+.hnode.lit .hnode__year { color: var(--ink); }
+/* Cards hang from a band above the rule, bottom-aligned, so the line can never enter one */
+.hcard {
+  position: absolute;
+  width: 280px;
+  bottom: calc(100% - var(--rule-y) + var(--stem));
+  opacity: 0.24;
+  transition: opacity 600ms var(--ease-out);
+}
+.hcard.lit { opacity: 1; }
 .hcard::after {
   content: '';
   position: absolute;
   left: 50%;
+  top: 100%;
   width: 1px;
-  height: 36px;
+  height: calc(var(--stem) - 9px);
   background: var(--clay);
+  transition: background-color 400ms var(--ease-out);
 }
-.hcard.above::after { top: 100%; }
-.hcard.below::after { bottom: 100%; }
 .hcard.lit::after { background: var(--ink); }
-.hcard .card { padding: 18px 20px 20px; box-shadow: var(--shadow-xl); display: flex; flex-direction: column; gap: 10px; }
+.hcard .card {
+  padding: 18px 20px 20px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+.hcard.now .card { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
 .hcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; white-space: nowrap; }
 .hcard__row .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }
-.hcard__year { font-size: 34px; line-height: 1; color: var(--voice); }
-/* The photo fades from sepia in 1690 to full colour today: --age runs 1 to 0 along the line */
+.hcard__year { font-size: 30px; line-height: 1; color: var(--ink); }
+.hcard__media { display: block; width: 100%; aspect-ratio: 2 / 1; border-radius: 14px; overflow: hidden; }
+/* The photo fades from sepia in 1690 to full colour today: --age runs 1 to 0 along the rule */
 .hcard__img {
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   object-fit: cover;
-  border-radius: 14px;
   filter: sepia(calc(var(--age, 0) * 0.75)) grayscale(calc(var(--age, 0) * 0.7)) contrast(0.96) brightness(1.02);
 }
+/* A figure where no honest picture exists yet: a ledger line between two hairlines, not a stand-in for a photograph */
+.hcard__fig { aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 0 18px; text-align: center; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
+.hcard__fig-n { font-size: 30px; line-height: 1; color: var(--ink); }
+.hcard__fig-c { font-size: 10px; letter-spacing: 0.14em; color: var(--ash); }
 .hcard__title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
-.hcard__body { color: var(--stone); font-size: 14px; line-height: 1.5; }
+.hcard__body { color: var(--stone); font-size: 15px; line-height: 1.5; }
 .hscroll__sources { margin-top: 28px; text-align: center; }
 .hscroll__sources a { color: var(--stone); }
-@media (max-width: 720px) {
-  .hscroll__hint { bottom: 18px; font-size: 11px; }
-  .hcard.above { transform: translateY(calc(-100% - 38px)); }
-  .hcard.below { transform: translateY(50px); }
-  .hcard.above.lit { transform: translateY(calc(-100% - 44px)); }
-  .hcard.below.lit { transform: translateY(44px); }
-  .hcard .card { padding: 16px 18px 18px; }
-  .hcard__year { font-size: 30px; }
-  .hcard__img { aspect-ratio: 2 / 1; }
-  .hcard__body { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-  .hcard .card { gap: 8px; }
+@media (min-height: 1000px) and (min-width: 721px) {
+  .hcard__media { aspect-ratio: 16 / 10; }
 }
 @media (max-height: 960px) and (min-width: 721px) {
-  .hcard__img { aspect-ratio: 2 / 1; }
-  .hcard__body { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .hcard__body { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
   .hcard .card { gap: 8px; }
+}
+/* Set by the script when the year, the tallest card and the rule cannot all fit the height */
+.hscroll--compact .hs-year { font-size: clamp(64px, 8vw, 112px); }
+.hscroll--compact .hcard__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.hscroll--compact .hcard .card { gap: 8px; }
+/* The second step down, for very short windows: a small year close to the edge and a shallower picture */
+.hscroll--tight .hs-year { font-size: 56px; }
+.hscroll--tight .hs-head { bottom: 100px; }
+.hscroll--tight .hs-now { margin-bottom: 6px; }
+.hscroll--tight .hcard__media { aspect-ratio: 5 / 2; }
+@media (max-width: 720px) {
+  .hs-head { bottom: 96px; }
+  .hs-year { font-size: clamp(52px, 15vw, 64px); }
+  .hs-now { margin-bottom: 8px; max-width: calc(100vw - 2 * var(--gutter)); }
+  .hscroll__hint, .hs-tick__label { display: none; }
+  .hs-gap { font-size: 20px; top: calc(var(--rule-y) - 36px); }
+  .hs-gap:not([data-gap="0"]) { display: none; }
+  .hcard .card { padding: 16px 18px 18px; gap: 8px; }
+  .hcard__year { font-size: 26px; }
+  .hcard__fig-n { font-size: 26px; }
+  .hcard__body { font-size: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  /* The card stays over the reading point while the rule slides beneath it; only the one being read is shown */
+  .hscroll--pin .hcard { transform: translateX(calc(var(--tx, 0) * 1px)); opacity: 0; transition: opacity 420ms var(--ease-out); }
+  .hscroll--pin .hcard.now { opacity: 1; }
 }
 /* Stacked under reduced motion only, character for character the same query as in site.js */
 @media (prefers-reduced-motion: reduce) {
   .hscroll__stage { position: relative; height: auto; overflow: visible; padding-left: 56px; }
   .hscroll__stage::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: var(--clay); }
-  .hscroll__hint, .hscroll__svg { display: none; }
+  .hscroll__hint, .hscroll__svg, .hs-head, .hs-ticks, .hs-pen, .hs-gap, .hnode__year { display: none; }
   .hscroll__track { position: relative; height: auto; transform: none !important; width: auto !important; }
-  .hnode { position: absolute; left: -36px !important; top: auto !important; transform: translate(-50%, 0); }
-  .hcard { position: relative; width: 100%; opacity: 1; transform: none !important; margin-bottom: 28px; left: auto !important; top: auto !important; }
+  .hnode { position: absolute; left: -36px !important; top: auto !important; transform: translate(-50%, 0); width: 12px; height: 12px; }
+  .hcard { position: relative; width: 100% !important; max-width: 560px; opacity: 1 !important; margin-bottom: 28px; left: auto !important; bottom: auto !important; }
+  .hcard::after { display: none; }
+  .hcard.now .card { transform: none; box-shadow: var(--shadow-md); }
 }
 
 /* ---------- The bottom edge blur: what is about to scroll in softens first ---------- */

@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260829t">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260829u">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -199,16 +199,8 @@
         <video class="hero__video" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
         <div class="hero__scrim" aria-hidden="true"></div>
 
-        <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-          <filter id="liquid" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.014 0.026" numOctaves="2" seed="4" result="n">
-              <animate attributeName="baseFrequency" values="0.014 0.026;0.019 0.031;0.014 0.026" dur="7s" repeatCount="indefinite"/>
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="24" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </svg>
         <div class="band band--1" data-a="0" data-b="0.25">
-          <p class="band__text hook voice">You're not imagining it.</p>
+          <p class="band__text hook voice" data-text="You're not imagining it.">You're not imagining it.</p>
           <span class="band__text hook voice hook-soft" aria-hidden="true">You're not imagining it.</span>
         </div>
         <div class="band band--2 entr-sway" data-a="0.23" data-b="0.50" data-spread="0.4">
@@ -230,7 +222,7 @@
         <div class="hero__static">
           <div class="hero__static-visual">
             <img class="hero__still" src="assets/img/hero-still-v4.jpg" alt="" fetchpriority="high" decoding="async">
-            <h1 class="hook voice">You're not imagining it.</h1>
+            <h1 class="hook voice" data-text="You're not imagining it.">You're not imagining it.</h1>
           </div>
           <div class="hero__static-copy">
             <p class="body-lg">Pain that gets brushed off is still pain. Emenla helps you keep a record of it, in your own words.</p>
@@ -477,90 +469,103 @@
           <p class="subheading part">Three centuries from the first description to a guideline that says your symptoms are enough.</p>
         </div>
       </div>
+      <!-- The measured record: a ruled track whose spacing is honest to the years, inking in as the visitor scrolls.
+           Cards live in a band above the rule and never touch it. An image-less card carries a typographic figure in
+           the media slot; to give it a real picture, swap its <div class="hcard__media hcard__fig"> for a
+           <picture class="hcard__media"> shaped like the 1690 card. No CSS change is needed. -->
       <div class="hscroll" data-hscroll>
         <div class="hscroll__stage">
+          <div class="hs-head" aria-hidden="true">
+            <p class="hs-now mono meta">Described</p>
+            <div class="hs-year voice"><span>1</span><span>6</span><span>9</span><span>0</span></div>
+          </div>
           <p class="hscroll__hint mono meta" aria-hidden="true">Scroll to move through time</p>
           <div class="hscroll__track">
-            <svg class="hscroll__svg" preserveAspectRatio="none" aria-hidden="true">
+            <svg class="hscroll__svg" aria-hidden="true">
               <path class="hscroll__base" d=""/>
               <path class="hscroll__draw" d="" pathLength="1"/>
             </svg>
+            <div class="hs-ticks" aria-hidden="true"></div>
+            <span class="hs-pen" aria-hidden="true"></span>
+            <p class="hs-gap voice" data-gap="0" aria-hidden="true">170 years pass.</p>
+            <p class="hs-gap voice" data-gap="1" aria-hidden="true">Sixty-seven more.</p>
+            <p class="hs-gap voice" data-gap="2" aria-hidden="true">Another fifty-three.</p>
 
-            <span class="hnode" aria-hidden="true">01</span>
+            <span class="hnode" data-year="1690" data-since="it was first written down" aria-hidden="true"><i class="hnode__year mono">1690</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1690</span><span class="label">Described</span></div>
-                <picture><source type="image/avif" srcset="assets/img/hist-1690.avif"><img class="hcard__img" src="assets/img/hist-1690.jpg" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7"></picture>
+                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1690.avif"><img class="hcard__img" src="assets/img/hist-1690.jpg" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7"></picture>
                 <h3 class="hcard__title">First written down.</h3>
                 <p class="hcard__body">Daniel Shroen, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">02</span>
+            <span class="hnode" data-year="1860" data-since="it was first seen" aria-hidden="true"><i class="hnode__year mono">1860</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1860</span><span class="label">Seen</span></div>
-                <picture><source type="image/avif" srcset="assets/img/hist-1860.avif"><img class="hcard__img" src="assets/img/hist-1860.jpg" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6"></picture>
+                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1860.avif"><img class="hcard__img" src="assets/img/hist-1860.jpg" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6"></picture>
                 <h3 class="hcard__title">Seen under a microscope.</h3>
                 <p class="hcard__body">Karl von Rokitansky in Vienna identifies tissue like the lining of the womb growing where it should not.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">03</span>
+            <span class="hnode" data-year="1927" data-since="it was given its name" aria-hidden="true"><i class="hnode__year mono">1927</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1927</span><span class="label">Named</span></div>
-                <picture><source type="image/avif" srcset="assets/img/hist-1927.avif"><img class="hcard__img" src="assets/img/hist-1927.jpg" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5"></picture>
+                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1927.avif"><img class="hcard__img" src="assets/img/hist-1927.jpg" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5"></picture>
                 <h3 class="hcard__title">Given its name.</h3>
                 <p class="hcard__body">John Sampson coins the word endometriosis and proposes that backward menstrual flow seeds the tissue. Still the leading theory.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">04</span>
+            <span class="hnode" data-year="1980" data-since="patients organised" aria-hidden="true"><i class="hnode__year mono">1980</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">1980</span><span class="label">Organised</span></div>
-                <div class="hcard__img hcard__img--blank" aria-hidden="true"></div>
+                <div class="hcard__media hcard__fig" role="img" aria-label="The first patient-led organisation"><span class="hcard__fig-n voice">1st</span><span class="hcard__fig-c mono">patient-led organisation</span></div>
                 <h3 class="hcard__title">Patients organise.</h3>
                 <p class="hcard__body">The Endometriosis Association is founded in Milwaukee, the first patient-led organisation, and starts collecting women's own accounts.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">05</span>
+            <span class="hnode" data-year="2005" data-since="the first guideline" aria-hidden="true"><i class="hnode__year mono">2005</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2005</span><span class="label">Guided</span></div>
-                <picture><source type="image/avif" srcset="assets/img/hist-2005.avif"><img class="hcard__img" src="assets/img/hist-2005.jpg" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3"></picture>
+                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2005.avif"><img class="hcard__img" src="assets/img/hist-2005.jpg" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3"></picture>
                 <h3 class="hcard__title">The first European guideline.</h3>
                 <p class="hcard__body">ESHRE publishes its first guideline on diagnosing and treating endometriosis, updated in 2014 and 2022.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">06</span>
+            <span class="hnode" data-year="2017" data-since="clinicians were told to listen" aria-hidden="true"><i class="hnode__year mono">2017</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2017</span><span class="label">Heard</span></div>
-                <picture><source type="image/avif" srcset="assets/img/hist-2017.avif"><img class="hcard__img" src="assets/img/hist-2017.jpg" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15"></picture>
+                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2017.avif"><img class="hcard__img" src="assets/img/hist-2017.jpg" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15"></picture>
                 <h3 class="hcard__title">Clinicians are told to listen.</h3>
                 <p class="hcard__body">The UK guideline NG73 tells clinicians to suspect endometriosis when a woman reports pelvic pain, period pain that disrupts daily life, or pain during sex.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">07</span>
+            <span class="hnode" data-year="2026" data-since="symptoms were called enough" aria-hidden="true"><i class="hnode__year mono">2026</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">2026</span><span class="label">Enough</span></div>
-                <div class="hcard__img hcard__img--blank" aria-hidden="true"></div>
+                <div class="hcard__media hcard__fig" role="img" aria-label="Symptoms, history and an examination are enough"><span class="hcard__fig-n voice">Enough.</span><span class="hcard__fig-c mono">symptoms · history · examination</span></div>
                 <h3 class="hcard__title">Your symptoms are enough.</h3>
                 <p class="hcard__body">ACOG's guideline says a clinical diagnosis from symptoms, history and an examination is enough to begin treatment. Surgery is not required first.</p>
               </div>
             </article>
 
-            <span class="hnode" aria-hidden="true">08</span>
+            <span class="hnode" data-year="today" aria-hidden="true"><i class="hnode__year mono">Today</i></span>
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">Today</span><span class="label">Still waiting</span></div>
-                <div class="hcard__img hcard__img--blank" aria-hidden="true"></div>
+                <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n voice">4–11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
                 <h3 class="hcard__title">Four to eleven years.</h3>
                 <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
               </div>
@@ -908,7 +913,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260829t" defer></script>
-  <script src="assets/js/site.js?v=20260829t" defer></script>
+  <script src="assets/js/hero.js?v=20260829u" defer></script>
+  <script src="assets/js/site.js?v=20260829u" defer></script>
 </body>
 </html>

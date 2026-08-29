@@ -384,3 +384,35 @@ hollow stars, "Reviews appear here after launch, as they were written."); the Ex
 are gone, their markup kept in the HTML comment. Both rails now loop: a copy of the card set sits on
 either side and the scroll position is moved back by one set whenever it drifts half a set away,
 onto identical cards, so scrolling right or left never reaches an end.
+
+### The measured record, 29 August 2026
+
+`#history` is no longer the Alveos wave. The line is a straight hairline rule at about 76 percent of
+the height (72 on phones), inked as far as the reading point, with a small travelling dot at the ink
+front. Spacing is honest to the years: every gap is a card plus 48px, then grows with the square root
+of the years it spans (`gap = gapMin + K·√Δ`, K solved so the whole record runs about 3.3 screens
+wide, capped at 90; at 1440 that is 1091 / 802 / 754 / 620 / 531 / 503 / 445 px for 170 / 67 / 53 /
+25 / 12 / 9 / "today"). Decade ticks from 1700 to 2020 sit on the rule, the fiftieth years taller and
+labelled; a label steps aside when a milestone year sits within 44px. Each of the three long gaps
+carries one serif caption ("170 years pass.", "Sixty-seven more.", "Another fifty-three.").
+
+A giant Instrument Serif year at the top left (clamp 64 to 128px, every digit in a 0.5em cell so it
+does not jitter) rolls with the scroll, never passes 2026, and reads "Today" at the last node; the
+active card's label sits under it in mono. Cards (280px, up to 320 on wide screens) hang in a band
+above the rule, bottom-aligned on 56px stems, so the line can never enter one; the script moves the
+rule down, then switches to `.hscroll--compact` (56px year, three-line body), if the year, the
+tallest card and the stem will not fit. Nodes are 12px rings ahead, filled dots behind, one 18px dot
+where the reader is. The card year is now ink, not violet: nothing in the section uses violet. The
+three image-less milestones (1980, 2026, Today) carry a typographic figure panel in the media slot
+on a warm #f3efe9 ground: "1st / patient-led organisation", "Enough. / symptoms · history ·
+examination", "4–11 / years to a diagnosis". Reduced motion keeps the stacked list, capped at 560px.
+Render and assert with `node tools/histshots.mjs http://127.0.0.1:8080/ <dir>`.
+
+### The headline, white and lit, 29 August 2026
+
+"You're not imagining it." is solid white, nothing on or around it. A real text-shadow (a tight
+contact shadow, a directional one, and a soft ambient one) is what keeps white readable on the pale
+wall; the cream wash behind the caption is off for this band. Two quiet behaviours: on fine pointers
+the shadow falls away from the cursor and the letters lean a few pixels toward it, eased; and a
+faint warm light passes through the letters every eight seconds on an overlay copy. The glass, the
+lens and the per-letter split are gone.

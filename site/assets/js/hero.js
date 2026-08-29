@@ -74,122 +74,37 @@
   }
   Array.prototype.forEach.call(stage.querySelectorAll('[data-split]'), splitElement);
 
-  /* The headline: letters inside nowrap words, then each letter learns its x so its slice of the
-     gradient lines up with its neighbours. Measured again when the fonts land and on resize. */
-  var hookEl = stage.querySelector('.band--1 p.hook');
-  var hookLetters = [];
-  function splitHook(el) {
-    var text = el.textContent.trim();
-    var sr = document.createElement('span');
-    sr.className = 'vh';
-    sr.textContent = text;
-    var vis = document.createElement('span');
-    vis.className = 'split';
-    vis.setAttribute('aria-hidden', 'true');
-    var words = text.split(/\s+/);
-    words.forEach(function (word, wi) {
-      var w = document.createElement('span');
-      w.className = 'hw';
-      Array.prototype.forEach.call(word, function (ch) {
-        var k = document.createElement('span');
-        k.className = 'hk';
-        k.textContent = ch;
-        w.appendChild(k);
-        hookLetters.push(k);
-      });
-      vis.appendChild(w);
-      if (wi < words.length - 1) vis.appendChild(document.createTextNode(' '));
-    });
-    el.textContent = '';
-    el.appendChild(sr);
-    el.appendChild(vis);
-    el.classList.add('is-split');
-  }
-  function measureHook() {
-    if (!hookEl) return;
-    var box = hookEl.getBoundingClientRect();
-    var xs = hookLetters.map(function (k) { return k.getBoundingClientRect().left - box.left; });
-    hookEl.style.setProperty('--hw', box.width.toFixed(1) + 'px');
-    hookLetters.forEach(function (k, i) { k.style.setProperty('--ox', xs[i].toFixed(1) + 'px'); });
-  }
-  if (hookEl && window.CSS && CSS.registerProperty) {
-    splitHook(hookEl);
-    measureHook();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHook);
-    var hookResize = null;
-    window.addEventListener('resize', function () {
-      window.clearTimeout(hookResize);
-      hookResize = window.setTimeout(measureHook, 120);
-    });
-  }
-
-  /* ---------- The lens: liquid glass over the headline ----------
-     Built only on fine pointers, once the headline is split. Two clones of the headline live inside
-     a capsule that follows the pointer; each frame the capsule moves and the clones counter-move so
-     they stay aligned with the original, magnified a little about the capsule's centre. */
+  /* ---------- The headline, lit by the pointer ----------
+     On fine pointers the headline's shadow falls away from the cursor and the letters lean a few
+     pixels toward it, eased; both settle back when the pointer leaves the stage. */
   (function () {
-    if (!hookEl || !hookEl.classList.contains('is-split')) return;
+    var hookEl = stage.querySelector('.band--1 p.hook');
+    if (!hookEl) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var band = hookEl.closest('.band');
-    var lens = document.createElement('div');
-    lens.className = 'lens';
-    lens.setAttribute('aria-hidden', 'true');
-    var inner = document.createElement('div');
-    inner.className = 'lens__inner';
-    var copies = [];
-    ['sharp', 'blur'].forEach(function (kind) {
-      var layer = document.createElement('div');
-      layer.className = 'lens__layer lens__layer--' + kind;
-      var copy = hookEl.cloneNode(true);
-      copy.classList.add('lens__copy');
-      copy.removeAttribute('id');
-      layer.appendChild(copy);
-      inner.appendChild(layer);
-      copies.push(copy);
-    });
-    lens.appendChild(inner);
-    band.appendChild(lens);
-    var SCALE = 1.16, on = false, tx = 0, ty = 0, x = 0, y = 0, raf = null, lw = 300, lh = 150, ox = 0, oy = 0;
-    function size() {
-      var fs = parseFloat(getComputedStyle(hookEl).fontSize) || 80;
-      lw = Math.round(fs * 2.3); lh = Math.round(fs * 1.12);
-      lens.style.setProperty('--lw', lw + 'px');
-      lens.style.setProperty('--lh', lh + 'px');
-      var hr = hookEl.getBoundingClientRect(), br = band.getBoundingClientRect();
-      ox = hr.left - br.left; oy = hr.top - br.top;
-      copies.forEach(function (c) { c.style.width = hr.width + 'px'; });
-    }
-    function sync() {
-      var a = hookEl.getAnimations ? hookEl.getAnimations()[0] : null;
-      if (!a) return;
-      copies.forEach(function (c) { var b = c.getAnimations()[0]; if (b) b.currentTime = a.currentTime; });
-    }
+    var tx = 0, ty = 0, sx = 0, sy = 2, raf = null, want = { sx: 0, sy: 2, px: 0, py: 0 }, px = 0, py = 0;
     function frame() {
       raf = null;
-      x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-      var lx = x - lw / 2, ly = y - lh / 2;
-      lens.style.transform = 'translate3d(' + lx.toFixed(1) + 'px,' + ly.toFixed(1) + 'px,0)';
-      var cx = lw / 2, cy = lh / 2;
-      var tr = 'translate(' + cx + 'px,' + cy + 'px) scale(' + SCALE + ') translate(' + (-cx) + 'px,' + (-cy) + 'px) translate(' + (ox - lx).toFixed(1) + 'px,' + (oy - ly).toFixed(1) + 'px)';
-      copies.forEach(function (c) { c.style.transform = tr; });
-      if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) raf = window.requestAnimationFrame(frame);
+      sx += (want.sx - sx) * 0.12; sy += (want.sy - sy) * 0.12;
+      px += (want.px - px) * 0.12; py += (want.py - py) * 0.12;
+      hookEl.style.setProperty('--sx', sx.toFixed(2) + 'px');
+      hookEl.style.setProperty('--sy', sy.toFixed(2) + 'px');
+      hookEl.style.setProperty('--px', px.toFixed(2) + 'px');
+      hookEl.style.setProperty('--py', py.toFixed(2) + 'px');
+      if (Math.abs(want.sx - sx) > 0.05 || Math.abs(want.sy - sy) > 0.05 || Math.abs(want.px - px) > 0.05 || Math.abs(want.py - py) > 0.05) raf = window.requestAnimationFrame(frame);
     }
     function kick() { if (raf === null) raf = window.requestAnimationFrame(frame); }
-    function show() { if (on) return; on = true; size(); sync(); x = tx; y = ty; lens.classList.add('is-on'); kick(); }
-    function hide() { if (!on) return; on = false; lens.classList.remove('is-on'); }
     stage.addEventListener('pointermove', function (e) {
-      if (rmq.matches || !band.classList.contains('is-live')) { hide(); return; }
-      var hr = hookEl.getBoundingClientRect(), pad = 28;
-      var inside = e.clientX > hr.left - pad && e.clientX < hr.right + pad && e.clientY > hr.top - pad && e.clientY < hr.bottom + pad;
-      if (!inside) { hide(); return; }
-      var br = band.getBoundingClientRect();
-      tx = e.clientX - br.left; ty = e.clientY - br.top;
-      if (!on) show(); else kick();
+      if (rmq.matches) return;
+      var r = hookEl.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / Math.max(1, window.innerWidth / 2);
+      var dy = (e.clientY - (r.top + r.height / 2)) / Math.max(1, window.innerHeight / 2);
+      dx = Math.max(-1, Math.min(1, dx)); dy = Math.max(-1, Math.min(1, dy));
+      want.sx = -dx * 7; want.sy = 2 - dy * 6;   /* the shadow falls away from the light */
+      want.px = dx * 5; want.py = dy * 3;        /* the letters lean toward it */
+      kick();
     });
-    stage.addEventListener('pointerleave', hide);
-    window.addEventListener('scroll', hide, { passive: true });
-    window.addEventListener('resize', function () { if (on) size(); });
+    stage.addEventListener('pointerleave', function () { want.sx = 0; want.sy = 2; want.px = 0; want.py = 0; kick(); });
   })();
 
   /* ---------- Ink under your hand ----------

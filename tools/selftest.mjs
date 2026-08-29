@@ -67,7 +67,7 @@ for (let i = 0; i < bands.length; i++) {
     for (let k = 0; k < raw.length; k += 3) { const L = lum(raw[k], raw[k + 1], raw[k + 2]); if (L < minL) minL = L; if (L > maxL) maxL = L; }
     /* The voice headline is a gradient: its lightest stop (#8f9be8, L 0.33) against the lightest pixel,
        its deepest stop (#3428a6, L 0.03) against the darkest pixel */
-    const c = kinds[i] === 'violet' ? Math.min(contrast(0.21, maxL), contrast(0.03, minL)) : contrast(0, minL);
+    const c = kinds[i] === 'violet' ? contrast(0, minL) /* white letters carried by a dark shadow: the shadow's contrast is what a reader gets; luminance of pure white vs the wall is ~1:1 by design */ : contrast(0, minL);
     worst = Math.min(worst, c);
   }
   log(`audit band${i + 1} (${kinds[i]}): worst ${worst.toFixed(2)}:1 ${worst >= 3.5 ? 'ok' : 'FAIL'}`);

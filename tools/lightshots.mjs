@@ -1,0 +1,11 @@
+import { connect } from './drive.mjs'; import { mkdirSync } from 'node:fs';
+const [url, out] = process.argv.slice(2); mkdirSync(out, { recursive: true });
+const b = await connect(); const wait = ms => `new Promise(r => setTimeout(r, ${ms}))`;
+const p = await b.page(url, { width: 1440, height: 900 });
+await p.eval(`new Promise(r => { const st = document.querySelector('.hero__stage'); const t = setInterval(() => { if (st.classList.contains('video-ready') || st.classList.contains('video-failed')) { clearInterval(t); r(); } }, 100); setTimeout(r, 8000); })`);
+await p.eval(wait(2400));
+await p.shot(`${out}/rest.png`);
+await p.mouse('mouseMoved', 1200, 200); await p.eval(wait(900)); await p.shot(`${out}/lit-topright.png`);
+await p.mouse('mouseMoved', 120, 850); await p.eval(wait(900)); await p.shot(`${out}/lit-bottomleft.png`);
+console.log(JSON.stringify(await p.eval("(() => { const h = document.querySelector('.band--1 p.hook'); const cs = getComputedStyle(h); return { sx: h.style.getPropertyValue('--sx'), sy: h.style.getPropertyValue('--sy'), px: h.style.getPropertyValue('--px'), split: h.classList.contains('is-split'), fill: cs.webkitTextFillColor, stroke: cs.webkitTextStrokeWidth, anim: cs.animationName }; })()")), p.errors.length ? p.errors : 'console clean');
+await p.close(); b.close();
