@@ -435,11 +435,10 @@ reference animates its headline. The apostrophe is typographic now, which shows 
 ### The hover in the hero, 30 August 2026
 
 Every line in the hero answers the pointer now. The headline's words rise 12px and take 2.5% of
-scale with them, the nearest word most, its neighbours following in a falloff; the three caption
-lines keep the proximity lift (letters near the pointer rise 5px and
-settle back) but have lost the violet they used to warm to. A word that changes hue under the cursor
-both shouts and reads worse than the ink around it: lit, those words fell from about 18:1 to 6:1.
-The lift alone is the effect now, in ink, on fine pointers only.
+scale with them, the nearest word most, its neighbours following in a falloff, and they stay ink
+because ink is what the founder asked the headline for. The three caption lines keep the proximity lift (letters near the pointer rise 5px and
+settle back) and the violet they warm to, which was only ever meant to leave the headline. Lit, those
+words sit near 6:1, which clears AA for their size; the headline is the line that stays ink.
 
 The headline was left still at first, on the grounds that neither reference animates its hero line.
 The founder asked for it twice, so it has one: transforms only, because a variable-weight change

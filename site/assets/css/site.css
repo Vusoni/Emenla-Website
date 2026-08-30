@@ -559,21 +559,28 @@ ul, ol { padding: 0; list-style: none; }
   .band--4 { bottom: 6vh; }
 }
 
-/* Ink under your hand: on fine pointers the letters and words near the pointer lift a little, then
-   settle back. The lift is the whole effect: no colour, because a word that changes hue under the
-   cursor both shouts and reads worse than the ink around it. `translate` composes with the entrance
-   transforms above. */
+/* Ink under your hand: on fine pointers the letters and words near the pointer lift a little and
+   warm to violet, then settle back. `translate` composes with the entrance transforms above. */
 .band .split .c, .band .split .w {
   translate: 0 calc(var(--h, 0) * -5px);
+  color: color-mix(in oklab, var(--ink), var(--voice) calc(var(--h, 0) * 100%));
+  text-shadow:
+    0 0 1px rgba(var(--cream-rgb), 0.95),
+    0 2px 12px rgba(var(--cream-rgb), 0.85),
+    0 0 calc(var(--h, 0) * 14px) rgba(91, 72, 214, calc(var(--h, 0) * 0.4));
 }
-.band .split .w:has(.c) { translate: none; }
-/* The headline is three times the size of the caption lines, so its words rise further and carry a
-   little scale with them. Transforms only: a weight change would alter the advance widths and make
-   the line reflow under the cursor. */
+.band .split .w:has(.c) { translate: none; color: inherit; }
+/* The headline is the one line that stays ink: it is three times the size of the captions, so its
+   words rise further and carry a little scale instead of colour. Transforms only, because a weight
+   change would alter the advance widths and reflow the line under the cursor. */
 .band--1 .split .w {
   translate: 0 calc(var(--h, 0) * -12px);
   scale: calc(1 + var(--h, 0) * 0.025);
   transform-origin: 50% 100%;
+  color: var(--ink);
+  text-shadow:
+    0 0 1px rgba(var(--cream-rgb), 0.95),
+    0 2px 12px rgba(var(--cream-rgb), 0.85);
 }
 
 /* Split text: .w words hold .c characters, each with --th */

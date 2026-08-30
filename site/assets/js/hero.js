@@ -75,7 +75,8 @@
   Array.prototype.forEach.call(stage.querySelectorAll('[data-split]'), splitElement);
 
   /* ---------- Ink under your hand ----------
-     On fine pointers, the letters and words near the pointer lift a little, then settle back. Each frame reads every unit's rect first and writes afterwards, so there is one
+     On fine pointers, the letters and words near the pointer lift a little and warm to violet
+     (the headline lifts in plain ink), then settle back. Each frame reads every unit's rect first and writes afterwards, so there is one
      layout per frame; the loop stops on its own once everything has settled. */
   (function () {
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
