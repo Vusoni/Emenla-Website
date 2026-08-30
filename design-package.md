@@ -435,8 +435,8 @@ reference animates its headline. The apostrophe is typographic now, which shows 
 ### The hover in the hero, 30 August 2026
 
 Every line in the hero answers the pointer now. The headline's words rise 12px and take 2.5% of
-scale with them, the nearest word most, its neighbours following in a falloff, and they stay ink
-because ink is what the founder asked the headline for. The three caption lines keep the proximity lift (letters near the pointer rise 5px and
+scale with them, the nearest word most, its neighbours following in a falloff, and they warm to the same violet as the rest,
+its halo spread wider to match the type. The three caption lines keep the proximity lift (letters near the pointer rise 5px and
 settle back) and the violet they warm to, which was only ever meant to leave the headline. Lit, those
 words sit near 6:1, which clears AA for their size; the headline is the line that stays ink.
 
@@ -446,3 +446,6 @@ would alter the advance widths and reflow the line under the cursor. The reach s
 (`max(150px, lineHeight * 2.6)`), so a 60px headline word answers from further away than a 20px
 caption. Splitting the headline into words puts a screen-reader copy in the markup and hides the
 split one, so the sentence still reads as one line.
+
+The headline rests in ink and only warms under the pointer; the violet the founder rejected was the
+resting colour of the old serif treatment, not this.
