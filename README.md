@@ -1,6 +1,6 @@
 # Emenla website
 
-The public site for Emenla, an iPhone app for people with endometriosis. Built with the 10k-websites
+The public site for Emenla, an iOS app for people with endometriosis. Built with the 10k-websites
 flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no build step.
 
 ## Folders
