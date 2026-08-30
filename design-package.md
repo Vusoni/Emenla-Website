@@ -449,3 +449,9 @@ split one, so the sentence still reads as one line.
 
 The headline rests in ink and only warms under the pointer; the violet the founder rejected was the
 resting colour of the old serif treatment, not this.
+
+### The headline stays still, 30 August 2026
+
+Final: the headline has no hover at all. It rests in ink, arrives on the cream wipe with the scroll,
+and does not answer the pointer. The three caption lines keep the proximity lift and the violet they
+warm to. The hero's one loud moment is the scroll itself.

@@ -570,19 +570,8 @@ ul, ol { padding: 0; list-style: none; }
     0 0 calc(var(--h, 0) * 14px) rgba(91, 72, 214, calc(var(--h, 0) * 0.4));
 }
 .band .split .w:has(.c) { translate: none; color: inherit; }
-/* The headline takes the same treatment as the caption lines, scaled to its type: it is three times
-   the size, so its words rise further, carry a little scale, and their violet halo spreads wider.
-   Transforms only, because a weight change would alter the advance widths and reflow the line. */
-.band--1 .split .w {
-  translate: 0 calc(var(--h, 0) * -12px);
-  scale: calc(1 + var(--h, 0) * 0.025);
-  transform-origin: 50% 100%;
-  text-shadow:
-    0 0 1px rgba(var(--cream-rgb), 0.95),
-    0 2px 12px rgba(var(--cream-rgb), 0.85),
-    0 0 calc(var(--h, 0) * 30px) rgba(91, 72, 214, calc(var(--h, 0) * 0.4));
-}
-
+/* The headline answers nothing: it is a statement, and it stays still. The caption lines above
+   keep the proximity warm. */
 /* Split text: .w words hold .c characters, each with --th */
 .split { display: inline-block; }
 .w { display: inline-block; white-space: nowrap; }
