@@ -395,10 +395,15 @@ ul, ol { padding: 0; list-style: none; }
   transition: box-shadow 220ms var(--ease-soft), transform 220ms var(--ease-soft), background-color 220ms var(--ease-soft);
 }
 .nav .btn--white:hover { background: #ffffff; box-shadow: 0 12px 36px rgba(5, 6, 11, 0.12), 0 1px 3px rgba(5, 6, 11, 0.06); transform: translateY(-1px); }
-/* The nav pill is a status badge now, not a link: no hover lift, no pointer. */
-.nav__badge { cursor: default; }
-.nav .btn--white.nav__badge:hover { box-shadow: 0 8px 30px rgba(5, 6, 11, 0.08), 0 1px 3px rgba(5, 6, 11, 0.05); transform: none; }
-.nav__badge:active { transform: none; }
+/* The nav pill is a link in both states, so it keeps the pointer and the focus
+   ring. What --soon changes is only how loud it is: while the app is unlisted
+   the pill is a status that happens to be clickable (it goes to the FAQ answer
+   about the App Store), so it holds still under the pointer instead of lifting
+   like a primary action. Once the listing exists the modifier comes off in
+   scripts/set-app-store.mjs and it lifts like every other .btn--white. */
+.nav__badge--soon { --badge-shadow: 0 8px 30px rgba(5, 6, 11, 0.08), 0 1px 3px rgba(5, 6, 11, 0.05); }
+.nav .btn--white.nav__badge--soon:hover { box-shadow: var(--badge-shadow); transform: none; }
+.nav__badge--soon:active { transform: none; }
 /* A faint cream halo keeps the wordmark readable over the video and the cards */
 .nav__brand {
   text-shadow: 0 0 1px rgba(var(--cream-rgb), 0.95), 0 1px 8px rgba(var(--cream-rgb), 0.9), 0 4px 20px rgba(var(--cream-rgb), 0.8);

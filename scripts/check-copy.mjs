@@ -68,5 +68,29 @@ for (const file of files) {
   }
 }
 
+// ---- App Store consistency -------------------------------------------------
+// The site says one of two things about the App Store, never both. A working
+// link above a paragraph reading "it is not on the App Store yet" is the way
+// this breaks, and it breaks silently: each page looks right on its own, and
+// only a reader who scrolls sees the contradiction. scripts/set-app-store.mjs
+// flips the badge; this is what proves the prose came with it.
+{
+  const linked = [], notYet = [];
+  for (const file of files) {
+    const rel = file.replace(dist, '');
+    const raw = readFileSync(file, 'utf8');
+    if (raw.includes('apps.apple.com')) linked.push(rel);
+    for (const p of ['not on the App Store yet', 'Not purchasable yet', 'day it is listed']) {
+      if (raw.includes(p)) notYet.push(`${rel}: "${p}"`);
+    }
+  }
+  if (linked.length && notYet.length) {
+    failures++;
+    console.log(`\nMIXED   the App Store link is live on ${linked.join(', ')}, but these still say it is not:`);
+    for (const n of notYet) console.log(`        ${n}`);
+    console.log('        Run: node scripts/set-app-store.mjs --live');
+  }
+}
+
 console.log(`\nChecked ${files.length} pages. ${failures ? failures + ' failure(s).' : 'No banned terms, no em dashes, no lorem ipsum.'}${strict ? '' : ' (TODOs are warnings; use --strict to fail on them)'}`);
 process.exit(failures ? 1 : 0);
