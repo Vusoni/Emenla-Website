@@ -21,6 +21,30 @@ jobs:
             echo "  OK  $p"
           done
 
+      - name: Polityka prywatnosci nadal opisuje ta sama aplikacje
+        # 2026-09-10: przez jedenascie dni opublikowana polityka twierdzila, ze
+        # "Emenla nie ma serwera" i ze "nie ma konta", podczas gdy aplikacja od
+        # 30 sierpnia wymaga konta w Supabase i wysyla zdjecie posilku do OpenAI.
+        # Nikt tego nie zauwazyl, bo poprawna wersja lezala w drugim repozytorium.
+        # Ten krok czyta ZYWA strone, wiec lapie tez zly deploy, rollback do
+        # starej wersji i reczna zmiane w panelu Cloudflare.
+        run: |
+          curl -sS -L --max-time 20 https://emenla.com/privacy/ > pp.html
+          for s in OpenAI Supabase; do
+            grep -q "$s" pp.html || { echo "::error::polityka nie wymienia $s - a aplikacja go uzywa"; exit 1; }
+            echo "  OK  wymieniony: $s"
+          done
+          while read -r s; do
+            if grep -qiF "$s" pp.html; then
+              echo "::error::polityka twierdzi \"$s\" - to nieprawda od 2026-08-30"; exit 1
+            fi
+            echo "  OK  brak falszywej frazy: $s"
+          done <<< 'there is no account
+          no server and no user database
+          nothing to sign into
+          does not collect an email address
+          Emenla has no server'
+
       - name: Nieistniejacy adres daje 404, nie 200
         run: |
           c=$(curl -sS -o /dev/null -w '%{http_code}' -L --max-time 20 https://emenla.com/nie-istnieje-$RANDOM)
