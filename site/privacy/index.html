@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy policy. Emenla</title>
-  <meta name="description" content="Everything you write in Emenla stays on your phone. No account, no server, no analytics, no ads. The one exception, the optional purchase, explained plainly.">
+  <meta name="description" content="Your symptom record stays on your phone. The account holds your email address. The one feature that sends a photograph, and what comes back, explained plainly.">
   <meta name="theme-color" content="#fcf9f7">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://emenla.com/privacy/">
@@ -14,7 +14,7 @@
   <meta property="og:site_name" content="Emenla">
   <meta property="og:locale" content="en_GB">
   <meta property="og:title" content="Privacy policy. Emenla">
-  <meta property="og:description" content="Everything you write in Emenla stays on your phone. No account, no server, no analytics, no ads. The one exception, the optional purchase, explained plainly.">
+  <meta property="og:description" content="Your symptom record stays on your phone. The account holds your email address. The one feature that sends a photograph, and what comes back, explained plainly.">
   <meta property="og:url" content="https://emenla.com/privacy/">
   <meta property="og:image" content="https://emenla.com/og.png">
   <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
   <meta property="og:image:alt" content="Emenla. You're not imagining it.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Privacy policy. Emenla">
-  <meta name="twitter:description" content="Everything you write in Emenla stays on your phone. No account, no server, no analytics, no ads. The one exception, the optional purchase, explained plainly.">
+  <meta name="twitter:description" content="Your symptom record stays on your phone. The account holds your email address. The one feature that sends a photograph, and what comes back, explained plainly.">
   <meta name="twitter:image" content="https://emenla.com/og.png">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -36,7 +36,7 @@
       "@id": "https://emenla.com/privacy/#webpage",
       "url": "https://emenla.com/privacy/",
       "name": "Privacy policy. Emenla",
-      "description": "Everything you write in Emenla stays on your phone. No account, no server, no analytics, no ads. The one exception, the optional purchase, explained plainly.",
+      "description": "Your symptom record stays on your phone. The account holds your email address. The one feature that sends a photograph, and what comes back, explained plainly.",
       "inLanguage": "en",
       "isPartOf": {
         "@id": "https://emenla.com/#website"
@@ -86,7 +86,7 @@
     <div class="wrap doc-head">
       <span class="label">Privacy policy</span>
       <h1 class="display">What Emenla collects, which is almost nothing, and the one exception.</h1>
-      <p class="muted">Last updated 2026-08-28. This page covers the Emenla app and this website. Each has its own section, because they are different things.</p>
+      <p class="muted">Last updated 2026-09-10. This page covers the Emenla app and this website. Each has its own section, because they are different things.</p>
     </div>
 
     <div class="wrap doc">
@@ -100,31 +100,61 @@
 
       <div class="doc__body">
         <h2 id="summary">In one paragraph</h2>
-        <p>Everything you write in Emenla stays on your phone. There is no account, no server, and no copy of your entries anywhere but your device. The app has no analytics, no ads and no trackers. The one thing that leaves the phone is an anonymous purchase status if you buy the optional summary export, handled by Apple and RevenueCat. This website is built the same way: no cookies, no tracking, fonts served from our own domain. Right now nothing on this site sends anything anywhere at all: there is no form and no sign-up field, so there is nothing the site could collect.</p>
+        <p>Your symptom record stays on your phone. Your symptoms, period dates, body map and notes are written to your device and nothing sends them anywhere. The app has no analytics, no ads and no trackers. What we do hold is your email address, because Emenla needs an account to open, and, if you use the meal reading in Nourish, four nutrition figures for each meal you scan. That one feature sends a photograph off your phone to be read; it is described in full below rather than buried, and if you never scan a meal nothing about your body ever leaves your phone. This website is built the same way: no cookies, no tracking, fonts served from our own domain, and no form anywhere on it, so there is nothing the site itself could collect.</p>
 
         <h2 id="app">The Emenla app</h2>
-        <p class="notice"><span class="strong">Draft.</span> This section is assembled from the app's design facts. The app's own privacy policy will replace it word for word before the app ships.</p>
         <!-- APP-POLICY-START -->
+        <!-- Transcribed by hand from legal/privacy-policy.md in the Emenla app
+             repository, which is the source of truth for what the app does. That
+             file is versioned beside the code it describes; this is where it is
+             published. Editing it there does not publish it. Transcribed at app
+             repo commit 66decee, 2026-09-10. To see what has changed since,
+             diff legal/privacy-policy.md from that commit to HEAD. -->
         <h3>What the app stores, and where</h3>
-        <p>Data lives in the app's own private on-device database. There is no server and no user database. Your symptom entries, notes, severity, cycle dates and photos are stored in that database and nowhere else.</p>
+        <p>Everything you enter is written to a database inside the app's own private storage on your phone, protected by the operating system and by device encryption. That covers symptoms and their severity, anything you write or dictate in your own words, period dates, treatments, tests, appointment questions, what you did during a flare, days you record as lost to symptoms, meals and photographs you attach, your name if you give one, your onboarding answers, and your reminder preference.</p>
+        <p>None of it leaves your phone unless you deliberately export or share it, or use the meal reading described below.</p>
+
         <h3>Voice entry</h3>
-        <p>Speech recognition runs on the device. No audio leaves the phone and no recording is kept.</p>
-        <h3>Photos</h3>
-        <p>Photos are copied into the app's private storage. They are never uploaded and never written back to your photo library.</p>
+        <p>If you dictate an entry, speech is transcribed by the recognition built into your phone, configured to run on-device only. No audio is uploaded and no recording is kept once the words are written down.</p>
+
+        <h3>Photographs you attach</h3>
+        <p>Photographs you attach to a meal, a test result, a letter or a prescription are copied into the app's private storage. They are not written back to your photo library, and "Delete everything" removes the copies. They are not uploaded anywhere, with the single exception in the next section.</p>
+        <p>If you allow photo access, Emenla reads your most recent photos so it can show them inside the app for you to pick from. Nothing is copied until you choose one. If you allow access to selected photos only, that is what is shown; if you decline, your phone's own picker opens instead and Emenla sees only the one photo you select. The camera and the photo library are asked for at the moment you add a photo, and used for nothing else.</p>
+
+        <h3>Reading a meal from a photograph</h3>
+        <p class="notice">This is the one feature that sends something about your body off your phone, and it runs only when you ask it to. If you never scan a meal, nothing you record ever leaves your phone at all.</p>
+        <p>The photograph goes, over an encrypted connection, to a small program we run on Supabase in Frankfurt, Germany, which passes it to OpenAI to be read. Four figures come back: energy, protein, carbohydrate and fat, with how confident the reading was. Those four are stored against your account in Frankfurt, so the same meal reads the same way on another device. The meal's name, the time of day, your cycle day and everything else about it stay on your phone.</p>
+        <p><span class="strong">The photograph is not stored by us.</span> It is not written to any database, any file store, or any log, and the copy on your phone is unaffected. OpenAI reads it as our processor, under a data processing agreement, and does not use it to train its models. Its own abuse monitoring may hold a short-lived copy on its schedule, which we cannot reach and cannot read.</p>
+        <p>If you would rather no photograph ever left your phone, do not use the meal reading. Every other part of Nourish, and all of the rest of the app, works without it.</p>
+
+        <h3>Your account</h3>
+        <p>Emenla asks you to create an account before you can use it, with an email address or through Apple or Google. It gives you a name to come back to, and it is what will make the Community section possible later.</p>
+        <p><span class="strong">The account does not sync, back up, restore or transmit your symptom record.</span> Everything you record about your body is written to your phone and stays there whether you are signed in, signed out, or offline. The one thing the account carries beyond your address is the meal-reading figures above, and only for meals you choose to scan.</p>
+        <p>Your email address and the sign-in go to Supabase, which hosts the account for us on servers in Frankfurt, Germany. If you sign in with Apple or Google, that company confirms who you are and learns you signed in to Emenla, the same way it would for any app. We receive an identifier and an email address, and nothing else. Apple's Hide My Email is fully supported: Apple gives us a forwarding address instead of your real one, we never see the address behind it, and the app works exactly the same way.</p>
+
+        <h3>Feedback you send us</h3>
+        <p>Settings has a page where you can tell us what is missing, confusing or broken. What goes with it is what you wrote, your email address, and four things about your phone: the version of Emenla, the version of iOS, your model, and your language. The app shows you those four before you send. Nothing from your record is attached, ever. Not an entry, not a symptom, not a date, not a photograph, not a summary.</p>
+        <p>You are free to describe your own health in a message if that is what you want to tell us about. It is your message, and we handle everything written there as sensitive on that basis. We never ask you to. Deleting your account deletes your feedback with it.</p>
+
         <h3>Tracking</h3>
-        <p>No analytics of any kind. No ads, no ad identifiers, no third-party trackers, no crash reporting, no remote configuration, no tracking prompt. Because there is no tracking, the app never shows you Apple's tracking permission prompt. There is nothing to ask permission for.</p>
-        <h3>Accounts and email</h3>
-        <p>No account, nothing to sign into. Emenla does not collect an email address.</p>
-        <h3>Notifications</h3>
-        <p>Notifications are local only. No push service, no device token.</p>
-        <h3>The one exception: purchases</h3>
-        <p>Logging is free forever. The optional summary export is an Apple in-app purchase handled through RevenueCat, which receives an anonymous purchase identity and your purchase status. It never receives your symptoms, notes, photos, cycle dates or your name. Apple handles the payment itself under Apple's own privacy terms. Refunds go through Apple's process, not through us, because we cannot see who bought what.</p>
-        <h3>Why there is no server</h3>
-        <p>Under GDPR, health data is special category data under Article 9. That is exactly why Emenla has no server. If the data never leaves your phone, there is nothing for us to protect, lose, be asked for, or sell. That is the design, not a policy that could change with a settings update.</p>
+        <p>No analytics of any kind. No ads, no ad identifiers, no third-party trackers, no crash reporting, no remote configuration, no profiling and no automated decision making. Because there is no tracking, the app never shows you Apple's tracking permission prompt. There is nothing to ask permission for.</p>
+
+        <h3>Purchases</h3>
+        <p>Logging is free. The optional summary export is an Apple in-app purchase handled through RevenueCat, which receives an anonymous purchase identity, your purchase and subscription status, and the technical information needed to run the purchase. It never receives your symptoms, notes, photographs, cycle dates, PDF contents, name or onboarding answers. Apple handles the payment under its own privacy terms, and refunds go through Apple's process rather than ours, because we cannot see who bought what.</p>
+
         <h3>Backups and moving phones</h3>
-        <p>Because there is no account, there is no cloud copy. If you change phones, export your entries first or they will be lost. Deleting the app deletes everything in it.</p>
+        <p>The account does not back up your record, so there is no cloud copy of it. If you change phones, export your entries first or they will be lost. Deleting the app deletes everything in it.</p>
+
+        <h3>Security</h3>
+        <p>Your entries live in the app's private storage, which the operating system keeps apart from other apps and protects with device encryption when a passcode is set. We strongly recommend using a passcode, Face ID or Touch ID. Emenla also has its own App lock, off by default, which asks iOS to check Face ID, Touch ID or your passcode when you come back to the app; iOS does the checking and Emenla only learns whether it passed. Because Emenla holds no copy of your data, anyone with unlocked physical access to your phone can read what is in the app.</p>
+        <p>If you create an account with a password, that password is never stored anywhere in readable form, not on your phone and not by us. Signing in with Apple or Google means there is no Emenla password at all, which is the safer of the two and why those come first on the screen.</p>
+        <p><span class="strong">What we hold is deliberately small.</span> Someone who got through us would reach a list of email addresses and, for people who use the meal reading, rows of four nutrition figures. That is all there is. Your symptoms, period dates, body map, notes and photographs are not in it and never have been. Every row we hold is protected by row-level security, so the database itself refuses to return one account's rows to another.</p>
+
         <h3>Children</h3>
-        <p>Emenla is not directed at children. It collects no personal data from anyone, so there is nothing to delete on request, but if you believe a child is using it and want to talk to us, the contact details are below.</p>
+        <p>Emenla is not directed at children under 13. Endometriosis symptoms often begin in adolescence, and a younger person may use the app with a parent or guardian involved; everything recorded stays on that phone on the same terms as for anyone else.</p>
+
+        <h3>Changes to this policy</h3>
+        <p>If this policy changes, the updated version is posted here with a new date at the top. If a future version of Emenla ever adds an optional feature that sends health information anywhere, it will be described here plainly and it will be something you turn on, never something already on.</p>
         <!-- APP-POLICY-END -->
 
         <h2 id="website">This website</h2>
@@ -144,10 +174,20 @@
         <p>Citations link to the World Health Organization, ESHRE, NICE, ACOG and PubMed. Their pages have their own privacy terms.</p>
 
         <h2 id="rights">Your rights</h2>
-        <p>Under GDPR you can ask what personal data we hold about you, ask for it to be corrected or deleted, and complain to a supervisory authority. For the app the honest answer to "what do you hold" is nothing, because it never reaches us. For the website the answer is also nothing, because the site has no form to collect anything. Write to the contact address and we will respond.</p>
+        <p>Under the GDPR you can ask what personal data we hold about you, ask for it to be corrected or deleted, and complain to a supervisory authority. In Poland that is the UODO. For this website the answer to "what do you hold" is nothing, because the site has no form to collect anything.</p>
+        <p>For the app, the two halves of your data sit under two different articles of the GDPR, and that distinction is the reason Emenla is built the way it is.</p>
+        <h3>What you record about your body</h3>
+        <p>This is health information, a special category of personal data under Article 9. For your symptoms, period dates, body map, notes and the clinical terms the app works out from them, we are not a controller, because we never receive them. You exercise your rights over that half through the app rather than by writing to us, and it is built that way on purpose: Article 9 data carries obligations a server attracts the moment it holds any, and the simplest way to meet them completely is not to hold it.</p>
+        <p>Settings offers a full export as a single file, every entry can be edited or deleted, and "Delete everything" erases every record, every photograph you attached, and any export still in the app's cache, behind a double confirmation. Deleting the app removes its private storage and everything in it.</p>
+        <h3>The meal-reading figures</h3>
+        <p>These are the one place we hold Article 9 data, and we count them as exactly that rather than pretending four numbers are something lesser. We are a controller of them. Our lawful basis is your explicit consent under Article 9(2)(a), given by choosing to scan a meal. You can withdraw it by not using the feature. OpenAI is our processor for the reading, under a data processing agreement.</p>
+        <h3>Your email address</h3>
+        <p>This is ordinary personal data under Article 6, and here too we are a controller. Our lawful basis is the contract between us: the account is how you get into the app and how you get back into it. You can see it, change it, or delete it in the app at any time.</p>
+        <p>"Delete everything" in Settings also deletes your Emenla account, your email address and every meal-reading figure, from inside the app, without asking us. It deletes the account first: if it cannot reach the server it stops and deletes nothing, so you are never left with an emptied phone and an account still on file.</p>
+        <p>Supabase acts as our processor for the account and for the meal-reading figures, under a data processing agreement, on servers in the EU. If you would rather ask a person about any of this, the contact address is below.</p>
 
         <h2 id="contact">Contact</h2>
-        <p>Emenla is being built in Poland. The operating entity is named on this page before the app is released and before any form on this site begins collecting anything. Privacy questions: <a href="mailto:hello@emenla.com">hello@emenla.com</a>.</p>
+        <p>Emenla is being built in Poland. The operating entity is named on this page before the app is released. Privacy questions, and requests under any of the rights above: <a href="mailto:hello@emenla.com">hello@emenla.com</a>. If you are not satisfied with how we answer, you can complain to the Polish supervisory authority, the Urząd Ochrony Danych Osobowych.</p>
       </div>
     </div>
   </main>
