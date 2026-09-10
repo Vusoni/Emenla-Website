@@ -3,5 +3,3 @@
 # time with "Only relative URLs are allowed" (code 100324). The 301 lives as a
 # Cloudflare Dynamic Redirect rule on the zone instead. See scripts/setup-seo.sh.
 
-/support/ /#faq 301
-/support/* /#faq 301
