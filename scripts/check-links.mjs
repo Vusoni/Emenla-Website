@@ -17,7 +17,12 @@ function walk(dir, out = []) {
 let bad = 0;
 const external = new Set();
 for (const file of walk(dist)) {
-  const html = readFileSync(file, 'utf8');
+  // Strip comments first, exactly as check-copy.mjs line 23 does. Commented-out
+  // markup is not on the page: its hrefs are examples for a future author (the
+  // clinician-card template, the review-card template) and its ids do not exist,
+  // so neither should be validated. Without this, five example links in
+  // site/index.html report as MISSING and the script is one nobody can run.
+  const html = readFileSync(file, 'utf8').replace(/<!--[\s\S]*?-->/g, ' ');
   const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]));
   for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const href = m[1];

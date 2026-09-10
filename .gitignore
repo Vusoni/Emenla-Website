@@ -10,3 +10,6 @@ emenla-site.zip
 
 # wrangler deploy leaves a local state dir here
 .wrangler/
+
+# Reference screenshots used while designing. Local only, like review/.
+Inspiration/
