@@ -7,7 +7,7 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 
 | Path | What |
 |------|------|
-| `site/` | **The website. This is the folder that goes online.** `index.html` plus `assets/`, the privacy, terms and support pages, `404.html`, `og.png`, `robots.txt`, `sitemap.xml`, `.htaccess`. |
+| `site/` | **The website. This is the folder that goes online.** `index.html` plus `assets/`, the privacy, terms, support and science pages, `404.html`, `og.png`, `robots.txt`, `sitemap.xml`, `_headers`, `_redirects`, `.htaccess`. |
 | `site/science/` | The science page: the evidence about endometriosis with 21 references (every DOI checked to resolve on 2026-08-28), the guidelines the app cites, and a plain statement of what has not been done (no trial, no clinician review). Update it when either changes. |
 | `site/assets/js/site.js` | Entrances, the hold moment, reduced motion. No form: the site collects nothing. |
 | `site/assets/js/hero.js` | The scroll-scrubbed hero. |
@@ -40,16 +40,15 @@ directions, the video-blocked page, phone hit areas and overflow, and checks bot
 
 ## Before launch
 
-Domain: **emenla.com** (registered at GoDaddy, 2026-08-27). Host: **Cloudflare Pages**.
+Domain: **emenla.com** (registered at GoDaddy, 2026-08-27). Host: **a Cloudflare Worker serving static assets**, configured in `wrangler.jsonc` and deployed with `npx wrangler deploy`. This file said Pages until 2026-09-10; it has been a Worker since `wrangler.jsonc` was added, and the difference matters because Pages and Workers are deployed by different commands.
 
 Done: the live domain is set in `og:url`, `og:image`, `robots.txt` and `sitemap.xml`; the support
 address is `hello@emenla.com` across privacy, terms and support; the hosting sentence in the privacy
-page names Cloudflare; `site/_headers` carries the `.htaccess` caching rules over to Pages.
+page names Cloudflare; `site/_headers` carries the `.htaccess` caching rules over, which the Worker reads the same way Pages did.
 
 Still open:
 
-0. The Support page is gone; `site/_redirects` sends `/support/` to `/#faq`. For App Store Connect use `https://emenla.com/#faq` as the support URL (the footer on every page carries hello@emenla.com).
-1. Set up `hello@emenla.com` — Cloudflare Email Routing, free, once the nameservers move.
+0. Confirm `hello@emenla.com` actually delivers. The Cloudflare Email Routing MX records are live and DMARC `rua` points at it, but a destination address still has to be verified in the dashboard. It is now the GDPR contact on `/privacy/`, the support address in App Store Connect, and the address in the app. An address that bounces is worse than an ugly one.
 2. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
 3. Replace the empty phone screens with real app screenshots. There are three: one in `#privacy`
    and two in `#screens` (the Record and Document panels). In each `.device__screen`, delete
@@ -59,7 +58,7 @@ Still open:
    Export at 560×1184 (twice the 280×592 screen); the existing `.device__screen img` rule crops it.
    New filenames need no `?v=` bump.
 4. Legal review of the terms, then remove the "Awaiting legal review" notice.
-5. At App Store launch: turn the "Coming soon" badge in the nav back into a link, pointing at the App Store page.
+5. At App Store launch: `node scripts/set-app-store.mjs --live`. The nav badge is already a link on all five pages (it points at `/#faq` while the app is unlisted); the script swaps it for `apps.apple.com/app/id6799958379`, adds that domain to the health check's allowlist, and then refuses to finish while any of the 19 remaining "not on the App Store yet" sentences are still on the page, listing each with its line. Rewrite those, re-run, and `npm run check` will confirm the site is not half-flipped.
 7. Reviews: `#asked` is six empty slots on a rail that loops without end. After launch, replace a slot with a real review typed in the same markup, exactly as posted (the HTML comment above the section gives the formats, including a rated one and a consented quote). Drop the `qcard--slot` class with the slot. Keep one honest slot until there are three real reviews.
 8. Clinicians: `#context` is three cards marked Example whose portrait area is a blank white panel. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 784×708, name, credentials, what they reviewed and when). Remove the pill and the `gcard--slot` class with the portrait, then update the note under the rail and `PLACEHOLDERS.md`. Never before.
 6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
@@ -78,10 +77,25 @@ record), so no registrar-side DNSSEC step was needed.
 
 ### Deploying
 
-`site/` is the publish directory. On Cloudflare Pages: upload `site/` (or point Pages at this repo
-with build command empty and output directory `site`), then add `emenla.com` and `www.emenla.com` as
-custom domains. `.htaccess` is kept for a future move to an Apache host; Pages ignores it and reads
-`site/_headers` instead. Pages serves `404.html` automatically.
+`site/` is the publish directory, and `wrangler.jsonc` points the Worker at it. Deploy with:
+
+```bash
+npm run check          # must be green first: banned terms, and every internal link
+npx wrangler deploy
+```
+
+`wrangler` is not a dependency of this repo, so it comes through `npx`. Pin the major
+(`npx wrangler@4 deploy`) if you would rather npx did not pull a newer one mid-deploy.
+`npx wrangler versions upload` uploads without shifting traffic and gives you a preview URL to
+check first, then `npx wrangler versions deploy` promotes it; `npx wrangler deployments list` and
+`npx wrangler rollback <id>` are the undo. `.htaccess` is kept for a future move to an Apache host;
+the Worker ignores it and reads `site/_headers`, and serves `404.html` through
+`not_found_handling`.
+
+After deploying, run the health check once by hand rather than waiting for the hour:
+`gh workflow run healthcheck.yml && gh run watch`. It re-verifies the page codes, the security
+headers, the absence of third-party resources, the certificate, DNS, and that `/privacy/` still
+names OpenAI and Supabase.
 
 ## Performance budget
 
