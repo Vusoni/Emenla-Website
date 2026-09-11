@@ -1384,12 +1384,18 @@ ul, ol { padding: 0; list-style: none; }
   padding-bottom: var(--section);
 }
 @media (max-width: 900px) { .doc { grid-template-columns: 1fr; gap: 32px; } }
-.toc { position: sticky; top: 96px; }
-@media (max-width: 900px) { .toc { position: static; } }
+/* Capped and scrollable because a sticky column taller than the window hides
+   its own last entries until the page ends; the terms have nineteen sections.
+   The block padding keeps a label that wraps to two lines off its neighbours,
+   which a bare min-height does only for labels that fit on one. */
+.toc { position: sticky; top: 96px; max-height: calc(100vh - 120px); overflow-y: auto; }
+@media (max-width: 900px) { .toc { position: static; max-height: none; overflow: visible; } }
 .toc a {
   display: flex;
   align-items: center;
   min-height: 44px;
+  padding-block: 6px;
+  line-height: 1.35;
   color: var(--stone);
   text-decoration: none;
   font-size: var(--text-body-sm);

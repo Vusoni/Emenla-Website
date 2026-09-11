@@ -49,7 +49,7 @@ page names Cloudflare; `site/_headers` carries the `.htaccess` caching rules ove
 Still open:
 
 0. Confirm `hello@emenla.com` actually delivers. The Cloudflare Email Routing MX records are live and DMARC `rua` points at it, but a destination address still has to be verified in the dashboard. It is now the GDPR contact on `/privacy/`, the support address in App Store Connect, and the address in the app. An address that bounces is worse than an ugly one.
-2. Replace the `[operator name]` and `[governing law]` placeholders in `site/privacy/` and `site/terms/`. Search for `data-todo`.
+2. ~~Operator name and governing law.~~ Done 2026-09-11: both pages name Vusoni Oliwier and Polish law, because both are now generated from the app repository (see *Legal pages* below). A postal address is still to come once the business structure is settled, and the operator named there must be the Apple Account Holder.
 3. Replace the empty phone screens with real app screenshots. There are three: one in `#privacy`
    and two in `#screens` (the Record and Document panels). In each `.device__screen`, delete
    `.device__mark` and `.device__hint` (keep `.device__notch` unless the screenshot carries its own
@@ -80,9 +80,28 @@ record), so no registrar-side DNSSEC step was needed.
 `site/` is the publish directory, and `wrangler.jsonc` points the Worker at it. Deploy with:
 
 ```bash
-npm run check          # must be green first: banned terms, and every internal link
+npm run sync:legal     # regenerate privacy and terms from the app repository
+npm run check          # must be green first: legal pages in sync, banned terms, every internal link
 npx wrangler deploy
 ```
+
+### Legal pages
+
+**The privacy policy and the terms are not written here.** Their text lives in the Emenla app
+repository, in `legal/privacy-policy.md` and `legal/terms-of-service.md`, beside the code whose
+behaviour they describe, and `scripts/sync-legal.mjs` renders it into `site/privacy/` and
+`site/terms/` between `LEGAL-SYNC-START` and `LEGAL-SYNC-END`. Edit the markdown there; an edit
+between the markers here is overwritten on the next sync.
+
+Everything outside the markers is still this repository's: the label, the heading, the "Awaiting
+legal review" notice, the head and the footer. The script expects the app repository beside this
+one at `../Emenla`; set `EMENLA_APP_REPO` if it is elsewhere.
+
+This replaced hand transcription on 2026-09-11, after the two copies had drifted in both
+directions at once: this site still said the app had no account, and the app's markdown still
+claimed a retention promise from OpenAI that this site had already corrected. `npm run check`
+now fails when the pages differ from the markdown, so a stale policy cannot be deployed, and the
+markdown itself must pass `content/banned-terms.json` because this is where it is published.
 
 `wrangler` is not a dependency of this repo, so it comes through `npx`. Pin the major
 (`npx wrangler@4 deploy`) if you would rather npx did not pull a newer one mid-deploy.
