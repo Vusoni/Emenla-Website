@@ -15,7 +15,7 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 | `design-package.md` | Every design decision and every line of copy. |
 | `Logo-Emenla/` | The founder's logo source (white background). `site/assets/img/logo.png` is the transparent cut, `logo-small.png` the nav and footer mark, `favicon.png` and `apple-touch-icon.png` come from it. |
 | `review/` | Raw generations, inspection frames, the font tarball. Never uploaded. |
-| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test). |
+| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions). |
 | `src/`, `dist/`, `scripts/`, `content/`, `public/` | The previous version of the site, kept for reference. Not used by `site/`. |
 
 ## Preview it
@@ -37,6 +37,17 @@ node tools/selftest.mjs http://127.0.0.1:8080/ /tmp/emenla-selftest
 
 Runs the flick test, the worst-frame contrast audit, the hold moment, reduced motion in both
 directions, the video-blocked page, phone hit areas and overflow, and checks both consoles.
+
+The history section (`#history`, the clock and the record) has its own filmstrip and assertions on
+the same Chrome and server:
+
+```
+node tools/histshots.mjs http://127.0.0.1:8080/ /tmp/emenla-hist
+```
+
+Desktop before the first node, inside every era and mid-roll, two short desktops, two phones and
+reduced motion. It fails if the clock and the record ever disagree, a card or caption drops below
+full contrast, the clock is not stuck where the stylesheet puts it, or the page overflows sideways.
 
 ## Before launch
 

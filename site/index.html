@@ -465,7 +465,7 @@
       </div>
     </section>
 
-    <!-- ============ A short history of endometriosis: the wave slides left as you scroll ============ -->
+    <!-- ============ A short history of endometriosis: the clock and the record ============ -->
     <section class="section section--tight" id="history">
       <div class="wrap">
         <div class="section-head reveal">
@@ -473,119 +473,88 @@
           <h2 class="heading-lg part">A long time to be believed.</h2>
           <p class="subheading part">Three centuries from the first description to a guideline that says your symptoms are enough.</p>
         </div>
-      </div>
-      <!-- The measured record: a ruled track whose spacing is honest to the years, inking in as the visitor scrolls.
-           Cards live in a band above the rule and never touch it. An image-less card carries a typographic figure in
-           the media slot; to give it a real picture, swap its <div class="hcard__media hcard__fig"> for a
-           <picture class="hcard__media"> shaped like the 1690 card. No CSS change is needed.
-           On phones the same markup reads as a vertical rail instead, top to bottom, with each gap line sitting
-           between the two years it counts; that is why the gaps are written in reading order. -->
-      <div class="hscroll" data-hscroll>
-        <div class="hscroll__stage">
-          <div class="hs-head" aria-hidden="true">
-            <p class="hs-now mono meta">Described</p>
-            <div class="hs-year voice"><span>1</span><span>6</span><span>9</span><span>0</span></div>
+        <!-- The clock (sticky, decorative) names the year the reading line has reached; the record is the eight eras in
+             order with a caption in every long gap. Nothing pins and nothing slides sideways: the page scrolls as itself,
+             and no text ever drops below full contrast. Under 900px the clock is a strip stuck to the top of the screen.
+             To give a figure era a picture, swap its <div class="hcard__media hcard__fig"> for a
+             <picture class="hcard__media"> shaped like the 1690 era. -->
+        <div class="hist" data-history>
+          <div class="hist__clock" aria-hidden="true">
+            <p class="hs-now mono">Described</p>
+            <div class="hs-year" data-year="1690">
+              <span class="hs-cell" style="--d:1"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:6"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:9"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:0"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span>
+            </div>
+            <div class="hs-ruler"><span class="hs-ruler__pen"></span></div>
           </div>
-          <p class="hscroll__hint mono meta" aria-hidden="true">Scroll to move through time</p>
-          <div class="hscroll__track">
-            <svg class="hscroll__svg" aria-hidden="true">
-              <path class="hscroll__base" d=""/>
-              <path class="hscroll__draw" d="" pathLength="1"/>
-            </svg>
-            <div class="hs-ticks" aria-hidden="true"></div>
-            <span class="hs-pen" aria-hidden="true"></span>
+          <div class="hist__record">
+            <span class="hist__spine" aria-hidden="true"></span>
+            <p class="vh">Eight moments from 1690 to today, with the years that passed between them.</p>
 
-            <span class="hnode" data-year="1690" aria-hidden="true"><i class="hnode__year">1690</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">1690</span><span class="label">Described</span></div>
-                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1690.avif"><img class="hcard__img" src="assets/img/hist-1690.jpg" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7"></picture>
-                <h3 class="hcard__title">First written down.</h3>
-                <p class="hcard__body">Daniel Shroen, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
-              </div>
+            <article class="hcard" data-year="1690">
+              <div class="hcard__row"><span class="hcard__year">1690</span><span class="label">Described</span></div>
+              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1690.avif"><img class="hcard__img" src="assets/img/hist-1690.jpg" width="640" height="400" alt="Decorated endpaper of an eighteenth-century treatise on the diseases of women by Jean Astruc." loading="lazy" decoding="async" style="--age:0.7"></picture>
+              <h3 class="hcard__title">First written down.</h3>
+              <p class="hcard__body">Daniel Shroen, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
             </article>
 
-            <p class="hs-gap voice" data-gap="0" aria-hidden="true">170 years pass.</p>
+            <p class="hs-gap hs-gap--xl">170 years pass.</p>
 
-            <span class="hnode" data-year="1860" aria-hidden="true"><i class="hnode__year">1860</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">1860</span><span class="label">Seen</span></div>
-                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1860.avif"><img class="hcard__img" src="assets/img/hist-1860.jpg" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6"></picture>
-                <h3 class="hcard__title">Seen under a microscope.</h3>
-                <p class="hcard__body">Karl von Rokitansky in Vienna identifies tissue like the lining of the womb growing where it should not.</p>
-              </div>
+            <article class="hcard" data-year="1860">
+              <div class="hcard__row"><span class="hcard__year">1860</span><span class="label">Seen</span></div>
+              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1860.avif"><img class="hcard__img" src="assets/img/hist-1860.jpg" width="640" height="400" alt="Photograph of Karl von Rokitansky, about 1860." loading="lazy" decoding="async" style="--age:0.6"></picture>
+              <h3 class="hcard__title">Seen under a microscope.</h3>
+              <p class="hcard__body">Karl von Rokitansky in Vienna identifies tissue like the lining of the womb growing where it should not.</p>
             </article>
 
-            <p class="hs-gap voice" data-gap="1" aria-hidden="true">Sixty-seven more.</p>
+            <p class="hs-gap hs-gap--lg">Sixty-seven more.</p>
 
-            <span class="hnode" data-year="1927" aria-hidden="true"><i class="hnode__year">1927</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">1927</span><span class="label">Named</span></div>
-                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1927.avif"><img class="hcard__img" src="assets/img/hist-1927.jpg" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5"></picture>
-                <h3 class="hcard__title">Given its name.</h3>
-                <p class="hcard__body">John Sampson coins the word endometriosis and proposes that backward menstrual flow seeds the tissue. Still the leading theory.</p>
-              </div>
+            <article class="hcard" data-year="1927">
+              <div class="hcard__row"><span class="hcard__year">1927</span><span class="label">Named</span></div>
+              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1927.avif"><img class="hcard__img" src="assets/img/hist-1927.jpg" width="640" height="400" alt="Portrait of John Albertson Sampson, 1930." loading="lazy" decoding="async" style="--age:0.5"></picture>
+              <h3 class="hcard__title">Given its name.</h3>
+              <p class="hcard__body">John Sampson coins the word endometriosis and proposes that backward menstrual flow seeds the tissue. Still the leading theory.</p>
             </article>
 
-            <p class="hs-gap voice" data-gap="2" aria-hidden="true">Another fifty-three.</p>
+            <p class="hs-gap hs-gap--md">Another fifty-three.</p>
 
-            <span class="hnode" data-year="1980" aria-hidden="true"><i class="hnode__year">1980</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">1980</span><span class="label">Organised</span></div>
-                <div class="hcard__media hcard__fig" role="img" aria-label="The first patient-led organisation"><span class="hcard__fig-n voice">1st</span><span class="hcard__fig-c mono">patient-led organisation</span></div>
-                <h3 class="hcard__title">Patients organise.</h3>
-                <p class="hcard__body">The Endometriosis Association is founded in Milwaukee, the first patient-led organisation, and starts collecting women's own accounts.</p>
-              </div>
+            <article class="hcard" data-year="1980">
+              <div class="hcard__row"><span class="hcard__year">1980</span><span class="label">Organised</span></div>
+              <div class="hcard__media hcard__fig" role="img" aria-label="The first patient-led organisation"><span class="hcard__fig-n">1st</span><span class="hcard__fig-c mono">patient-led organisation</span></div>
+              <h3 class="hcard__title">Patients organise.</h3>
+              <p class="hcard__body">The Endometriosis Association is founded in Milwaukee, the first patient-led organisation, and starts collecting women's own accounts.</p>
             </article>
 
-            <span class="hnode" data-year="2005" aria-hidden="true"><i class="hnode__year">2005</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">2005</span><span class="label">Guided</span></div>
-                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2005.avif"><img class="hcard__img" src="assets/img/hist-2005.jpg" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3"></picture>
-                <h3 class="hcard__title">The first European guideline.</h3>
-                <p class="hcard__body">ESHRE publishes its first guideline on diagnosing and treating endometriosis, updated in 2014 and 2022.</p>
-              </div>
+            <article class="hcard" data-year="2005">
+              <div class="hcard__row"><span class="hcard__year">2005</span><span class="label">Guided</span></div>
+              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2005.avif"><img class="hcard__img" src="assets/img/hist-2005.jpg" width="640" height="400" alt="Endometriosis of the ovary as seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.3"></picture>
+              <h3 class="hcard__title">The first European guideline.</h3>
+              <p class="hcard__body">ESHRE publishes its first guideline on diagnosing and treating endometriosis, updated in 2014 and 2022.</p>
             </article>
 
-            <span class="hnode" data-year="2017" aria-hidden="true"><i class="hnode__year">2017</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">2017</span><span class="label">Heard</span></div>
-                <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2017.avif"><img class="hcard__img" src="assets/img/hist-2017.jpg" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15"></picture>
-                <h3 class="hcard__title">Clinicians are told to listen.</h3>
-                <p class="hcard__body">The UK guideline NG73 tells clinicians to suspect endometriosis when a woman reports pelvic pain, period pain that disrupts daily life, or pain during sex.</p>
-              </div>
+            <article class="hcard" data-year="2017">
+              <div class="hcard__row"><span class="hcard__year">2017</span><span class="label">Heard</span></div>
+              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2017.avif"><img class="hcard__img" src="assets/img/hist-2017.jpg" width="640" height="400" alt="A superficial endometriosis lesion on the peritoneum, seen during laparoscopy." loading="lazy" decoding="async" style="--age:0.15"></picture>
+              <h3 class="hcard__title">Clinicians are told to listen.</h3>
+              <p class="hcard__body">The UK guideline NG73 tells clinicians to suspect endometriosis when a woman reports pelvic pain, period pain that disrupts daily life, or pain during sex.</p>
             </article>
 
-            <span class="hnode" data-year="2026" aria-hidden="true"><i class="hnode__year">2026</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">2026</span><span class="label">Enough</span></div>
-                <div class="hcard__media hcard__fig" role="img" aria-label="Symptoms, history and an examination are enough"><span class="hcard__fig-n voice">Enough.</span><span class="hcard__fig-c mono">symptoms · history · examination</span></div>
-                <h3 class="hcard__title">Your symptoms are enough.</h3>
-                <p class="hcard__body">ACOG's guideline says a clinical diagnosis from symptoms, history and an examination is enough to begin treatment. Surgery is not required first.</p>
-              </div>
+            <article class="hcard" data-year="2026">
+              <div class="hcard__row"><span class="hcard__year">2026</span><span class="label">Enough</span></div>
+              <div class="hcard__media hcard__fig" role="img" aria-label="Symptoms, history and an examination are enough"><span class="hcard__fig-n">Enough.</span><span class="hcard__fig-c mono">symptoms · history · examination</span></div>
+              <h3 class="hcard__title">Your symptoms are enough.</h3>
+              <p class="hcard__body">ACOG's guideline says a clinical diagnosis from symptoms, history and an examination is enough to begin treatment. Surgery is not required first.</p>
             </article>
 
-            <span class="hnode" data-year="today" aria-hidden="true"><i class="hnode__year">Today</i></span>
-            <article class="hcard">
-              <div class="card">
-                <div class="hcard__row"><span class="hcard__year voice">Today</span><span class="label">Still waiting</span></div>
-                <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n voice">4 to 11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
-                <h3 class="hcard__title">Four to eleven years.</h3>
-                <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
-              </div>
+            <article class="hcard hcard--today" data-year="today">
+              <div class="hcard__row"><span class="hcard__year">Today</span><span class="label">Still waiting</span></div>
+              <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n">4 to 11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
+              <h3 class="hcard__title">Four to eleven years.</h3>
+              <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
             </article>
           </div>
         </div>
-      </div>
-      <div class="wrap">
-        <p class="caption meta hscroll__sources hscroll__credits">Images: endpaper of Jean Astruc's Tractatus de morbis mulierum, Wellcome Collection (public domain) · Karl von Rokitansky, photograph by A. F. Baschta, Wellcome Collection (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>) · John A. Sampson, Album of the Fellows of the American Gynecological Society, 1930 (public domain) · laparoscopy: Leibetseder et al., 2022, and Di Michele et al., 2024, via Wikimedia Commons (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>).</p>
-        <p class="caption meta hscroll__sources">Sources: <a href="https://doi.org/10.1016/j.fertnstert.2012.08.001" rel="noopener noreferrer">Nezhat, Nezhat and Nezhat, Fertility and Sterility, 2012</a> · <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a> · <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">ACOG 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/" rel="noopener noreferrer">scoping review, 2024</a></p>
+        <p class="caption meta hist__sources hist__credits">Images: endpaper of Jean Astruc's Tractatus de morbis mulierum, Wellcome Collection (public domain) · Karl von Rokitansky, photograph by A. F. Baschta, Wellcome Collection (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>) · John A. Sampson, Album of the Fellows of the American Gynecological Society, 1930 (public domain) · laparoscopy: Leibetseder et al., 2022, and Di Michele et al., 2024, via Wikimedia Commons (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>).</p>
+        <p class="caption meta hist__sources">Sources: <a href="https://doi.org/10.1016/j.fertnstert.2012.08.001" rel="noopener noreferrer">Nezhat, Nezhat and Nezhat, Fertility and Sterility, 2012</a> · <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a> · <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">ACOG 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/" rel="noopener noreferrer">scoping review, 2024</a></p>
       </div>
     </section>
 

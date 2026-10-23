@@ -387,7 +387,7 @@ onto identical cards, so scrolling right or left never reaches an end.
 
 ### The measured record, 29 August 2026
 
-`#history` is no longer the Alveos wave. The line is a straight hairline rule inked as far as the
+Superseded 2026-10-23, below. `#history` is no longer the Alveos wave. The line is a straight hairline rule inked as far as the
 reading point, with a thin vertical cursor at the ink front (hidden within 24px of a milestone, so it
 can never read as a ninth dot). Milestones sit on ONE scale for the whole rule, no reset at any node:
 `x = x0 + K(u(1690) - u(year))` with `u(y) = sqrt(2028 - y)`, K taken from whichever is larger, the
@@ -418,6 +418,53 @@ mid-scroll moment leaves a half-cut card. `body.hs-pinned` lifts the page's bott
 the scene is pinned. Reduced motion keeps the stacked list, capped at 560px. Render and assert with
 `node tools/histshots.mjs http://127.0.0.1:8080/ <dir>`, which waits for the page to stand still and
 the current card to reach full opacity before and after every frame.
+
+### The clock and the record, 23 October 2026
+
+The measured record above is gone. It pinned the viewport for five screens of wheel input and panned
+a 5,700px track sideways on top of the site's wheel smoother; phones got a lesser rail with every
+picture hidden and everything below the reading line at a quarter strength; and the captions, the
+dots and the giant year were all hidden from assistive tech. The founder named all three: he disliked
+the carousel, doubted it on phones, and thought it could be bad for people.
+
+What replaced it keeps native scrolling everywhere and never pins. Two columns on desktop. Left, the
+clock: a sticky block carrying the era's mono label, a giant Instrument Serif year that rolls like an
+odometer under the visitor's own scroll (four half-em cells, each a strip of 0 to 9 and a trailing 0,
+moved by a custom property the script sets), and a ruler on the same square-root scale from 1690 to
+today, decade ticks, century labels, inked as far as the year with a pen at the ink's tip. Right, the
+record: the eight eras in reading order, each with its serif year, chip, picture or figure, title and
+body; a spine beside them inked down to a reading line 58% of the way down the screen (62% on
+phones), with a node per era that fills as the line reaches it; the three gap captions as visible
+text between eras, each given height in proportion to the years it counts; Today as the one raised
+white card. The contrast between the columns is the point: the record gives every era the same room,
+the ruler shows how uneven the real time was, and the speed of the rolling year says the same thing.
+
+The hold-and-roll rule: while the reading line is inside an era's box the clock shows that era's year
+exactly and its chip as the label; across the gap to the next node it rolls, linearly in scroll,
+from one year to the next, and the label fades out. The clock and the lit card never disagree, and
+the fast spin of the small digits happens only where a caption says time is passing. The readout
+never passes 2026: the last gap holds it while the pen runs out the ruler, and the last node turns it
+into the word Today. Scrolling back rolls back and un-lights: the state is a function of the scroll
+position and nothing else, so no latch and no loop.
+
+Phones get the same thing in one column: the clock is a strip that sits on the page's own ground
+while in flow and, from the moment it sticks to the top of the screen, turns solid under the floating
+wordmark, about 130px tall with a fade beneath it (the ground is a fixed spotlight, so a solid band in
+flow would show its edge); the record follows with the spine, the
+pictures at column width and the captions; and the CC BY credits now show on phones too, which the
+licence requires once the pictures do. Reduced motion keeps the layout and the sticky clock, steps
+the year to whole milestones with no roll, and drops every transition; the spine ink and the ruler
+fill still follow the scroll, as a scrollbar does. Nothing in the copy changed; the one new sentence
+is a visually hidden line for assistive tech. The breakpoint is 900px, where every other two-column
+layout on the page collapses; type sizes change with the site's 720px rules.
+
+Gone with it: `.hscroll` and its `--compact`, `--tight`, `--rail` and `--pin` states, `body.hs-pinned`,
+`span.hnode`, the `.hs-head` block, the hint and the inner `.card` wrappers.
+`node tools/histshots.mjs http://127.0.0.1:8080/ <dir>` was rewritten for the new section: it
+photographs the desktop before the first node, inside every era and mid every captioned roll, two
+short desktops, two phones and reduced motion, and fails if the clock and the record disagree, a card
+or caption drops below full contrast, the clock is not stuck where the stylesheet puts it, the phone
+strip passes 140px, the page overflows sideways or a console error is logged.
 
 ### The headline, re-set to the reference, 29 August 2026
 

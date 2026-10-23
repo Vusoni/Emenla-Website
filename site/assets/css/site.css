@@ -1099,7 +1099,7 @@ ul, ol { padding: 0; list-style: none; }
 }
 
 /* Held-open image card: white panel, ink type, no scrim. Used wherever a generated
-   picture has been withdrawn before launch. Matches .hcard__img--blank on the timeline. */
+   picture has been withdrawn before launch. */
 .imgcard--blank { background: #ffffff; border: 1px solid var(--haze); box-shadow: none; }
 .imgcard--blank::before, .imgcard--blank::after { display: none; }
 .imgcard--blank .imgcard__copy { color: var(--ink); }
@@ -1475,54 +1475,66 @@ ul, ol { padding: 0; list-style: none; }
   .device { width: min(100%, 240px); }
 }
 
-/* ---------- A short history: the measured record, a ruled track honest to the years ---------- */
-.hscroll { position: relative; margin-top: 24px; --stem: 56px; --rule-y: 70vh; }
-.hscroll__stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
+/* ---------- A short history: the clock and the record ----------
+   Two columns. Left, the clock: the era's label, a giant serif year that rolls like an odometer under the visitor's
+   own scroll, and a ruler on one square-root scale from 1690 to today, inked as far as the year. Right, the record:
+   the eight eras in reading order, each given the same room, with a caption in every long gap; a spine beside them
+   inks down to a reading line --read of the way down the screen and a node fills as the line reaches it. Nothing
+   pins, nothing slides sideways, no text ever drops below full contrast. The state is a function of the scroll
+   position (site.js); without the script the page reads 1690, hollow nodes, a clay spine. Below 900px the clock is
+   a strip stuck to the top of the screen and the record follows in one column. */
+.hist {
+  --read: 0.58;
+  --lift: 196px;
+  display: grid;
+  grid-template-columns: minmax(300px, 400px) minmax(0, 520px);
+  justify-content: space-between;
+  column-gap: clamp(40px, 5vw, 80px);
+  align-items: start;
+  max-width: 1040px;
+  margin: 48px auto 0;
 }
-/* The year being read, fixed at the bottom left of the viewport under the rule, while the record slides above it */
-.hs-head { position: absolute; left: var(--gutter); bottom: 104px; z-index: 2; pointer-events: none; }
+/* The clock sits in the middle of the screen with its ruler on the reading line; the sticky needs every ancestor
+   free of overflow, transform and filter (.wrap, .section and body are), so never put .reveal on .hist */
+.hist__clock {
+  position: sticky;
+  top: calc(var(--read) * 100vh - var(--lift));
+  align-self: start;
+  pointer-events: none;
+}
+.hist__record { position: relative; padding-left: 40px; --spine-x: 12px; }
+/* The clock */
+.hs-now { margin: 0 0 12px; color: var(--ash); min-height: 1.4em; }
+.hist.is-ready .hs-now { transition: opacity 400ms var(--ease-out); }
+.hs-now.is-empty { opacity: 0; }
 .hs-year {
-  font-size: clamp(88px, 12vw, 172px);
-  line-height: 0.9;
+  --cell: 1em;
+  font-family: var(--font-voice);
+  font-weight: 400;
+  font-size: clamp(88px, 10vw, 150px);
+  line-height: 1;
   letter-spacing: -0.02em;
+  height: var(--cell);
   color: var(--ink);
   white-space: nowrap;
 }
-/* Instrument Serif has no tabular figures, so every digit sits in its own cell and the year does not jitter as it rolls */
-.hs-year span { display: inline-block; width: 0.5em; text-align: center; }
-.hs-now { margin-bottom: 12px; color: var(--ash); max-width: 60vw; }
-.hscroll__hint {
-  position: absolute;
-  right: var(--gutter);
-  top: calc(var(--gutter) + 64px);
-  z-index: 2;
-  transition: opacity 500ms var(--ease-soft);
-}
-.hscroll__hint.is-gone { opacity: 0; }
-.hscroll__track {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  will-change: transform;
-}
-/* The rule: a hairline the whole way, inked as far as the reading point */
-.hscroll__svg { position: absolute; left: 0; top: 0; height: 100%; overflow: visible; }
-.hscroll__svg path { fill: none; stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.hscroll__base { stroke: var(--clay); }
-.hscroll__draw {
-  stroke: var(--ink);
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--draw, 0));
-}
-/* Decade ticks; every fiftieth year is taller and labelled. They ink in one at a time as the reading point passes */
-.hs-ticks { position: absolute; left: 0; top: var(--rule-y); height: 0; }
-.hs-tick { position: absolute; top: 0; width: 1px; height: 8px; margin-left: -0.5px; background: var(--clay); transition: background-color 300ms var(--ease-out); }
+/* Instrument Serif has no tabular figures, so each digit rides in its own half-em cell: a strip of 0 to 9 and a
+   trailing 0 for the wrap, moved by --d (set by the script; 1, 6, 9, 0 in the markup) */
+.hs-cell { display: inline-block; width: 0.5em; height: var(--cell); overflow: hidden; text-align: center; vertical-align: top; }
+.hs-strip { display: block; font-style: normal; transform: translate3d(0, calc(var(--d, 0) * -1 * var(--cell)), 0); will-change: transform; }
+.hs-strip > b { display: block; height: var(--cell); line-height: var(--cell); font-weight: 400; }
+/* At the last node the year is the word Today, drawn from the attribute */
+.hs-year.is-word .hs-cell { display: none; }
+.hs-year.is-word::after { content: attr(data-year); }
+/* The ruler: one scale for the whole of time, square-rooted from today, so distant decades tighten and recent
+   ones open out. Decade ticks, every fiftieth taller, centuries labelled; inked as far as the pen, which stands
+   on the clock's own year */
+.hs-ruler { --pen: 0; position: relative; height: 40px; margin-top: 28px; }
+.hs-ruler::before,
+.hs-ruler::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1.5px; background: var(--clay); }
+.hs-ruler::after { background: var(--ink); transform-origin: left; transform: scaleX(var(--pen)); }
+.hs-ruler__pen { position: absolute; top: 0; left: calc(var(--pen) * 100%); width: 1.5px; height: 13px; background: var(--ink); transform: translate(-50%, -50%); z-index: 1; }
+.hs-tick { position: absolute; top: 0; width: 1px; height: 8px; margin-left: -0.5px; background: var(--clay); }
 .hs-tick--50 { height: 16px; }
 .hs-tick.lit { background: var(--ink); }
 .hs-tick__label {
@@ -1537,114 +1549,43 @@ ul, ol { padding: 0; list-style: none; }
   letter-spacing: 0.14em;
   color: var(--clay);
   white-space: nowrap;
-  transition: color 300ms var(--ease-out);
 }
+.hs-tick--first .hs-tick__label { left: 0; transform: none; }
 .hs-tick.lit .hs-tick__label { color: var(--ash); }
-.hs-tick__label.is-hidden { display: none; }
-/* The pen: the ink front travelling along the rule */
-.hs-pen {
+/* The spine: a hairline from the first node to the last, inked down to the reading line */
+.hist__spine {
   position: absolute;
-  top: var(--rule-y);
-  left: calc(var(--read-x, 0) * 1px);
+  left: var(--spine-x);
+  top: var(--rail-a, 16px);
   width: 1.5px;
-  height: 13px;
-  background: var(--ink);
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  transition: opacity 200ms var(--ease-out);
+  height: var(--rail-len, calc(100% - 16px));
+  margin-left: -0.75px;
+  border-radius: 1px;
+  background: var(--clay);
 }
-/* Under a node the pen hides, so it never reads as a ninth milestone */
-.hs-pen.is-near { opacity: 0; }
-/* What the empty stretches say */
-.hs-gap {
+.hist__spine::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: top; transform: scaleY(var(--rail-ink, 0)); }
+/* An era: its node on the spine, level with its year */
+.hcard { position: relative; display: flex; flex-direction: column; gap: 12px; margin-top: 56px; }
+.hcard:first-of-type, .hs-gap + .hcard { margin-top: 0; }
+.hcard::before {
+  content: '';
   position: absolute;
-  top: calc(var(--rule-y) - 52px);
-  transform: translateX(-50%);
-  font-size: 30px;
-  line-height: 1;
-  color: var(--stone);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 600ms var(--ease-out);
-}
-.hs-gap.lit { opacity: 1; }
-/* Nodes: a hollow ring ahead, a filled dot behind, and one larger dot where the reader is */
-.hnode {
-  position: absolute;
-  z-index: 2;
+  left: calc(var(--spine-x) - 40px);
+  top: var(--node-y, 16px);
   width: 11px;
   height: 11px;
-  transform: translate(-50%, -50%);
+  margin: -5.5px 0 0 -5.5px;
   border-radius: 50%;
   border: 1.5px solid var(--clay);
   background: var(--canvas);
-  transition: background-color 400ms var(--ease-out), border-color 400ms var(--ease-out), width 300ms var(--ease-out), height 300ms var(--ease-out);
+  z-index: 1;
 }
-.hnode.lit { width: 9px; height: 9px; background: var(--ink); border-color: var(--ink); }
-.hnode.now { width: 20px; height: 20px; }
-.hnode::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px solid var(--ink);
-  opacity: 0;
-  pointer-events: none;
-}
-.hnode.now::before { animation: nodePulse 700ms var(--ease-out) forwards; }
-@keyframes nodePulse {
-  from { transform: scale(1); opacity: 0.45; }
-  to { transform: scale(1.9); opacity: 0; }
-}
-.hnode__year {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: 20px;
-  transform: translateX(-50%);
-  font-family: var(--font-voice);
-  font-style: italic;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0;
-  color: var(--clay);
-  white-space: nowrap;
-  transition: color 300ms var(--ease-out);
-}
-.hnode.lit .hnode__year { color: var(--ink); }
-/* Cards hang from a band above the rule, bottom-aligned, so the line can never enter one */
-.hcard {
-  position: absolute;
-  width: 280px;
-  bottom: calc(100% - var(--rule-y) + var(--stem));
-  opacity: 0.24;
-  transition: opacity 600ms var(--ease-out);
-}
-.hcard.lit { opacity: 1; }
-.hcard::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 1px;
-  height: calc(var(--stem) - 9px);
-  background: var(--clay);
-  transition: background-color 400ms var(--ease-out);
-}
-.hcard.lit::after { background: var(--ink); }
-.hcard .card {
-  padding: 18px 20px 20px;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
-}
-.hcard.now .card { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+.hcard.lit::before { background: var(--ink); border-color: var(--ink); }
 .hcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; white-space: nowrap; }
 .hcard__row .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }
-.hcard__year { font-size: 30px; line-height: 1; color: var(--ink); }
-.hcard__media { display: block; width: 100%; aspect-ratio: 2 / 1; border-radius: 14px; overflow: hidden; }
+.hcard__year { font-family: var(--font-voice); font-weight: 400; font-size: 32px; line-height: 1; letter-spacing: -0.01em; color: var(--ash); }
+.hcard.lit .hcard__year { color: var(--ink); }
+.hcard__media { display: block; width: 100%; max-width: 360px; aspect-ratio: 2 / 1; border-radius: 14px; overflow: hidden; }
 /* Every picture shares one warm monochrome key; --age (1 at 1690, 0 today) only decides how brown it is,
    so the archival plates and the laparoscopy photographs read as one set against the cream */
 .hcard__img {
@@ -1655,95 +1596,103 @@ ul, ol { padding: 0; list-style: none; }
   filter: grayscale(0.88) sepia(calc(0.3 + var(--age, 0) * 0.4)) contrast(0.95) brightness(1.03);
 }
 /* A figure where no honest picture exists yet: a ledger line between two hairlines, not a stand-in for a photograph */
-.hcard__fig { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
-.hcard__fig-n { font-size: 30px; line-height: 1; color: var(--ink); }
+.hcard__fig { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; aspect-ratio: auto; padding: 24px 0; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
+.hcard__fig-n { font-family: var(--font-voice); font-weight: 400; font-size: 44px; line-height: 1; color: var(--ink); }
 .hcard__fig-c { font-size: 10px; letter-spacing: 0.14em; color: var(--ash); }
 .hcard__title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
-.hcard__body { color: var(--stone); font-size: 15px; line-height: 1.5; }
-.hscroll__sources { margin-top: 28px; text-align: center; }
-.hscroll__sources a { color: var(--stone); }
-@media (min-height: 1000px) and (min-width: 721px) {
-  .hcard__media { aspect-ratio: 16 / 10; }
+.hcard__body { color: var(--stone); font-size: 15px; line-height: 1.5; max-width: 52ch; }
+/* Today closes the record as the one raised card: the figure carries it, so the title that repeats it steps aside */
+.hcard--today { background: var(--panel); border-radius: var(--radius-card); box-shadow: var(--shadow-xl); padding: 22px 24px 24px; margin-left: -12px; }
+.hcard--today::before { left: calc(var(--spine-x) - 28px); }
+.hcard--today .hcard__fig { align-items: flex-start; text-align: left; }
+.hcard--today .hcard__fig-n { font-size: 64px; }
+.hcard--today .hcard__title { display: none; }
+/* What the long stretches say, each given room in proportion to the years it counts; the spine runs through it */
+.hs-gap {
+  display: flex;
+  align-items: center;
+  min-height: 140px;
+  margin: 0;
+  font-family: var(--font-voice);
+  font-style: italic;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--stone);
 }
-@media (max-height: 960px) and (min-width: 721px) {
-  .hcard__body { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
-  .hcard .card { gap: 8px; }
-}
-/* Set by the script when the year, the tallest card and the rule cannot all fit the height */
-.hscroll--compact .hs-year { font-size: clamp(64px, 8vw, 112px); }
-.hscroll--compact .hcard__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.hscroll--compact .hcard .card { gap: 8px; }
-/* The second step down, for very short windows: a small year close to the edge and a shallower picture */
-.hscroll--tight .hs-year { font-size: 76px; }
-.hscroll--tight .hs-head { bottom: 100px; }
-.hscroll--tight .hs-now { margin-bottom: 6px; }
-.hscroll--tight .hcard__media { aspect-ratio: 5 / 2; }
-/* Phones: the record is a vertical rail read at the page's own pace. Nothing pins and nothing slides sideways.
-   A hairline runs from the first dot to the last and inks down to a reading line as the visitor scrolls
-   (--rail-ink, 0 to 1, set by site.js); each year, and each stretch of years between two, lights as the line reaches
-   it. Without the script, or under reduced motion, the rail is fully inked and everything reads at full strength.
-   Together with the desktop block below, this covers exactly the stacking query in site.js. */
-@media (max-width: 720px) {
-  .hscroll { margin-top: 36px; }
-  .hscroll__stage { position: relative; height: auto; overflow: visible; padding: 0 var(--gutter) 0 calc(var(--gutter) + 34px); }
-  .hs-head, .hscroll__hint, .hscroll__svg, .hs-ticks, .hs-pen, .hnode__year, .hcard__media, .hcard::after { display: none; }
-  .hscroll__track { position: relative; height: auto; width: auto !important; transform: none !important; will-change: auto; }
-  .hscroll__track::before,
-  .hscroll__track::after {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: var(--rail-a, 0px);
-    width: 1.5px;
-    height: var(--rail-len, 100%);
-    margin-left: -0.75px;
-    border-radius: 1px;
-    background: var(--clay);
+.hs-gap--xl { min-height: 180px; }
+.hs-gap--md { min-height: 120px; }
+.hs-gap.lit { color: var(--ink); }
+/* Motion, only once the script has measured, so a reload never plays it: a node fills and a year darkens as the
+   reading line reaches them, and the era lifts once. The strips, the ruler ink, the pen and the spine ink carry no
+   transition: they are mapped straight to the scroll position and stop the instant it does */
+.hist.is-ready .hcard { transition: transform 700ms var(--ease-out); }
+.hist.is-ready .hcard.lit { transform: translateY(-10px); }
+.hist.is-ready .hcard::before { transition: background-color 400ms var(--ease-out), border-color 400ms var(--ease-out); }
+.hist.is-ready .hcard__year, .hist.is-ready .hs-gap { transition: color 400ms var(--ease-out); }
+.hist.is-ready .hs-tick { transition: background-color 300ms var(--ease-out); }
+.hist.is-ready .hs-tick__label { transition: color 300ms var(--ease-out); }
+.hist__sources { margin-top: 36px; text-align: center; }
+.hist__sources a { color: var(--stone); }
+/* One column under 900px: the clock becomes a strip stuck to the top of the screen, the floating wordmark over its
+   solid top, a fade under it; the record follows with its spine, every picture and every caption */
+@media (max-width: 900px) {
+  .hist { --read: 0.62; display: block; max-width: none; margin-top: 0; } /* the strip's own nav clearance is the gap */
+  .hist__clock {
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 14px;
+    padding: 68px max(var(--gutter), calc(50% + var(--gutter) - 280px)) 6px;
+    margin: 0 calc(-1 * var(--gutter));
   }
-  .hscroll__track::after { background: var(--ink); transform-origin: top; transform: scaleY(var(--rail-ink, 1)); }
-  /* A dot takes its place in the flow just above its entry, then centres on the rail beside the year */
-  .hnode { left: -24px !important; top: auto !important; margin-top: 17px; }
-  .hcard { position: relative; left: auto !important; bottom: auto; width: auto !important; opacity: 1; padding-bottom: 40px; }
-  .hcard .card { background: none; border-radius: 0; box-shadow: none; padding: 0; gap: 6px; transform: none !important; }
+  /* In flow the strip sits on the page's own ground (a fixed spotlight, so a solid band would show its edge). The
+     script adds is-stuck from the moment the section's top passes the screen's top, which is exactly when the strip
+     sticks: then it is solid under the wordmark with a fade below. Without the script it never sticks at all. */
+  .hist__clock.is-stuck { background: var(--canvas); }
+  .hist:not(.is-ready) .hist__clock { position: static; }
+  .hist__clock::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 24px; opacity: 0; background: linear-gradient(var(--canvas), rgba(var(--cream-rgb), 0)); }
+  .hist__clock.is-stuck::after { opacity: 1; }
+  .hist.is-ready .hist__clock::after { transition: opacity 300ms var(--ease-out); }
+  .hs-year { order: 1; font-size: 44px; letter-spacing: -0.01em; }
+  .hs-now { order: 2; margin: 0; min-height: 0; }
+  .hs-ruler { order: 3; flex-basis: 100%; height: 12px; margin-top: 6px; }
+  .hs-ruler::before, .hs-ruler::after { height: 1px; }
+  .hs-ruler__pen, .hs-tick__label { display: none; }
+  .hs-tick { height: 5px; }
+  .hs-tick--50 { height: 9px; }
+  .hist__record { max-width: 560px; margin: 28px auto 0; padding-left: 34px; --spine-x: 10px; }
+  .hcard { margin-top: 44px; }
+  .hcard::before { left: calc(var(--spine-x) - 34px); }
+  .hcard--today::before { left: calc(var(--spine-x) - 26px); }
   .hcard__row { justify-content: flex-start; gap: 12px; }
   .hcard__year { font-size: 34px; }
   .hcard__row .label { padding: 0; border: 0; background: none; font-size: 11px; letter-spacing: 0.12em; color: var(--ash); }
   .hcard__row .label::before { display: none; }
-  .hcard__title { margin-top: 4px; }
-  .hs-gap { position: static; display: block; transform: none; margin: -12px 0 0; padding-bottom: 40px; font-size: 21px; line-height: 1.2; color: var(--ash); white-space: normal; opacity: 1; }
-  /* Today closes the record as the one card: the figure carries it, so the title that repeats it steps aside */
-  .hcard:last-of-type { padding-bottom: 0; }
-  .hcard:last-of-type .card { background: var(--panel); border-radius: var(--radius-card); box-shadow: var(--shadow-xl); padding: 22px 22px 24px; margin: -22px 0 0 -12px; }
-  .hcard:last-of-type .hcard__fig { display: flex; align-items: flex-start; aspect-ratio: auto; gap: 6px; margin: 10px 0 4px; padding: 0; border: 0; text-align: left; }
-  .hcard:last-of-type .hcard__fig-n { font-size: 64px; }
-  .hcard:last-of-type .hcard__title { display: none; }
-  .hscroll__sources { margin-top: 32px; text-align: left; }
-  .hscroll__credits { display: none; }
-  /* While the script reads along, what is still ahead waits at a quarter strength */
-  /* Motion, only while the rail runs, so never under reduced motion: a year's dot fills and rings as the reading
-     line reaches it, then its words rise into place a beat apart, and the stretch after it follows. A short pen
-     rides the tip of the ink, as the desktop pen rides the rule, and hides over a dot */
-  .hscroll--rail .hcard, .hscroll--rail .hs-gap { transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out); }
-  .hscroll--rail .hcard:not(.lit), .hscroll--rail .hs-gap:not(.lit) { opacity: 0.26; }
-  .hscroll--rail .hs-gap:not(.lit) { transform: translateY(12px); }
-  .hscroll--rail .hnode.lit::before { animation: nodePulse 700ms var(--ease-out) forwards; }
-  .hscroll--rail .hcard .card > * { transition: transform 700ms var(--ease-out); }
-  .hscroll--rail .hcard.lit .hcard__title { transition-delay: 60ms; }
-  .hscroll--rail .hcard.lit .hcard__body { transition-delay: 120ms; }
-  .hscroll--rail .hcard:not(.lit) .card > :not(.hcard__row) { transform: translateY(12px); }
-  .hscroll--rail .hcard:last-of-type:not(.lit) .card { box-shadow: var(--shadow-md); }
-  .hscroll--rail .hs-pen { display: block; top: var(--rail-a, 0px); left: -24px; width: 13px; height: 1.5px; transform: translate(-50%, calc(var(--rail-len, 0px) * var(--rail-ink, 0) - 50%)); }
+  .hcard__media { max-width: none; }
+  .hcard__fig-n { font-size: 36px; }
+  .hcard--today { margin-left: -8px; padding: 20px 20px 22px; }
+  .hcard--today .hcard__fig-n { font-size: 56px; }
+  .hs-gap { min-height: 96px; font-size: 26px; }
+  .hs-gap--xl { min-height: 112px; }
+  .hs-gap--md { min-height: 88px; }
+  .hist__sources { max-width: 560px; margin-inline: auto; text-align: left; }
 }
-/* Stacked under reduced motion on wider screens; phones always stack, in the block above */
-@media (prefers-reduced-motion: reduce) and (min-width: 721px) {
-  .hscroll__stage { position: relative; height: auto; overflow: visible; padding-left: 56px; }
-  .hscroll__stage::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: var(--clay); }
-  .hscroll__hint, .hscroll__svg, .hs-head, .hs-ticks, .hs-pen, .hs-gap, .hnode__year { display: none; }
-  .hscroll__track { position: relative; height: auto; transform: none !important; width: auto !important; }
-  .hnode { position: absolute; left: -36px !important; top: auto !important; transform: translate(-50%, 0); width: 11px !important; height: 11px !important; }
-  .hcard { position: relative; width: 100% !important; max-width: 560px; opacity: 1 !important; margin-bottom: 28px; left: auto !important; bottom: auto !important; }
-  .hcard::after { display: none; }
-  .hcard.now .card { transform: none; box-shadow: var(--shadow-md); }
+@media (max-width: 720px) {
+  .hist__clock { padding-top: 64px; }
+  .hs-gap { font-size: 24px; }
+}
+/* A short window: a smaller year and the clock lifted to match */
+@media (max-height: 760px) and (min-width: 901px) {
+  .hist { --lift: 160px; }
+  .hs-year { font-size: clamp(72px, 8vw, 112px); }
+}
+/* Under reduced motion the script steps the year to whole milestones; the global rule at the foot of this file
+   zeroes every transition, and the lift is the one transform to undo */
+@media (prefers-reduced-motion: reduce) {
+  .hist.is-ready .hcard.lit { transform: none; }
 }
 
 /* ---------- The bottom edge blur: what is about to scroll in softens first ---------- */
@@ -1763,8 +1712,6 @@ ul, ol { padding: 0; list-style: none; }
 @media (max-width: 720px) { .edge-blur { height: 90px; } }
 .edge-blur { transition: opacity 500ms var(--ease-soft); }
 body.at-end .edge-blur { opacity: 0; }
-/* Nothing scrolls in from below while the history scene is pinned, so the strip steps aside and the big year stays crisp */
-body.hs-pinned .edge-blur { opacity: 0; }
 
 /* ---------- What's in the app: the people grid ---------- */
 .grid5 {

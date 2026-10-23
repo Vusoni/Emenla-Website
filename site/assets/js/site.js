@@ -393,259 +393,157 @@
   }
   if (reduced()) pinRail(); else armRail();
 
-  /* ---------- A short history: the measured record slides left as the visitor scrolls down ---------- */
-  var hs = document.querySelector('[data-hscroll]');
-  /* Phones never pin: they read the record as a vertical rail (below). Reduced motion stacks it everywhere */
-  var hsStack = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 720px)');
-  var hsNodes = [], hsCards = [], hsLabels = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
-  var hsTrack = null, hsBase = null, hsDraw = null, hsStage = null, hsHead = null, hsYearEl = null, hsNowEl = null, hsHint = null, hsTickBox = null, hsPen = null;
-  var hsX0 = 0, hsX1 = 1, hsK = 1, hsU0 = 1, hsRuleY = 0, hsCardW = 300, hsTrackW = 0, hsRange = 1;
-  var hsX = -1, hsLitTicks = 0, hsNow = -1, hsYear = '', hsLine = '', hsHintGone = false, hsPenNear = false, hsPinned = false, hsListening = false;
-  /* One scale for the whole rule: distance from today, square-rooted, so recent decades are wide and distant ones
+  /* ---------- A short history: the clock and the record ----------
+     The record is eight eras in reading order with a caption in every long gap; the clock beside it (a strip above
+     it on phones) names the year a reading line, --read of the way down the screen, has reached. The state is a
+     function of the scroll position and nothing else: inside an era's box the clock holds that era's year and label;
+     across the gap to the next node it rolls, linearly in scroll, from one year to the next, and the label is empty;
+     the last gap holds 2026 while the pen runs out the ruler, and the last node turns the year into the word Today.
+     Scrolling back rolls back and un-lights. Under reduced motion the year steps to whole milestones and nothing
+     eases; the ruler ink and the spine ink still follow the scroll, as a scrollbar does. */
+  var hs = document.querySelector('[data-history]');
+  var hsRecord = null, hsSpine = null, hsRuler = null, hsYearEl = null, hsNowEl = null;
+  var hsCells = [], hsCards = [], hsGaps = [], hsYears = [], hsLabels = [], hsTicks = [];
+  var hsNodeY = [], hsHoldEnd = [], hsGapY = [], hsRulerPct = [];
+  var hsReadFrac = 0.58, hsRm = false, hsRaf = null, hsReady = false;
+  /* What the page shows now, so a frame writes only what changed */
+  var hsLit = -1, hsLitGaps = 0, hsLitTicks = 0, hsYearShown = null, hsOff = [], hsLabelShown = null, hsPen = -1, hsInk = -1;
+  /* One scale for the whole ruler: distance from today, square-rooted, so recent decades are wide and distant ones
      tight, the way time looks when you look back. "Today" sits two years past 2026 so it has a place of its own;
      the readout itself never passes 2026. */
   var HS_TODAY = 2028;
   function hsU(y) { return Math.sqrt(Math.max(0, HS_TODAY - y)); }
-  function yearToX(y) { return hsX0 + hsK * (hsU0 - hsU(y)); }
-  function hsBuild() {
-    /* Decade ticks from 1700 to 2020; every fiftieth year is taller and carries its label */
+  /* Where a year falls along the ruler, 0 at 1690 and 1 at today */
+  function hsRulerX(y) { return (hsU(1690) - hsU(y)) / hsU(1690); }
+  function hsBuildRuler() {
+    /* Decade ticks from 1700 to 2020; every fiftieth year is taller and every century carries its label */
+    var pen = hsRuler.querySelector('.hs-ruler__pen');
     for (var y = 1700; y <= 2020; y += 10) {
       var t = document.createElement('span');
-      t.className = 'hs-tick' + (y % 50 === 0 ? ' hs-tick--50' : '');
-      if (y % 50 === 0) { var l = document.createElement('i'); l.className = 'hs-tick__label'; l.textContent = String(y); t.appendChild(l); }
-      hsTickBox.appendChild(t);
-      hsTicks.push({ year: y, el: t, x: 0 });
+      t.className = 'hs-tick' + (y % 50 === 0 ? ' hs-tick--50' : '') + (y === 1700 ? ' hs-tick--first' : '');
+      var pct = hsRulerX(y);
+      t.style.left = (pct * 100).toFixed(3) + '%';
+      if (y % 100 === 0) { var l = document.createElement('i'); l.className = 'hs-tick__label'; l.textContent = String(y); t.appendChild(l); }
+      hsRuler.insertBefore(t, pen);
+      hsTicks.push({ pct: pct, el: t });
     }
   }
-  function hsTallest() { var h = 0; hsCards.forEach(function (c) { h = Math.max(h, c.offsetHeight); }); return h; }
-  /* The card band starts under the navigation bar, the rule sits under the tallest card, and the big year sits at
-     the bottom of the frame. Room is what is left between the two. */
-  function hsFit(bandTop, stem) {
-    return { need: bandTop + hsTallest() + stem, room: (hsHead ? hsHead.offsetTop : 1e9) - 58 };
-  }
-  function hsLayout() {
+  /* Measured once per layout, so a scroll frame costs one rect read. The record is each era's offset parent and
+     an era is its own year's, so every figure here is record-relative */
+  function hsMeasure() {
     if (!hs) return;
-    if (hsStack.matches) {
-      hs.style.height = '';
-      hs.classList.remove('hscroll--compact');
-      hs.classList.remove('hscroll--tight');
-      hsTrack.style.transform = '';
-      hsTrack.style.width = '';
-      hsTrack.style.removeProperty('--read-x');
-      hsNodes.forEach(function (nd, i) {
-        nd.style.left = ''; nd.style.top = ''; nd.classList.add('lit'); nd.classList.remove('now');
-        if (hsCards[i]) { hsCards[i].classList.add('lit'); hsCards[i].classList.remove('now'); hsCards[i].style.left = ''; hsCards[i].style.width = ''; }
-      });
-      hsDraw.style.setProperty('--draw', '1');
-      if (hsPinned) { hsPinned = false; document.body.classList.remove('hs-pinned'); }
+    hsReadFrac = parseFloat(getComputedStyle(hs).getPropertyValue('--read')) || 0.58;
+    hsCards.forEach(function (c, i) {
+      var yr = c.querySelector('.hcard__year');
+      var local = yr ? yr.offsetTop + yr.offsetHeight / 2 : 16;
+      c.style.setProperty('--node-y', local.toFixed(1) + 'px');
+      hsNodeY[i] = c.offsetTop + local;
+      hsHoldEnd[i] = c.offsetTop + c.offsetHeight;
+    });
+    hsGapY = hsGaps.map(function (g) { return g.offsetTop + 10; });
+    var a = hsNodeY[0], len = Math.max(1, hsNodeY[hsNodeY.length - 1] - a);
+    hsSpine.style.setProperty('--rail-a', a.toFixed(1) + 'px');
+    hsSpine.style.setProperty('--rail-len', len.toFixed(1) + 'px');
+    hsRulerPct = hsYears.map(hsRulerX);
+    hsUpdate();
+    /* Transitions arm one frame after the first state is written, so a reload never plays an arrival */
+    if (!hsReady) { hsReady = true; window.requestAnimationFrame(function () { hs.classList.add('is-ready'); }); }
+  }
+  /* The odometer: a number, possibly fractional, or the word Today. A cell shows digit d by moving its strip up
+     d cells; the units cell carries the fraction, and a higher cell rolls only through the last whole year of its
+     span (1999.5 rolls all four, 1774.4 rolls the units alone). Under reduced motion the fraction is dropped. */
+  function hsSetYear(y) {
+    if (y === 'Today') {
+      if (hsYearShown !== 'Today') { hsYearShown = 'Today'; hsYearEl.classList.add('is-word'); hsYearEl.setAttribute('data-year', 'Today'); }
       return;
     }
-    var vw = window.innerWidth, vh = window.innerHeight, n = hsNodes.length, i;
-    /* The record reads at 42 percent of the width with the next card ghosted beside it */
-    hsCardW = Math.max(300, Math.min(340, Math.round(vw * 0.22)));
-    var pad = vw * 0.42;
-    var stem = 56;
-    var bandTop = 100;
-    hsCards.forEach(function (c) { c.style.width = hsCardW + 'px'; });
-    /* The tightest gap must still hold a card, and the whole record should run about 3.3 screens wide */
-    hsU0 = hsU(hsYears[0]);
-    var gapMin = hsCardW + 48, minDu = Infinity;
-    for (i = 0; i < n - 1; i++) minDu = Math.min(minDu, hsU(hsYears[i]) - hsU(hsYears[i + 1]));
-    hsX0 = pad;
-    hsK = Math.max(gapMin / minDu, 3.3 * vw / hsU0);
-    hsNodeX = hsYears.map(yearToX);
-    hsX1 = hsNodeX[n - 1];
-    /* The scene ends with the last card; the rule starts at the first node and stops at the last */
-    var tail = vw * 0.12;
-    hsTrackW = hsX1 + hsCardW / 2 + tail;
-    hsTrack.style.width = hsTrackW + 'px';
-    var svg = hsTrack.querySelector('svg');
-    svg.setAttribute('width', String(Math.ceil(hsTrackW)));
-    svg.style.width = hsTrackW + 'px';
-    hs.classList.remove('hscroll--compact');
-    hs.classList.remove('hscroll--tight');
-    var fit = hsFit(bandTop, stem);
-    if (fit.need > fit.room) { hs.classList.add('hscroll--compact'); fit = hsFit(bandTop, stem); }
-    if (fit.need > fit.room) { hs.classList.add('hscroll--tight'); fit = hsFit(bandTop, stem); }
-    var ruleY = Math.round(fit.room >= fit.need ? fit.need + (fit.room - fit.need) * 0.5 : fit.need);
-    hsRuleY = ruleY;
-    hs.style.setProperty('--rule-y', ruleY + 'px');
-    hs.style.setProperty('--stem', stem + 'px');
-    var d = 'M ' + hsX0.toFixed(1) + ' ' + ruleY + ' L ' + hsX1.toFixed(1) + ' ' + ruleY;
-    hsBase.setAttribute('d', d);
-    hsDraw.setAttribute('d', d);
-    hsNodes.forEach(function (nd, j) {
-      nd.style.left = hsNodeX[j].toFixed(1) + 'px';
-      nd.style.top = ruleY + 'px';
-      if (hsCards[j]) hsCards[j].style.left = (hsNodeX[j] - hsCardW / 2).toFixed(1) + 'px';
-    });
-    hsTicks.forEach(function (t) {
-      t.x = yearToX(t.year); t.el.style.left = t.x.toFixed(1) + 'px'; t.el.classList.remove('lit');
-      /* A fifty-year label steps aside when a milestone's own year sits within reach of it */
-      var lab = t.el.firstChild;
-      if (lab) lab.classList.toggle('is-hidden', hsNodeX.some(function (nx) { return Math.abs(nx - t.x) < 44; }));
-    });
-    hsGaps.forEach(function (g) {
-      var gi = parseInt(g.getAttribute('data-gap'), 10);
-      if (hsNodeX[gi + 1] !== undefined) g.style.left = ((hsNodeX[gi] + hsNodeX[gi + 1]) / 2).toFixed(1) + 'px';
-    });
-    hsRange = hsTrackW - vw;
-    hs.style.height = (hsRange + vh) + 'px';
-    hsX = -1; hsLitTicks = 0; hsNow = -1; hsYear = ''; hsLine = '';
-    updateHistory();
-  }
-  function hsSetYear(yr) {
-    if (!hsYearEl) return;
-    if (/^\d{4}$/.test(yr)) {
-      hsYearEl.classList.remove('is-word');
-      if (hsYearEl.children.length !== 4) {
-        hsYearEl.textContent = '';
-        for (var j = 0; j < 4; j++) hsYearEl.appendChild(document.createElement('span'));
-      }
-      for (var i = 0; i < 4; i++) { var s = hsYearEl.children[i]; if (s.textContent !== yr.charAt(i)) s.textContent = yr.charAt(i); }
-    } else {
-      hsYearEl.classList.add('is-word');
-      hsYearEl.textContent = yr;
+    if (hsYearShown === 'Today') hsYearEl.classList.remove('is-word');
+    var whole = Math.floor(y), frac = hsRm ? 0 : y - whole, k, p, d, r, off;
+    for (k = 0; k < 4; k++) {
+      p = [1, 10, 100, 1000][k];
+      d = Math.floor(whole / p) % 10;
+      r = k === 0 ? frac : (whole % p === p - 1 ? frac : 0);
+      off = d + r;
+      if (Math.abs(off - hsOff[k]) > 0.0005) { hsOff[k] = off; hsCells[3 - k].style.setProperty('--d', off.toFixed(4)); }
     }
+    if (whole !== hsYearShown) { hsYearShown = whole; hsYearEl.setAttribute('data-year', String(whole)); }
   }
-  function updateHistory() {
-    if (!hs || hsStack.matches) return;
-    /* Progress is how far the pinned stage has travelled inside its section, measured live, so the
-       scene ends exactly when the pin ends in every browser */
-    var r = hs.getBoundingClientRect();
-    var travelled = hsStage.getBoundingClientRect().top - r.top;
-    var span = Math.max(1, hs.offsetHeight - hsStage.offsetHeight);
-    var p = Math.min(1, Math.max(0, travelled / span));
-    var x = Math.round(p * hsRange);
-    if (x === hsX) return;
-    hsX = x;
-    hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
-    /* The reading point travels from the first node to the last as progress runs 0 to 1; the rule is
-       straight, so the inked share is simply that distance */
-    var readX = hsX0 + p * (hsX1 - hsX0);
-    hsTrack.style.setProperty('--read-x', readX.toFixed(1));
-    hsDraw.style.setProperty('--draw', (p >= 0.995 ? 1 : (readX - hsX0) / (hsX1 - hsX0)).toFixed(4));
-    var n = hsNodes.length, now = -1, near = false, i;
-    for (i = 0; i < n; i++) {
-      var lit = hsNodeX[i] <= readX + 8;
-      if (lit) now = i;
-      if (Math.abs(hsNodeX[i] - readX) < 24) near = true;
-      if (hsNodes[i].classList.contains('lit') !== lit) {
-        hsNodes[i].classList.toggle('lit', lit);
-        if (hsCards[i]) hsCards[i].classList.toggle('lit', lit);
-        if (hsGapMap[i]) hsGapMap[i].classList.toggle('lit', lit);
-      }
+  function hsApply(era, read, year, pen, ink, label) {
+    var n = hsCards.length, k;
+    if (era !== hsLit) { for (k = 0; k < n; k++) hsCards[k].classList.toggle('lit', k <= era); hsLit = era; }
+    var g = 0;
+    while (g < hsGaps.length && hsGapY[g] <= read) g++;
+    if (g !== hsLitGaps) { for (k = 0; k < hsGaps.length; k++) hsGaps[k].classList.toggle('lit', k < g); hsLitGaps = g; }
+    /* An empty label fades the old word out rather than blanking it mid-fade */
+    if (label !== hsLabelShown) {
+      hsLabelShown = label;
+      if (label) hsNowEl.textContent = label;
+      hsNowEl.classList.toggle('is-empty', !label);
     }
-    if (now !== hsNow) {
-      if (hsNow >= 0) { hsNodes[hsNow].classList.remove('now'); if (hsCards[hsNow]) hsCards[hsNow].classList.remove('now'); }
-      if (now >= 0) { hsNodes[now].classList.add('now'); if (hsCards[now]) hsCards[now].classList.add('now'); }
-      hsNow = now;
+    hsSetYear(year);
+    if (pen !== hsPen) {
+      hsPen = pen;
+      hsRuler.style.setProperty('--pen', pen.toFixed(4));
+      /* Ticks ink in one at a time as the pen passes them, and un-ink on the way back */
+      while (hsLitTicks < hsTicks.length && hsTicks[hsLitTicks].pct <= pen) { hsTicks[hsLitTicks].el.classList.add('lit'); hsLitTicks++; }
+      while (hsLitTicks > 0 && hsTicks[hsLitTicks - 1].pct > pen) { hsLitTicks--; hsTicks[hsLitTicks].el.classList.remove('lit'); }
     }
-    /* The pen hides under a node so it never reads as a ninth milestone */
-    if (near !== hsPenNear) { hsPenNear = near; if (hsPen) hsPen.classList.toggle('is-near', near); }
-    /* Ticks ink in one at a time as the reading point passes them, and un-ink on the way back */
-    while (hsLitTicks < hsTicks.length && hsTicks[hsLitTicks].x <= readX) { hsTicks[hsLitTicks].el.classList.add('lit'); hsLitTicks++; }
-    while (hsLitTicks > 0 && hsTicks[hsLitTicks - 1].x > readX) { hsLitTicks--; hsTicks[hsLitTicks].el.classList.remove('lit'); }
-    /* The giant year is the milestone the ink has reached, so the year, the lit card, the solid dot and the year
-       under the rule all say the same thing at the same moment. The empty stretches do the counting instead. */
-    var at = now < 0 ? 0 : now;
-    var yr = at === n - 1 ? 'Today' : String(hsYears[at]);
-    if (yr !== hsYear) { hsYear = yr; hsSetYear(yr); }
-    var line = hsLabels[at] || '';
-    if (line !== hsLine) { hsLine = line; if (hsNowEl) hsNowEl.textContent = line; }
-    var gone = p > 0.08;
-    if (gone !== hsHintGone) { hsHintGone = gone; if (hsHint) hsHint.classList.toggle('is-gone', gone); }
-    /* While the scene is pinned nothing scrolls in from below, so the page's bottom blur strip steps aside */
-    var pinned = p > 0.01 && p < 0.99;
-    if (pinned !== hsPinned) { hsPinned = pinned; document.body.classList.toggle('hs-pinned', pinned); }
+    if (ink !== hsInk) { hsInk = ink; hsSpine.style.setProperty('--rail-ink', ink.toFixed(4)); }
+    /* For tools/histshots.mjs */
+    window.__emenlaHistory = { era: era, year: year, read: read, nodes: hsNodeY, holdEnd: hsHoldEnd, years: hsYears };
   }
-  function armHistory() {
+  var hsClock = null, hsStuck = null;
+  function hsUpdate() {
+    hsRaf = null;
     if (!hs) return;
-    if (hsStack.matches) { if (hsListening) { window.removeEventListener('scroll', updateHistory); hsListening = false; } hsLayout(); return; }
-    if (!hsListening) { window.addEventListener('scroll', updateHistory, { passive: true }); hsListening = true; }
-    hsLayout();
+    var rect = hsRecord.getBoundingClientRect();
+    var past = hs.getBoundingClientRect().top <= 0; /* on phones the strip is stuck from exactly here */
+    if (past !== hsStuck) { hsStuck = past; hsClock.classList.toggle('is-stuck', past); }
+    var read = window.innerHeight * hsReadFrac - rect.top;
+    var n = hsCards.length, i = -1, year, pen, label, t, yEnd;
+    while (i + 1 < n && hsNodeY[i + 1] <= read) i++;
+    if (i < 0) { year = hsYears[0]; pen = hsRulerPct[0]; label = hsLabels[0]; }
+    else if (i === n - 1) { year = 'Today'; pen = 1; label = hsLabels[n - 1]; }
+    else if (hsRm || read <= hsHoldEnd[i]) { year = hsYears[i]; pen = hsRulerPct[i]; label = hsLabels[i]; }
+    else {
+      /* The roll: from the foot of this era's box to the next node, linearly in scroll. The last gap holds 2026,
+         so no year past it is ever shown, while the pen runs on to the end of the ruler */
+      t = Math.min(1, Math.max(0, (read - hsHoldEnd[i]) / Math.max(1, hsNodeY[i + 1] - hsHoldEnd[i])));
+      yEnd = i === n - 2 ? hsYears[i] : hsYears[i + 1];
+      year = hsYears[i] + t * (yEnd - hsYears[i]);
+      label = '';
+      pen = i === n - 2 ? hsRulerPct[i] + t * (1 - hsRulerPct[i]) : hsRulerX(year);
+    }
+    var ink = Math.min(1, Math.max(0, (read - hsNodeY[0]) / Math.max(1, hsNodeY[n - 1] - hsNodeY[0])));
+    hsApply(i, read, year, pen, ink, label);
   }
+  function hsSchedule() { if (hsRaf === null) hsRaf = window.requestAnimationFrame(hsUpdate); }
+  function hsArm() { if (!hs) return; hsRm = reduced(); hsMeasure(); }
   if (hs) {
-    hsTrack = hs.querySelector('.hscroll__track');
-    hsBase = hs.querySelector('.hscroll__base');
-    hsDraw = hs.querySelector('.hscroll__draw');
-    hsStage = hs.querySelector('.hscroll__stage');
-    hsHead = hs.querySelector('.hs-head');
+    hsClock = hs.querySelector('.hist__clock');
+    hsRecord = hs.querySelector('.hist__record');
+    hsSpine = hs.querySelector('.hist__spine');
+    hsRuler = hs.querySelector('.hs-ruler');
     hsYearEl = hs.querySelector('.hs-year');
     hsNowEl = hs.querySelector('.hs-now');
-    hsHint = hs.querySelector('.hscroll__hint');
-    hsTickBox = hs.querySelector('.hs-ticks');
-    hsPen = hs.querySelector('.hs-pen');
-    hsNodes = Array.prototype.slice.call(hs.querySelectorAll('.hnode'));
+    hsCells = Array.prototype.slice.call(hsYearEl.querySelectorAll('.hs-cell'));
     hsCards = Array.prototype.slice.call(hs.querySelectorAll('.hcard'));
     hsGaps = Array.prototype.slice.call(hs.querySelectorAll('.hs-gap'));
-    hsGaps.forEach(function (g) { hsGapMap[parseInt(g.getAttribute('data-gap'), 10)] = g; });
-    hsYears = hsNodes.map(function (nd) { var y = nd.getAttribute('data-year'); return y === 'today' ? HS_TODAY : parseInt(y, 10); });
+    hsYears = hsCards.map(function (c) { var y = c.getAttribute('data-year'); return y === 'today' ? HS_TODAY : parseInt(y, 10); });
     hsLabels = hsCards.map(function (c) { var l = c.querySelector('.label'); return l ? l.textContent : ''; });
-    if (hsTickBox) hsBuild();
-    armHistory();
-    window.addEventListener('resize', armHistory);
-    if (hsStack.addEventListener) hsStack.addEventListener('change', armHistory);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(hsLayout);
-  }
-
-  /* ---------- Phones: the same record as a vertical rail, read top to bottom ----------
-     The rail inks down to a reading line 62 percent of the way down the screen, and each year, and each stretch of
-     years between two, lights as that line reaches it. Offsets are measured once per layout, so a scroll frame
-     costs one rect read. Under reduced motion the rail is left fully inked and everything lit. */
-  var hsPhone = window.matchMedia('(max-width: 720px)');
-  var hsStops = [], hsNodeY = [], hsRailA = 0, hsRailLen = 0, hsRailOn = false, hsRailRaf = null, hsInk = -1;
-  function hsRailMeasure() {
-    var t = hsTrack.getBoundingClientRect().top;
-    function mid(el) { var r = el.getBoundingClientRect(); return r.top + r.height / 2 - t; }
-    hsNodeY = hsNodes.map(mid);
-    hsRailA = hsNodeY[0];
-    hsRailLen = Math.max(1, hsNodeY[hsNodeY.length - 1] - hsRailA);
-    hsTrack.style.setProperty('--rail-a', hsRailA.toFixed(1) + 'px');
-    hsTrack.style.setProperty('--rail-len', hsRailLen.toFixed(1) + 'px');
-    hsStops = hsNodes.map(function (nd, i) { return { y: hsNodeY[i], els: hsCards[i] ? [nd, hsCards[i]] : [nd] }; })
-      .concat(hsGaps.map(function (g) { return { y: g.offsetTop + 10, els: [g] }; }));
-  }
-  function hsRailUpdate() {
-    hsRailRaf = null;
-    var t = hsTrack.getBoundingClientRect().top;
-    var read = window.innerHeight * 0.62 - t;
-    var ink = Math.min(1, Math.max(0, (read - hsRailA) / hsRailLen));
-    if (ink !== hsInk) {
-      hsInk = ink;
-      hsTrack.style.setProperty('--rail-ink', ink.toFixed(4));
-      /* The pen stands at the tip of the ink and gives way to a dot it is crossing */
-      var pen = hsRailA + ink * hsRailLen;
-      if (hsPen) hsPen.classList.toggle('is-near', hsNodeY.some(function (y) { return Math.abs(y - pen) < 12; }));
-    }
-    hsStops.forEach(function (s) {
-      var lit = s.y <= read;
-      if (s.els[0].classList.contains('lit') !== lit) s.els.forEach(function (el) { el.classList.toggle('lit', lit); });
-    });
-  }
-  function hsRailSchedule() { if (hsRailRaf === null) hsRailRaf = window.requestAnimationFrame(hsRailUpdate); }
-  function hsRailArm() {
-    var phone = hsPhone.matches, on = phone && !reduced();
-    hs.classList.toggle('hscroll--rail', on);
-    hsTrack.style.removeProperty('--rail-ink');
-    hsInk = -1;
-    if (phone) hsRailMeasure();
-    else { hsTrack.style.removeProperty('--rail-a'); hsTrack.style.removeProperty('--rail-len'); }
-    if (on) {
-      if (!hsRailOn) { window.addEventListener('scroll', hsRailSchedule, { passive: true }); hsRailOn = true; }
-      hsRailUpdate();
-    } else if (hsRailOn) {
-      window.removeEventListener('scroll', hsRailSchedule);
-      hsRailOn = false;
-    }
-  }
-  /* Registered after armHistory, so the rail always has the last word over the stacked layout's lit-everything */
-  if (hs) {
-    hsRailArm();
-    window.addEventListener('resize', hsRailArm);
-    if (hsStack.addEventListener) hsStack.addEventListener('change', hsRailArm);
-    if (rm.addEventListener) rm.addEventListener('change', hsRailArm);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(hsRailArm);
+    /* What the markup already shows, so the first frame writes nothing it need not */
+    hsYearShown = parseInt(hsYearEl.getAttribute('data-year'), 10);
+    hsLabelShown = hsNowEl.textContent;
+    hsOff = [3, 2, 1, 0].map(function (c) { return parseFloat(hsCells[c].style.getPropertyValue('--d')) || 0; });
+    hsBuildRuler();
+    hsArm();
+    /* One listener for every width and for reduced motion: the handler is the same, only the fraction goes */
+    window.addEventListener('scroll', hsSchedule, { passive: true });
+    window.addEventListener('resize', hsMeasure);
+    window.addEventListener('load', hsMeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(hsMeasure);
+    /* The measure writes only custom properties and classes, so observing the record cannot loop */
+    if ('ResizeObserver' in window) new ResizeObserver(function () { hsMeasure(); }).observe(hsRecord);
   }
 
   /* ---------- Looping clips: play only on screen, never under reduced motion ---------- */
@@ -820,13 +718,13 @@
       disarmRail();
       pinStatement();
       disarmStatement();
-      armHistory();
+      hsArm();
       stopLoops();
       if (hold && hold.__pin) hold.__pin();
     } else {
       armRail();
       armStatement();
-      armHistory();
+      hsArm();
       loopVideos.forEach(function (v) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); });
     }
   }

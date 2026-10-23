@@ -71,22 +71,25 @@ augen screenshot the founder supplied. Every line is something a critic can chec
 - Loops breathe: any looping clip moves at the pace of a breath or slower (a 4 second cycle or more),
   and returns to its first frame so the join is invisible.
 
-## The record: the history section's own bar (29 August 2026)
+## The record: the history section's own bar (29 August 2026, rewritten 23 October 2026)
 
 Five things a critic can check by looking at rendered frames of `#history`, on top of mechanisms 3, 4 and 7.
+Rewritten for the clock and the record (design-package.md, 23 October 2026); the earlier wording judged
+the pinned measured record, which is gone.
 
-10. **The rule is straight and nothing sits on it.** One hairline across the scene; every card ends
-    above it on a short stem, so the line never passes behind or through a card, lit or ghosted.
-11. **One scale, foreshortened toward today.** A single curve governs the whole rule with no reset at
-    any milestone, so the decade ticks tighten going back and open out coming forward, and 1690 to
-    1860 is by far the longest run. The geometry cannot carry a span of two years and a span of two
-    hundred at once, so where it cannot, the words do: every long stretch says how long it was.
-12. **Everything on screen says the same year.** The milestone being read is the only large filled dot;
-    passed ones are small and filled, future ones hollow. The giant serif year at the bottom left names
-    that milestone, and the lit card, the solid dot and the year under the rule agree with it. The ink
-    front is a thin cursor, never a dot, so it cannot be read as a milestone of its own.
+10. **Nothing pins and nothing moves sideways.** The page scrolls as itself at every width. The spine
+    is one straight hairline with one node per era, and the clock and the record never overlap.
+11. **One scale, foreshortened toward today.** A single curve governs the whole ruler with no reset at
+    any milestone, so the decade ticks tighten going back and open out coming forward. The record
+    gives every era the same room, so the ruler, the captions and the speed of the rolling year are
+    what carry the difference: every long stretch says how long it was.
+12. **Everything on screen says the same year.** The clock holds a milestone while its card is under
+    the reading line and rolls only across a gap, with its label gone; the pen stands on the clock's
+    own year; the filled nodes, the ink years and the lit captions agree with it.
 13. **Three type sizes on a card, plus mono micro-labels.** Serif year, sans title, grey body; the
-    label pill and the years under the rule are the only mono. No fourth size, no colour beyond ink,
-    stone, ash, the cream ground and the warm tint of a figure panel.
-14. **Motion resolves one way.** The ink advances left to right, ticks and cards only brighten, the
-    active card lifts once by a few pixels. Nothing bounces, nothing loops.
+    label pill, the clock's label and the century labels on the ruler are the only mono. No fourth
+    size, no colour beyond ink, stone, ash, clay and the cream ground.
+14. **Motion resolves one way and stops with the scroll.** The ruler ink and the spine ink are mapped
+    to the scroll position and move only while it does; nodes and years darken over 400ms, the lit era
+    lifts once by ten pixels. Nothing bounces, nothing loops, no text drops below full contrast, and
+    under reduced motion only position changes.
