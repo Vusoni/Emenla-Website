@@ -23,7 +23,7 @@
   "founder": {
     "_comment": "show=false keeps the founder invisible. Nothing on the site names a person while this is false.",
     "show": false,
-    "name": "Oliwier",
+    "name": "",
     "country": "Poland"
   },
   "legal": {

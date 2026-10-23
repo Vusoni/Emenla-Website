@@ -1,23 +1,25 @@
 #!/usr/bin/env node
 /**
- * Flip the site between "not on the App Store yet" and "here is the link".
+ * Flip the site between "not listed" and "here is the link".
  *
  *   node scripts/set-app-store.mjs --coming-soon
  *   node scripts/set-app-store.mjs --live
  *
- * Why a script and not five hand-edits: the nav badge is byte-identical on all
- * five pages, and around it sit two dozen other sentences that say the app is
- * not listed. A half-flipped site - a working App Store link above a paragraph
- * saying it is not on the App Store yet - is the failure mode, and it is the
- * kind nobody notices because each page looks fine on its own.
+ * Why a script and not six hand-edits: the nav badge is byte-identical on all
+ * six pages. While the app is unlisted the site says nothing about availability
+ * at all (Oliwier's word, 2026-10-03: no "coming soon", no "awaiting", nothing
+ * that reads as a waiting room), so the badge reads "For iPhone" and points at
+ * what is in the app. A half-flipped site, a working App Store link above a
+ * paragraph saying it is not on the App Store yet, is still the failure mode the
+ * --live check below exists for, should such a sentence ever come back.
  *
  * So this script does two different jobs, deliberately:
  *
  *   1. The BADGE it rewrites, exactly and idempotently. That is a mechanical
  *      substitution and a machine should own it.
- *   2. The PROSE it refuses to rewrite. "Emenla is an endometriosis symptom
- *      tracker for iOS. It is not on the App Store yet." does not become launch
- *      copy by find-and-replace; it becomes launch copy by someone writing it.
+ *   2. The PROSE it refuses to rewrite. A sentence saying the app is not listed
+ *      does not become launch copy by find-and-replace; it becomes launch copy
+ *      by someone writing it.
  *      Under --live the script lists every remaining sentence with its file and
  *      line and exits non-zero, so the flip cannot be called done while one is
  *      left. Exhaustive or loud, never silent.
@@ -38,6 +40,7 @@ const PAGES = [
   ['site/privacy/index.html', '../'],
   ['site/terms/index.html', '../'],
   ['site/science/index.html', '../'],
+  ['site/support/index.html', '../'],
   // 404.html is served for any path, so its links are absolute. Its siblings
   // in that file are href="/" and href="/privacy/".
   ['site/404.html', '/'],
@@ -52,11 +55,10 @@ const BADGE = /<(?:span|a)\s+class="btn btn--white nav__badge[^"]*"[^>]*>(<svg c
 
 const badgeFor = (svg, rootPath, live) =>
   live
-    ? `<a class="btn btn--white nav__badge" href="${APP_STORE_URL}" rel="noopener">${svg}<span>App Store</span><span class="vh"> - download Emenla on the App Store</span></a>`
-    // Unreleased, and still a link: the homepage FAQ answers "Is Emenla on the
-    // App Store?" already. A badge that goes nowhere is the one thing worse
-    // than one that says "not yet".
-    : `<a class="btn btn--white nav__badge nav__badge--soon" href="${rootPath}#faq">${svg}<span>Coming soon</span><span class="vh"> to the App Store. Read why on the frequently asked questions.</span></a>`;
+    ? `<a class="btn btn--white nav__badge" href="${APP_STORE_URL}" rel="noopener">${svg}<span>App Store</span><span class="vh">. Download Emenla on the App Store.</span></a>`
+    // Unlisted: true about the app, silent about the store, and still a link,
+    // because a badge that goes nowhere is a control that does nothing.
+    : `<a class="btn btn--white nav__badge nav__badge--soon" href="${rootPath}#inside">${svg}<span>For iPhone</span><span class="vh">. See what is in the app.</span></a>`;
 
 /** Sentences that are only true before the listing exists. */
 const NOT_YET = [
@@ -113,7 +115,6 @@ if (live) {
   if (hits.length) {
     console.error(`\n${hits.length} sentence(s) still say the app is not listed. Rewrite each, then re-run:\n`);
     for (const h of hits) console.error('  ' + h);
-    console.error('\nThe six empty App Store review slots stay empty. Launching does not create reviews.');
     process.exit(1);
   }
   console.log('\nNo "not yet" copy left. Site reads as listed.');

@@ -26,7 +26,7 @@
   <meta name="twitter:image" content="https://emenla.com/og.png">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/site.css?v=20260830e">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261020a">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -78,7 +78,7 @@
   <header class="nav">
     <div class="wrap nav__row">
       <a class="nav__brand" href="../" aria-label="Emenla, home"><img class="nav__mark" src="../assets/img/logo-small.png" alt="" width="28" height="28" decoding="async">Emenla</a>
-      <a class="btn btn--white nav__badge nav__badge--soon" href="../#faq"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg><span>Coming soon</span><span class="vh"> to the App Store. Read why on the frequently asked questions.</span></a>
+      <a class="btn btn--white nav__badge nav__badge--soon" href="../#inside"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg><span>For iPhone</span><span class="vh">. See what is in the app.</span></a>
     </div>
   </header>
 
@@ -86,61 +86,157 @@
     <div class="wrap doc-head">
       <span class="label">Support</span>
       <h1 class="display">Something not working, or a question about what Emenla does with your record.</h1>
-      <p class="muted">It is one person answering, so a reply may take a few days. If something in the app is wrong, saying which screen you were on and what you expected instead is the most useful thing you can send.</p>
+      <p class="muted">A person reads every message, and a reply can take a few days. If something in the app is wrong, saying which screen you were on and what you expected instead is the most useful thing you can send.</p>
     </div>
 
-    <div class="wrap doc">
+    <!-- The way to write, before any answer: the home page's two contact cards, then its question
+         field, open from the start because writing is what this page is for. The form builds an
+         email in her own mail app; nothing is posted and the site never receives the text. -->
+    <section class="wrap desk" aria-labelledby="desk-title">
+      <h2 class="vh" id="desk-title">Write to us</h2>
+      <div class="contact desk__cards">
+        <a class="card contact__card" href="mailto:hello@emenla.com?subject=Emenla%20support">
+          <div>
+            <p class="contact__k">E-mail</p>
+            <p class="contact__v">hello@emenla.com</p>
+          </div>
+          <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20l18-12 18 12v20H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 20l18 12 18-12M6 40l14-11M42 40L28 29" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="card contact__card contact__card--still">
+          <div>
+            <p class="contact__k">In the app</p>
+            <p class="contact__v">Settings, then Give feedback. You can see whether it was read, planned or shipped.</p>
+          </div>
+          <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 11h32a3 3 0 0 1 3 3v18a3 3 0 0 1-3 3H22l-9 7v-7H8a3 3 0 0 1-3-3V14a3 3 0 0 1 3-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 20h20M14 26h13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <form class="card desk__form" id="write" action="mailto:hello@emenla.com" method="get" enctype="text/plain">
+        <fieldset class="topics">
+          <legend class="ask__label">What is it about?</legend>
+          <div class="topics__row">
+            <label class="topic"><input type="radio" name="subject" value="Emenla support: something is not working" data-hint="Which screen you were on, what you did, and what you expected instead."><span>Something is not working</span></label>
+            <label class="topic"><input type="radio" name="subject" value="Emenla support: my account" data-hint="What you were trying to do with your account. Never send your password."><span>My account</span></label>
+            <label class="topic"><input type="radio" name="subject" value="Emenla support: my data" data-hint="What you would like to know about your data, or what you would like done with it."><span>My data</span></label>
+            <label class="topic"><input type="radio" name="subject" value="Emenla support"><span>Something else</span></label>
+          </div>
+        </fieldset>
+        <label class="ask__label" for="write-text">Your message</label>
+        <textarea id="write-text" class="ask__field" name="body" rows="5" maxlength="2000" required placeholder="Write it in your own words." spellcheck="true"></textarea>
+        <div class="ask__row">
+          <button type="submit" class="btn btn--roll desk__send"><span class="btn__roll" data-text="Send by e-mail">Send by e-mail</span></button>
+          <button type="button" class="desk__copy" hidden>Copy the address</button>
+        </div>
+        <p class="ask__note caption meta desk__note" aria-live="polite">Opens in your mail app, addressed to hello@emenla.com. Nothing you type here is stored on this site. Please leave out symptoms and medical details.</p>
+      </form>
+    </section>
+
+    <div class="wrap doc doc--support">
       <!-- LEGAL-SYNC-START: generated by scripts/sync-legal.mjs from legal/support.md in the Emenla app repository. Do not edit by hand: edit the markdown there and run npm run sync:legal. -->
       <nav class="toc" aria-label="On this page">
-      <a href="#get-in-touch">Get in touch</a>
       <a href="#common-questions">Common questions</a>
       <a href="#if-you-need-more-than-an-app">If you need more than an app</a>
-      <a href="#contact">Contact</a>
+      <a href="#who-answers">Who answers</a>
       </nav>
 
       <div class="doc__body">
-        <h2 id="get-in-touch">Get in touch</h2>
-        <p>The fastest way is inside the app: Settings, then Give feedback. It goes to the same person, and it comes back with a status you can see (read, planned, shipped, or will not do) so you know what happened to it rather than wondering.</p>
-        <p>Or by email: <span class="strong">hello@emenla.com</span>.</p>
         <h2 id="common-questions">Common questions</h2>
-        <h3>Do I need an account?</h3>
-        <p>Yes. Emenla asks you to sign in with Apple, with Google, or with an email address and password before you start. The account is how you get back in, and it is what will make the Community section possible later.</p>
-        <p>It does not sync, back up or transmit your symptom record. Everything you log about your body is written to your phone and stays there whether you are signed in, signed out or offline.</p>
-        <h3>Where is my data kept?</h3>
-        <p>Your symptoms, period dates, body map and notes are kept on your device, in the app's own private storage.</p>
-        <p>Two things live on a server in Frankfurt, Germany: your email address, and, only if you use the meal reading in Nourish, four nutrition figures per scanned meal. Nothing else. The <a href="../privacy/">privacy policy</a> sets out exactly what happens on every path.</p>
-        <h3>What happens when Nourish reads a photo of a meal?</h3>
-        <p>That one photograph is sent to OpenAI to be read, and four figures come back: energy, protein, carbohydrate and fat, with how confident the reading was. Those figures are stored against your account.</p>
-        <p>The photograph is not stored by us. It is not written to any database, any file store, or any log. OpenAI reads it as our processor, under a data processing agreement, and does not use it to train its models; the privacy policy says what OpenAI may keep for abuse monitoring, and for how long. If you never scan a meal, no photograph ever leaves your phone.</p>
-        <h3>How do I get my record out?</h3>
-        <p>Two ways, both in the app. Record, then Document, then Create a dossier builds the doctor summary as a PDF and hands it to the share sheet, so you can print it, email it or send it. Settings, then Export everything gives you everything you have recorded as a file.</p>
-        <h3>How do I delete everything?</h3>
-        <p>Settings, then Delete everything. It asks twice, then deletes your Emenla account, your email address, every meal-reading figure and any feedback you sent, and erases everything the app holds on your device, including the photographs you attached.</p>
-        <p>It deletes the account first: if it cannot reach the server it stops and deletes nothing, so you are never left with an emptied phone and an account still on file.</p>
-        <h3>Will I lose my entries if I change phone or delete the app?</h3>
-        <p>Yes. Your symptom record lives only on the device it was made on, and the account does not back it up. Export your data before deleting the app or moving to a new phone.</p>
-        <h3>Does Emenla tell me whether I have endometriosis?</h3>
-        <p>No, and it never will. Emenla documents, organises and educates. It does not diagnose, treat or predict anything. Every figure it shows is a count of something you recorded, shown with what it is out of.</p>
-        <h3>Why does it ask for the microphone?</h3>
-        <p>So you can say how you feel instead of typing it, which is easier mid-flare. Speech is transcribed by your device, on your device. No audio is uploaded and no recording is kept. You never have to use it; typing does exactly the same thing.</p>
-        <h3>Why does it ask for the camera or photos?</h3>
-        <p>So you can attach a photo of a meal or a test result to something you log. An attached photo is copied into the app's private storage and stays there. The single exception is the meal reading above, which you have to tap to start.</p>
-        <h3>Can I turn off the food section?</h3>
-        <p>Not as a switch. When you set the app up, Emenla asks how you feel about tracking food. If you answer that it is a difficult area or that you would rather skip it, Nourish shows you the reading library and nothing else: no logging and no plans, anywhere in the app, until you change it yourself.</p>
-        <h3>Will it remind me to log?</h3>
-        <p>Only if you ask it to. One reminder a day, in the evening unless you choose another time, scheduled by your own device, and you can turn it off in Settings at any time. There are no streaks anywhere in Emenla and there never will be.</p>
-        <h3>Something looks wrong, or a button does nothing</h3>
-        <p>Please write, with the screen name and what you were doing. Settings, then Give feedback is the quickest. Reopening the app fixes most display problems and never loses anything.</p>
-        <h3>What is sent when I use Give feedback?</h3>
-        <p>What you wrote, your email address, and four things about your phone: the version of Emenla, the version of iOS, your iPhone model and your language. The app lists those four on the screen before you send.</p>
-        <p>Nothing from your record goes with it. No entry, no symptom, no date, no photograph, no summary. You cannot delete a single message from inside the app, so write to us and we will; deleting your account deletes all of them.</p>
-        <h3>Is something not working, or is it only me?</h3>
-        <p>Settings, then Service status. Almost all of Emenla runs on your phone and cannot be affected by anything on our side: writing, symptoms, the body map, your cycle, Overview and the doctor summary all work with no connection at all. Only two things need one: reading a meal from a photograph, and signing in or changing your account. That page says which, and checks while you look at it.</p>
+        <div class="faq">
+          <details id="do-i-need-an-account">
+            <summary>Do I need an account?</summary>
+            <div class="answer">
+              <p>Yes. Emenla asks you to sign in with Apple, with Google, or with an email address and password before you start. The account is how you get back in, and it is what will make the Community section possible later.</p>
+              <p>It does not sync, back up or transmit your symptom record. Everything you log about your body is written to your phone and stays there whether you are signed in, signed out or offline.</p>
+            </div>
+          </details>
+          <details id="where-is-my-data-kept">
+            <summary>Where is my data kept?</summary>
+            <div class="answer">
+              <p>Your symptoms, period dates, body map and notes are kept on your device, in the app's own private storage.</p>
+              <p>On a server in Frankfurt, Germany, we hold your email address; four nutrition figures per scanned meal, only if you use the meal reading in Nutrition; a timestamp for each message you send the assistant, so it can have a daily limit, never what you wrote; and any feedback you choose to send us. That is the whole list. The <a href="../privacy/">privacy policy</a> sets out exactly what happens on every path.</p>
+            </div>
+          </details>
+          <details id="what-happens-when-nutrition-reads-a-photo-of-a-meal">
+            <summary>What happens when Nutrition reads a photo of a meal?</summary>
+            <div class="answer">
+              <p>That one photograph is sent to OpenAI to be read, and four figures come back: energy, protein, carbohydrate and fat, with how confident the reading was. Those figures are stored against your account.</p>
+              <p>The photograph is not stored by us. It is not written to any database, any file store, or any log. OpenAI reads it as our processor, under a data processing agreement, and does not use it to train its models; the privacy policy says what OpenAI may keep for abuse monitoring, and for how long. If you never scan a meal, no photograph ever leaves your phone.</p>
+            </div>
+          </details>
+          <details id="how-do-i-get-my-record-out">
+            <summary>How do I get my record out?</summary>
+            <div class="answer">
+              <p>Two ways, both in the app. Record, then Document, then Create a dossier builds the doctor summary as a PDF and hands it to the share sheet, so you can print it, email it or send it. Settings, then Export everything gives you everything you have recorded as a file.</p>
+            </div>
+          </details>
+          <details id="how-do-i-delete-everything">
+            <summary>How do I delete everything?</summary>
+            <div class="answer">
+              <p>Settings, then Delete everything. It asks twice, then deletes your Emenla account, your email address, every meal-reading figure and any feedback you sent, and erases everything the app holds on your device, including the photographs you attached.</p>
+              <p>It deletes the account first: if it cannot reach the server it stops and deletes nothing, so you are never left with an emptied phone and an account still on file.</p>
+            </div>
+          </details>
+          <details id="will-i-lose-my-entries-if-i-change-phone-or-delete-the-app">
+            <summary>Will I lose my entries if I change phone or delete the app?</summary>
+            <div class="answer">
+              <p>Yes. Your symptom record lives only on the device it was made on, and the account does not back it up. Export your data before deleting the app or moving to a new phone.</p>
+            </div>
+          </details>
+          <details id="does-emenla-tell-me-whether-i-have-endometriosis">
+            <summary>Does Emenla tell me whether I have endometriosis?</summary>
+            <div class="answer">
+              <p>No, and it never will. Emenla documents, organises and educates. It does not diagnose, treat or predict any condition. Every figure it shows is a count of something you recorded, shown with what it is out of.</p>
+            </div>
+          </details>
+          <details id="why-does-it-ask-for-the-microphone">
+            <summary>Why does it ask for the microphone?</summary>
+            <div class="answer">
+              <p>So you can say how you feel instead of typing it, which is easier mid-flare. Speech is transcribed by your device, on your device. No audio is uploaded and no recording is kept. You never have to use it; typing does exactly the same thing.</p>
+            </div>
+          </details>
+          <details id="why-does-it-ask-for-the-camera-or-photos">
+            <summary>Why does it ask for the camera or photos?</summary>
+            <div class="answer">
+              <p>So you can attach a photo of a meal or a test result to something you log. An attached photo is copied into the app's private storage and stays there. The single exception is the meal reading above, which you have to tap to start.</p>
+            </div>
+          </details>
+          <details id="can-i-turn-off-the-food-section">
+            <summary>Can I turn off the food section?</summary>
+            <div class="answer">
+              <p>Not as a switch. When you set the app up, Emenla asks how you feel about tracking food. If you answer that it is a difficult area or that you would rather skip it, Nutrition shows you the reading library and nothing else: no logging and no plans, anywhere in the app, until you change it yourself.</p>
+            </div>
+          </details>
+          <details id="will-it-remind-me-to-log">
+            <summary>Will it remind me to log?</summary>
+            <div class="answer">
+              <p>Only if you ask it to. One reminder a day, in the evening unless you choose another time, scheduled by your own device, and you can turn it off in Settings at any time. There are no streaks anywhere in Emenla and there never will be.</p>
+            </div>
+          </details>
+          <details id="something-looks-wrong-or-a-button-does-nothing">
+            <summary>Something looks wrong, or a button does nothing</summary>
+            <div class="answer">
+              <p>Please write, with the screen name and what you were doing. Settings, then Give feedback is the quickest. Reopening the app fixes most display problems and never loses anything.</p>
+            </div>
+          </details>
+          <details id="what-is-sent-when-i-use-give-feedback">
+            <summary>What is sent when I use Give feedback?</summary>
+            <div class="answer">
+              <p>What you wrote, your email address, and four things about your phone: the version of Emenla, the version of iOS, your iPhone model and your language. The app lists those four on the screen before you send.</p>
+              <p>Nothing from your record goes with it. No entry, no symptom, no date, no photograph, no summary. You cannot delete a single message from inside the app, so write to us and we will; deleting your account deletes all of them.</p>
+            </div>
+          </details>
+          <details id="is-something-not-working-or-is-it-only-me">
+            <summary>Is something not working, or is it only me?</summary>
+            <div class="answer">
+              <p>Settings, then Service status. Almost all of Emenla runs on your phone and cannot be affected by anything on our side: writing, symptoms, the body map, your cycle, Overview and the doctor summary all work with no connection at all. Only two things need one: reading a meal from a photograph, and signing in or changing your account. That page says which, and checks while you look at it.</p>
+            </div>
+          </details>
+        </div>
         <h2 id="if-you-need-more-than-an-app">If you need more than an app</h2>
         <p>In Emenla, Community, then Places lists endometriosis organisations and a crisis line for your region.</p>
         <p>If you are in immediate danger or crisis, contact your local emergency services.</p>
-        <h2 id="contact">Contact</h2>
-        <p>Emenla is made by Vusoni Oliwier, in Poland. Support and any other question: <span class="strong">hello@emenla.com</span>. For questions about your data specifically, the <a href="../privacy/">privacy policy</a> says what we hold and how to ask about it.</p>
+        <h2 id="who-answers">Who answers</h2>
+        <p>Emenla is made in Poland, and a person reads every message. Support and any other question: <span class="strong">hello@emenla.com</span>. For questions about your data specifically, the <a href="../privacy/">privacy policy</a> says what we hold and how to ask about it.</p>
       </div>
       <!-- LEGAL-SYNC-END -->
     </div>
@@ -154,8 +250,8 @@
           <p class="footer__name">Emenla</p>
           <p class="footer__desc">An iOS app for people with endometriosis. Your words, their words, one clear page.</p>
           <p class="footer__addr">Made in Poland.<br><a href="mailto:hello@emenla.com">hello@emenla.com</a></p>
-          <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict anything.</p>
-          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The pictures in the history are archive material, credited where they appear. Every other picture slot is held blank until there is real photography to put in it. Nobody shown is a patient.</p>
+          <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict any condition.</p>
+          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are archive material, credited where they appear. Nobody shown is a patient.</p>
         </div>
         <nav class="footer__cols" aria-label="Footer">
           <div class="footer__col">
@@ -169,7 +265,6 @@
             <p class="footer__head">Learn</p>
             <a href="../science/">The science</a>
             <a href="../#history">A short history</a>
-            <a href="../#context">Clinical review</a>
             <a href="../#faq">Questions</a>
           </div>
           <div class="footer__col">
@@ -190,6 +285,6 @@
     </div>
     <div class="footer__giant" aria-hidden="true"><span data-fit>emenla</span></div>
   </footer>
-  <script src="../assets/js/site.js?v=20260830e" defer></script>
+  <script src="../assets/js/site.js?v=20261003a" defer></script>
 </body>
 </html>

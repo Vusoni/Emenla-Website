@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260830e">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261020a">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -48,7 +48,7 @@
       },
       "image": "https://emenla.com/og.png",
       "email": "hello@emenla.com",
-      "description": "Emenla builds an iOS app for people with endometriosis. Symptoms written in your own words, the clinical term beside them, everything kept on your phone.",
+      "description": "Emenla builds an iOS app for people with endometriosis. Symptoms written in your own words, the clinical term beside them, your record kept on your phone.",
       "sameAs": [
         "https://www.instagram.com/emenla.health/"
       ]
@@ -66,7 +66,7 @@
       "@type": "WebPage",
       "@id": "https://emenla.com/#webpage",
       "url": "https://emenla.com/",
-      "name": "Emenla Health \u2014 endometriosis symptom tracker & diary",
+      "name": "Emenla Health: endometriosis symptom tracker & diary",
       "isPartOf": { "@id": "https://emenla.com/#website" },
       "about": { "@id": "https://emenla.com/#app" },
       "primaryImageOfPage": "https://emenla.com/og.png",
@@ -97,18 +97,16 @@
         {
           "@type": "Offer",
           "name": "Doctor-summary export, yearly",
-          "description": "Optional in-app purchase through Apple. Not purchasable yet.",
+          "description": "Optional in-app purchase through Apple.",
           "price": "34.99",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/PreOrder"
+          "priceCurrency": "USD"
         },
         {
           "@type": "Offer",
           "name": "Doctor-summary export, monthly",
-          "description": "Optional in-app purchase through Apple. Not purchasable yet.",
+          "description": "Optional in-app purchase through Apple.",
           "price": "6.99",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/PreOrder"
+          "priceCurrency": "USD"
         }
       ]
     },
@@ -120,12 +118,7 @@
         {
           "@type": "Question",
           "name": "What is Emenla?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Emenla is an iOS app for keeping a record of endometriosis symptoms. You log a day in a few words, typed or spoken. The app counts what you wrote back to you: which days, how often, how bad, and how that lines up with the periods you logged. When you need it, it prints a one-page summary in clinical terms with your own words beside each one, to take to an appointment. Everything stays on the phone." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is Emenla on the App Store?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Not yet. It is an iOS app and it is being built now. This page will carry the App Store link the day it is listed." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Emenla is an iOS app for keeping a record of endometriosis symptoms. You log a day in a few words, typed or spoken, or by tapping where it hurts on a body map. The app counts what you wrote back to you: which days, how often, how bad, and how that lines up with the periods you logged. When you need it, it prints a one-page summary in clinical terms with your own words beside each one, to take to an appointment. Your record stays on the phone." }
         },
         {
           "@type": "Question",
@@ -135,7 +128,12 @@
         {
           "@type": "Question",
           "name": "Is it private and secure?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Your symptom record lives in the app's own database on your phone. Your symptoms, period dates, body map and notes are not uploaded, so there is no symptom data of yours sitting on someone else's machine. Emenla does need an account, and that account holds your email address and nothing about your health. Speech recognition runs on the device and no audio is kept. The app has no analytics, no ads and no trackers; this site has no cookies and no third-party fonts. Two things can leave the phone, both because you asked: an anonymous purchase status if you buy the optional export, and a meal photograph if you use the reading in Nourish, which comes back as four nutrition figures. The privacy policy sets out both." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Your symptom record lives in the app's own database on your phone. Your symptoms, period dates, body map and notes are not uploaded, so there is no symptom data of yours sitting on someone else's machine. Emenla does need an account, and the account holds your email address and nothing from your symptom record. Speech recognition runs on the device and no audio is kept. The app has no analytics, no ads and no trackers; this site has no cookies and no third-party fonts. A few things can leave the phone, each only when you use the feature that sends it. Three go to OpenAI or Anthropic to be read, and only after you have said yes: a meal photograph, if you ask Nutrition to read it, which is never stored on a server, though the four nutrition figures it comes back as are kept with your account; what you write to the assistant, which never includes your record; and the questions you ask Analyze to make stronger, with your symptom names and a few facts the app counted. Each of those three has its own switch in the app. Beyond them, an appointment you add goes to your calendar, and an anonymous purchase status goes to Apple and RevenueCat if you buy the optional export. The privacy policy sets out each one." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Emenla use AI?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Only where you turn it on. Three features use an AI model from OpenAI or Anthropic: the assistant, reading a meal from a photograph, and Stronger questions on the appointment page. Each asks you once, the first time you use it, says what it sends, and has its own switch in Settings. None of them sends your record, and none of them gives a diagnosis. The part that puts your words into clinical terms for your summary does not use them: it runs on your phone, from a fixed list of terms, each with its source." }
         },
         {
           "@type": "Question",
@@ -150,27 +148,27 @@
         {
           "@type": "Question",
           "name": "Does Emenla predict my period or my flares?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Emenla does not predict anything. You can log period start dates and the app counts your logged days against them, looking backwards at what you wrote. It never forecasts what is coming." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Not your flares. Once you have logged three period starts, Overview shows a range for when your next period might begin, worked out from the starts you logged and labelled as an estimate. If you turn it on in Settings, it can also show an estimated fertile window, counted from the same starts; it is off until you do, and it is not a method of contraception. Everything else is counted backwards from what you wrote." }
         },
         {
           "@type": "Question",
           "name": "How is Emenla science-backed exactly?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In the wording, not in a claim about your health. The terms Emenla puts on the page follow the published endometriosis guidelines, ESHRE 2022, NICE NG73 and ACOG 2026, and every figure on this site is printed with the source next to it. What the app itself does is count what you logged; it never predicts. Emenla has not been studied in a clinical trial and no clinician has reviewed it yet, and the science page says so as plainly as it says the rest." }
+          "acceptedAnswer": { "@type": "Answer", "text": "In the wording, not in a claim about your health. The terms Emenla puts on the page follow the published endometriosis guidelines, ESHRE 2022, NICE NG73 and ACOG 2026, and every figure on this site is printed with the source next to it. What the app itself does is count what you logged. Emenla has not been studied in a clinical trial, and the science page says so as plainly as it says the rest." }
         },
         {
           "@type": "Question",
           "name": "Are you affiliated with a brand or a clinic?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Emenla is an independent project built in Poland, with no clinic, brand, pharmaceutical or supplement sponsor behind it, and no advertising anywhere in the app or on this site. It recommends no products and sells nothing except the optional summary export. Nothing you write is sold or shared, because it never leaves your phone." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Emenla is an independent project built in Poland, with no clinic, brand, pharmaceutical or supplement sponsor behind it, and no advertising anywhere in the app or on this site. It recommends no products and sells nothing except the optional summary export. Nothing you write is sold or used for advertising, and your record stays on your phone." }
         },
         {
           "@type": "Question",
           "name": "What does it cost?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Logging is free, always, and cannot be put behind a paywall because it happens on your phone: there is nothing to lock. The optional doctor-summary export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase. It is not purchasable yet." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Logging is free, always, and cannot be put behind a paywall because it happens on your phone: there is nothing to lock. Your first doctor summary is free. After that, the optional export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase." }
         },
         {
           "@type": "Question",
           "name": "Who makes Emenla?",
-          "acceptedAnswer": { "@type": "Answer", "text": "An independent project built in Poland. Not a clinic, not a brand, and not funded by one. The operating entity is named in full on the privacy and terms pages before the app is released." }
+          "acceptedAnswer": { "@type": "Answer", "text": "An independent project built in Poland. Not a clinic, not a brand, and not funded by one. You can reach a person at hello@emenla.com." }
         }
       ]
     }
@@ -186,7 +184,7 @@
   <header class="nav">
     <div class="wrap nav__row">
       <a class="nav__brand" href="#top" aria-label="Emenla, home"><img class="nav__mark" src="assets/img/logo-small.png" alt="" width="28" height="28" decoding="async">Emenla</a>
-      <a class="btn btn--white nav__badge nav__badge--soon" href="#faq"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg><span>Coming soon</span><span class="vh"> to the App Store. Read why on the frequently asked questions.</span></a>
+      <a class="btn btn--white nav__badge nav__badge--soon" href="#inside"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg><span>For iPhone</span><span class="vh">. See what is in the app.</span></a>
     </div>
   </header>
 
@@ -211,7 +209,7 @@
         </div>
         <div class="band band--4 entr-rise" data-a="0.73" data-b="1" data-ramp="0.035" data-spread="0.3">
           <p class="band__text display" data-split="words">Turn what you feel into a clear conversation for your next appointment.</p>
-          <p class="settle-note band__note">Emenla is an endometriosis symptom tracker for iOS. It is not on the App Store yet.</p>
+          <p class="settle-note band__note">Emenla is an endometriosis symptom tracker for iOS.</p>
         </div>
 
         <div class="hero__ring" aria-hidden="true">
@@ -227,7 +225,7 @@
           <div class="hero__static-copy">
             <p class="body-lg">Pain that gets brushed off is still pain. Emenla helps you keep a record of it, in your own words.</p>
             <p>Turn what you feel into a clear conversation for your next appointment.</p>
-            <p class="body-sm muted">Emenla is an endometriosis symptom tracker for iOS. It is not on the App Store yet.</p>
+            <p class="body-sm muted">Emenla is an endometriosis symptom tracker for iOS.</p>
           </div>
         </div>
       </div>
@@ -243,14 +241,14 @@
           </div>
           <div class="promise part">
             <span class="promise__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="11.5" r="5"/><path d="M6.5 27c1.4-5 5.2-7.5 9.5-7.5s8.1 2.5 9.5 7.5"/><path d="M23 6l5 5M28 6l-5 5"/></svg></span>
-            <h2 class="promise__title heading-sm">Your record <br>never leaves your phone</h2>
+            <h2 class="promise__title heading-sm">No ads, <br>no trackers</h2>
           </div>
           <div class="promise part">
             <span class="promise__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M20.5 5.5l6 6L12 26H6v-6z"/><path d="M17.5 8.5l6 6"/></svg></span>
             <h2 class="promise__title heading-sm">Free to log, <br>always<sup class="promise__sup">*</sup></h2>
           </div>
         </div>
-        <p class="promises__note caption meta reveal part">*Logging cannot be put behind a paywall: it happens on your phone, so there is nothing to lock. Emenla is not on the App Store yet.</p>
+        <p class="promises__note caption meta reveal part">*Logging cannot be put behind a paywall: it happens on your phone, so there is nothing to lock.</p>
         <!-- Logo row, for press or partners, when there are real names to show. Replace the three
              promises above with this block, one item per name, and leave the duplicate list in place:
              it is what makes the loop seamless. The row pauses off-screen and under reduced motion.
@@ -322,6 +320,8 @@
             <p class="pair__meta">Sources: <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE 2022</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a></p>
           </li>
         </ul>
+        <!-- Phones only: the cards drop their codes and source lines, and this one line keeps the way to them -->
+        <p class="pairs__sources reveal part">Every term is taken from the ESHRE 2022 and NICE NG73 guidelines. <a href="science/">See the sources</a></p>
 
         <div class="try reveal">
           <div class="try__copy part">
@@ -333,8 +333,8 @@
               <div class="ccard__day"><span class="mono meta">Try it</span><span class="label">Your words</span></div>
               <p class="hold__sentence" data-text="Bad cramps since morning. Back pain. Stayed in bed."></p>
               <div class="hold__result">
-                <p class="ccard__meta"><span class="strong">Dysmenorrhoea</span> · painful menstruation · ICD-10 N94.6</p>
-                <p class="ccard__meta">Sources: <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE 2022</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a></p>
+                <p class="ccard__meta"><span class="strong">Dysmenorrhoea</span> · painful menstruation<span class="hold__code"> · ICD-10 N94.6</span></p>
+                <p class="ccard__meta hold__src">Sources: <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE 2022</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a></p>
                 <span class="chip caption">Kept on this phone</span>
               </div>
               <button type="button" class="btn hold__btn" aria-pressed="false">Hold to say it</button>
@@ -358,29 +358,81 @@
           <span class="label part">Inside Emenla</span>
           <h2 class="heading-lg part">What's in the app.</h2>
         </div>
-        <div class="grid5 reveal" data-loop>
-          <div class="imgcard imgcard--lg imgcard--blank part">
-            <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-            <div class="imgcard__copy"><h3>Record</h3><p>A few words is enough. Say it, or type it.</p></div>
+        <!-- Screens are frames from a recording of the app, October 2026. The page is the sample summary, made from invented entries. -->
+        <div class="grid5 grid5--screens">
+          <div class="panel panel--lg reveal part">
+            <h3 class="panel__title heading-sm">Record</h3>
+            <p class="panel__sub muted">Tap where it hurts, or say it out loud. A few words is a complete entry.</p>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <picture>
+                    <source type="image/webp" srcset="assets/img/screen-bodymap.webp">
+                    <img src="assets/img/screen-bodymap.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                  </picture>
+                  <div class="device__notch"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="imgcard imgcard--lg imgcard--blank part">
-            <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-            <div class="imgcard__copy"><h3>Document</h3><p>One clean page for your appointment.</p></div>
+          <div class="panel panel--lg reveal part">
+            <h3 class="panel__title heading-sm">Your document</h3>
+            <p class="panel__sub muted">A page for your appointment, each clinical term with your own words beside it. Shown here with invented sample entries.</p>
+            <a class="panel__link" href="assets/img/page-summary.jpg">See the sample page<span aria-hidden="true">&nbsp;&rsaquo;</span></a>
+            <div class="panel__device panel__paper">
+              <picture>
+                <source type="image/webp" srcset="assets/img/page-summary.webp">
+                <img src="assets/img/page-summary.jpg" alt="A sample first page of the Emenla symptom record, for an invented patient: what she reported, then each finding in clinical terms with her own words in quotation marks beside it." width="1200" height="1541" loading="lazy" decoding="async">
+              </picture>
+            </div>
           </div>
-          <div class="imgcard imgcard--sm imgcard--blank part">
-            <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-            <div class="imgcard__copy"><h3>Patterns</h3><p>Your cycle, counted. Never forecast.</p></div>
+          <div class="panel panel--sm reveal part">
+            <h3 class="panel__title heading-sm">Overview</h3>
+            <p class="panel__sub muted">Counts of what you wrote down. No score, no streaks, no verdict on your day.</p>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <picture>
+                    <source type="image/webp" srcset="assets/img/screen-overview.webp">
+                    <img src="assets/img/screen-overview.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                  </picture>
+                  <div class="device__notch"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="imgcard imgcard--sm imgcard--blank part">
-            <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-            <div class="imgcard__copy"><h3>Nourish</h3><p>Food, built carefully. No restriction.</p></div>
+          <div class="panel panel--sm reveal part">
+            <h3 class="panel__title heading-sm">Assistant</h3>
+            <p class="panel__sub muted">Tell it what happened in a sentence. Nothing is saved until you confirm it.</p>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <picture>
+                    <source type="image/webp" srcset="assets/img/screen-assistant.webp">
+                    <img src="assets/img/screen-assistant.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                  </picture>
+                  <div class="device__notch"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="imgcard imgcard--sm imgcard--blank part">
-            <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-            <div class="imgcard__copy"><h3>Fitness</h3><p>Gentle movement. It cannot score you.</p></div>
+          <div class="panel panel--sm reveal part">
+            <h3 class="panel__title heading-sm">Questions to ask</h3>
+            <p class="panel__sub muted">Write what you want to ask. Analyze offers a clearer version, and your words stay until you choose.</p>
+            <div class="panel__device" aria-hidden="true">
+              <div class="device">
+                <div class="device__screen">
+                  <picture>
+                    <source type="image/webp" srcset="assets/img/screen-questions.webp">
+                    <img src="assets/img/screen-questions.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                  </picture>
+                  <div class="device__notch"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="grid5__more muted reveal"><span class="part">Also inside: <span class="strong">Community</span>, voices from real women, told properly, with a stated position on what Emenla will and won't do with other people's stories. And <span class="strong">Learn</span>, plain-language articles on the condition.</span></p>
+        <p class="grid5__more muted reveal"><span class="part">Also inside: detail for each symptom if you want it (where exactly, what it felt like, when it started), <span class="strong">Learn</span>, short plain-language reads you can also listen to, and <span class="strong">Community</span>, which for now is a preview: nothing in it is sent or received. <span class="strong">Nutrition</span> and <span class="strong">Fitness</span> are there too, in an earlier form than the rest.</span></p>
       </div>
     </section>
 
@@ -401,7 +453,7 @@
           <div class="part">
             <span class="step__num mono">02</span>
             <h3 class="heading-sm">See what you logged.</h3>
-            <p class="muted">Counts from your own entries. Which days, how often, how bad, and how that lines up with your logged periods. Nothing forecast, nothing scored, no streaks.</p>
+            <p class="muted">Counts from your own entries. Which days, how often, how bad, and how that lines up with your logged periods. Nothing scored, no streaks.</p>
           </div>
           <div class="part">
             <span class="step__num mono">03</span>
@@ -410,53 +462,6 @@
           </div>
         </div>
 
-        <div class="imgcard imgcard--wide imgcard--blank reveal">
-          <span class="label imgcard__soon" aria-hidden="true">Coming soon</span>
-          <div class="imgcard__copy part">
-            <h3>Walk in with proof.</h3>
-            <p>One page. Your words, their words, the dates.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Screens: two tinted panels, a phone rising out of each ============ -->
-    <section class="section section--tight" id="screens">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="label part">On the phone</span>
-          <h2 class="heading-lg part">One app, kept in your words.</h2>
-        </div>
-        <div class="screens reveal">
-          <div class="panel part">
-            <h3 class="panel__title heading-sm">Record</h3>
-            <p class="panel__sub muted">A few words is enough. Say it, or type it.</p>
-            <a class="panel__link" href="#your-words">Learn more<span class="vh"> about recording in your own words</span><span aria-hidden="true">&nbsp;&rsaquo;</span></a>
-            <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
-                  <div class="device__notch"></div>
-                  <div class="device__mark"></div>
-                  <p class="device__hint mono">Screens on their way</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="panel part">
-            <h3 class="panel__title heading-sm">Document</h3>
-            <p class="panel__sub muted">One clean page for your appointment.</p>
-            <a class="panel__link" href="#how">Learn more<span class="vh"> about the one-page summary</span><span aria-hidden="true">&nbsp;&rsaquo;</span></a>
-            <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
-                  <div class="device__notch"></div>
-                  <div class="device__mark"></div>
-                  <p class="device__hint mono">Screens on their way</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -472,7 +477,9 @@
       <!-- The measured record: a ruled track whose spacing is honest to the years, inking in as the visitor scrolls.
            Cards live in a band above the rule and never touch it. An image-less card carries a typographic figure in
            the media slot; to give it a real picture, swap its <div class="hcard__media hcard__fig"> for a
-           <picture class="hcard__media"> shaped like the 1690 card. No CSS change is needed. -->
+           <picture class="hcard__media"> shaped like the 1690 card. No CSS change is needed.
+           On phones the same markup reads as a vertical rail instead, top to bottom, with each gap line sitting
+           between the two years it counts; that is why the gaps are written in reading order. -->
       <div class="hscroll" data-hscroll>
         <div class="hscroll__stage">
           <div class="hs-head" aria-hidden="true">
@@ -487,9 +494,6 @@
             </svg>
             <div class="hs-ticks" aria-hidden="true"></div>
             <span class="hs-pen" aria-hidden="true"></span>
-            <p class="hs-gap voice" data-gap="0" aria-hidden="true">170 years pass.</p>
-            <p class="hs-gap voice" data-gap="1" aria-hidden="true">Sixty-seven more.</p>
-            <p class="hs-gap voice" data-gap="2" aria-hidden="true">Another fifty-three.</p>
 
             <span class="hnode" data-year="1690" aria-hidden="true"><i class="hnode__year">1690</i></span>
             <article class="hcard">
@@ -501,6 +505,8 @@
               </div>
             </article>
 
+            <p class="hs-gap voice" data-gap="0" aria-hidden="true">170 years pass.</p>
+
             <span class="hnode" data-year="1860" aria-hidden="true"><i class="hnode__year">1860</i></span>
             <article class="hcard">
               <div class="card">
@@ -511,6 +517,8 @@
               </div>
             </article>
 
+            <p class="hs-gap voice" data-gap="1" aria-hidden="true">Sixty-seven more.</p>
+
             <span class="hnode" data-year="1927" aria-hidden="true"><i class="hnode__year">1927</i></span>
             <article class="hcard">
               <div class="card">
@@ -520,6 +528,8 @@
                 <p class="hcard__body">John Sampson coins the word endometriosis and proposes that backward menstrual flow seeds the tissue. Still the leading theory.</p>
               </div>
             </article>
+
+            <p class="hs-gap voice" data-gap="2" aria-hidden="true">Another fifty-three.</p>
 
             <span class="hnode" data-year="1980" aria-hidden="true"><i class="hnode__year">1980</i></span>
             <article class="hcard">
@@ -565,7 +575,7 @@
             <article class="hcard">
               <div class="card">
                 <div class="hcard__row"><span class="hcard__year voice">Today</span><span class="label">Still waiting</span></div>
-                <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n voice">4–11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
+                <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n voice">4 to 11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
                 <h3 class="hcard__title">Four to eleven years.</h3>
                 <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
               </div>
@@ -574,7 +584,7 @@
         </div>
       </div>
       <div class="wrap">
-        <p class="caption meta hscroll__sources">Images: endpaper of Jean Astruc's Tractatus de morbis mulierum, Wellcome Collection (public domain) · Karl von Rokitansky, photograph by A. F. Baschta, Wellcome Collection (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>) · John A. Sampson, Album of the Fellows of the American Gynecological Society, 1930 (public domain) · laparoscopy: Leibetseder et al., 2022, and Di Michele et al., 2024, via Wikimedia Commons (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>).</p>
+        <p class="caption meta hscroll__sources hscroll__credits">Images: endpaper of Jean Astruc's Tractatus de morbis mulierum, Wellcome Collection (public domain) · Karl von Rokitansky, photograph by A. F. Baschta, Wellcome Collection (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>) · John A. Sampson, Album of the Fellows of the American Gynecological Society, 1930 (public domain) · laparoscopy: Leibetseder et al., 2022, and Di Michele et al., 2024, via Wikimedia Commons (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>).</p>
         <p class="caption meta hscroll__sources">Sources: <a href="https://doi.org/10.1016/j.fertnstert.2012.08.001" rel="noopener noreferrer">Nezhat, Nezhat and Nezhat, Fertility and Sterility, 2012</a> · <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a> · <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">ACOG 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/" rel="noopener noreferrer">scoping review, 2024</a></p>
       </div>
     </section>
@@ -584,17 +594,19 @@
       <div class="wrap">
         <div class="section-head reveal">
           <span class="label part">Privacy</span>
-          <h2 class="heading-lg part">Everything you write stays on this phone.</h2>
-          <p class="subheading part privacy__intro">Your entries are not uploaded to a server, not sold, and not shared with anyone. Emenla asks for an account so you can get back in, and it holds your email address and nothing about your health.</p>
+          <h2 class="heading-lg part">Your record stays on this phone.</h2>
+          <p class="subheading part privacy__intro">Your entries are not uploaded to a server, not sold, and not shared with anyone. Emenla asks for an account so you can get back in, and the account holds your email address and nothing from your symptom record.</p>
         </div>
 
         <div class="privacy">
           <div class="device-wrap reveal" data-loop aria-hidden="true">
             <div class="device part">
               <div class="device__screen">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/screen-reach.webp">
+                  <img src="assets/img/screen-reach.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                </picture>
                 <div class="device__notch"></div>
-                <div class="device__mark"></div>
-                <p class="device__hint mono">Kept on this phone</p>
               </div>
             </div>
           </div>
@@ -602,83 +614,21 @@
             <ul class="rows part">
               <li>Your symptom record lives in the app's own private on-device database, and nothing sends it anywhere.</li>
               <li>Speech recognition runs on the device. No audio leaves the phone and no recording is kept.</li>
-              <li>Photos are copied into the app's private storage. They are never uploaded and never written back to your photo library.</li>
+              <li>Photos you attach to an entry are copied into the app's private storage. They are never uploaded and never written back to your photo library. The one exception is a meal photograph you ask Nutrition to read, below.</li>
               <li>No analytics of any kind. No ads, no ad identifiers, no third-party trackers, no crash reporting, no remote configuration, no tracking prompt.</li>
-              <li>The account holds your email address. It does not sync, back up or transmit anything you record about your body.</li>
+              <li>The account holds your email address, plus the nutrition figures for any meal you ask it to read. It does not sync, back up or transmit anything you record about your body.</li>
               <li>Notifications are local only. No push service, no device token.</li>
-              <li><span class="strong">The one exception, said plainly.</span> Logging is free forever. The optional summary export is an Apple in-app purchase handled through RevenueCat, which receives an anonymous purchase identity and your purchase status. It never receives your symptoms, notes, photos, cycle dates or your name.</li>
-              <li>Under GDPR, health data is special category data under Article 9. That is exactly why your record is not on a server of ours. <span class="strong">What we hold is a list of email addresses, and nutrition figures for people who scan meals.</span></li>
+              <li><span class="strong">What can leave the phone, said plainly.</span> Three features send something to OpenAI or Anthropic to be read, and none of them is on until you say yes. Each asks once, the first time you use it, and each has its own switch in the app under What Emenla can reach. Under 16, a parent or guardian needs to agree first.</li>
+              <li>Reading a meal: the photograph goes through our server in Frankfurt to be read, and four nutrition figures come back and are kept with your account. The photograph is never stored on a server.</li>
+              <li>The assistant: what you write goes so it can answer, with your first name and the names of your symptoms. Your record never goes with it, and your messages are not stored.</li>
+              <li>Stronger questions: when you tap Analyze, the questions you wrote for an appointment go, with your symptom names and a few sentences the app counted from your record. Your entries stay on the phone, and nothing lands on your page until you tap it.</li>
+              <li>An appointment you add to your calendar goes to your calendar app, which may sync it to iCloud or Google. Emenla can add an event and cannot read your calendar.</li>
+              <li>The optional summary export is an Apple in-app purchase handled through RevenueCat, which receives an anonymous purchase identity and your purchase status. It never receives your symptoms, notes, photos, cycle dates or your name.</li>
+              <li>Under GDPR, health data is special category data under Article 9. That is exactly why your record is not on a server of ours. <span class="strong">What we hold is your email address, the nutrition figures for meals you ask it to read, any feedback you send us, and a timestamp each time you use the assistant or Analyze, never what you wrote.</span></li>
             </ul>
             <a class="privacy__link part" href="privacy/">Read the full privacy policy</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ Reviewed by clinicians, once it has been ============
-         Three cards marked Example hold the place; nobody has reviewed Emenla clinically. To name a real reviewer,
-         only after they have read the clinical wording and agreed to be named, replace one card with
-           <li class="part"><a class="card gcard" href="LINK TO THEIR REGISTER ENTRY OR PROFILE" rel="noopener noreferrer">
-             <span class="gcard__visual" aria-hidden="true"><img class="gcard__photo" src="assets/img/clinician-01.jpg" alt="" width="784" height="708" loading="lazy" decoding="async"></span>
-             <span class="gcard__body"><h3 class="gcard__name">Full name, credentials</h3><p class="gcard__cred">Registered title, place of practice</p><p class="gcard__cred">Reviewed: the clinical vocabulary, month year</p></span>
-           </a></li>
-         No Example pill, no gcard--slot. Photo 784 by 708 (twice the 392 by 354 visual), head in the upper half, on
-         white or pale grey so the lower third fades into the card. Then update the note below, README and PLACEHOLDERS.md. -->
-    <section class="section" id="context">
-      <div class="wrap">
-        <div class="panel-band">
-          <div class="section-head reveal">
-            <h2 class="display part">Reviewed by clinicians,<br>once it has been.</h2>
-          </div>
-          <div class="rail-wrap reveal" data-carousel data-carousel-loop>
-            <div class="rail-fade">
-              <ul class="rail" role="list" tabindex="0" aria-label="Clinicians. Three cards hold the place; nobody has reviewed Emenla yet. Scroll sideways, or use the arrow keys.">
-                <li class="part">
-                  <div class="card gcard gcard--slot" data-slot="clinician">
-                    <span class="gcard__visual" aria-hidden="true">
-                      <svg class="slot__figure" viewBox="0 0 200 240"><circle cx="100" cy="78" r="46"/><path d="M22 240c6-58 40-92 78-92s72 34 78 92"/></svg>
-                    </span>
-                    <span class="example">Example</span>
-                    <span class="gcard__body">
-                      <p class="gcard__name">Licensed clinician</p>
-                      <p class="gcard__cred">Held for a real reviewer, not a portrait of one.</p>
-                      <p class="gcard__cred">Named here once they have reviewed Emenla's clinical wording, with what they reviewed and when.</p>
-                    </span>
-                  </div>
-                </li>
-                <li class="part">
-                  <div class="card gcard gcard--slot" data-slot="clinician">
-                    <span class="gcard__visual" aria-hidden="true">
-                      <svg class="slot__figure" viewBox="0 0 200 240"><circle cx="100" cy="78" r="46"/><path d="M22 240c6-58 40-92 78-92s72 34 78 92"/></svg>
-                    </span>
-                    <span class="example">Example</span>
-                    <span class="gcard__body">
-                      <p class="gcard__name">Licensed clinician</p>
-                      <p class="gcard__cred">Held for a real reviewer, not a portrait of one.</p>
-                      <p class="gcard__cred">Named here once they have reviewed Emenla's clinical wording, with what they reviewed and when.</p>
-                    </span>
-                  </div>
-                </li>
-                <li class="part">
-                  <div class="card gcard gcard--slot" data-slot="clinician">
-                    <span class="gcard__visual" aria-hidden="true">
-                      <svg class="slot__figure" viewBox="0 0 200 240"><circle cx="100" cy="78" r="46"/><path d="M22 240c6-58 40-92 78-92s72 34 78 92"/></svg>
-                    </span>
-                    <span class="example">Example</span>
-                    <span class="gcard__body">
-                      <p class="gcard__name">Licensed clinician</p>
-                      <p class="gcard__cred">Held for a real reviewer, not a portrait of one.</p>
-                      <p class="gcard__cred">Named here once they have reviewed Emenla's clinical wording, with what they reviewed and when.</p>
-                    </span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <button type="button" class="rail__btn rail__btn--prev" data-carousel-prev aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <button type="button" class="rail__btn rail__btn--next" data-carousel-next aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-          </div>
-        </div>
-        <p class="context__note reveal part">Nobody has reviewed Emenla clinically yet; the three cards hold the place. When a licensed clinician has read the clinical wording, they will be named here, with what they reviewed and when. Until then, what Emenla is built on is public: the guidelines it cites, every claim with its source, and a plain list of what has not been done. <a href="science/">Read the science behind Emenla.</a></p>
       </div>
     </section>
 
@@ -698,76 +648,10 @@
           <div class="card price part">
             <h3 class="subheading">Doctor-summary export</h3>
             <p class="price__amount">$34.99 a year, or $6.99 a month</p>
-            <p class="body-sm muted">One tier. Bought through Apple's in-app purchase, refunded through Apple's process.</p>
-            <p class="caption meta">Not purchasable yet. Prices are shown in US dollars and will be shown in your local currency on the App Store.</p>
+            <p class="body-sm muted">Your first summary is free. After that, one tier, bought through Apple's in-app purchase and refunded through Apple's process.</p>
+            <p class="caption meta">Prices are in US dollars. The App Store shows them in your own currency.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ Reviews, after launch ============
-         Six empty slots on a rail that loops; Emenla is not on the App Store yet. To add a real review, replace a
-         slot's contents, typed exactly as posted:
-           <p class="qcard__who">First name, initial.</p><p class="qcard__meta">Month year / App Store</p>
-           <p class="qcard__title">Her title</p><p class="qcard__body">Her review, unchanged.</p>
-         and drop the qcard--slot class and data-slot. For a rated one: <div class="qcard__row"><p class="qcard__who">Name</p><p class="qcard__date">Month year</p></div>
-           <div class="qcard__rating"><span class="qcard__stars qcard__stars--filled" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="qcard__tag qcard__tag--verified">Verified</span></div>
-         ("Verified" only if the platform itself verified it). A consented quote: who "Consented quote", meta "Month year /
-         Structured interview", her sentence as the title or body, instrument and month only. A screenshot also works:
-           <li class="card qcard qcard--image part"><img src="assets/img/review-01.jpg" alt="App Store review: its first sentence, by first name and initial." width="620" height="756" loading="lazy" decoding="async"></li>
-         Keep one honest slot until there are three real reviews. -->
-    <section class="section asked" id="asked">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <h2 class="display part">Reviews,<br>after launch.</h2>
-        </div>
-      </div>
-      <div class="rail-wrap reveal" data-carousel data-carousel-loop data-carousel-start="1">
-        <div class="rail-fade">
-          <ul class="rail" role="list" tabindex="0" aria-label="Reviews. Empty until launch. Scroll sideways, or use the arrow keys.">
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-            <li class="card qcard qcard--slot part" data-slot="review">
-              <span class="slot__disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></span>
-              <p class="slot__label">App Store review</p>
-              <span class="slot__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-              <p class="slot__line">Reviews appear here after launch, as they were written.</p>
-            </li>
-          </ul>
-        </div>
-        <button type="button" class="rail__btn rail__btn--prev" data-carousel-prev aria-label="Previous cards"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <button type="button" class="rail__btn rail__btn--next" data-carousel-next aria-label="Next cards"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-      </div>
-      <div class="wrap">
-        <p class="asked__note body-sm muted reveal part">Not on the App Store yet, so no reviews. When there are, they will be shown as they were written, never paid for, edited or invented.</p>
       </div>
     </section>
 
@@ -782,11 +666,7 @@
         <div class="faq reveal">
           <details class="part">
             <summary>What is Emenla?</summary>
-            <p class="answer">Emenla is an iOS app for keeping a record of endometriosis symptoms. You log a day in a few words, typed or spoken. The app counts what you wrote back to you: which days, how often, how bad, and how that lines up with the periods you logged. When you need it, it prints a one-page summary in clinical terms with your own words beside each one, to take to an appointment. Everything stays on the phone.</p>
-          </details>
-          <details class="part">
-            <summary>Is Emenla on the App Store?</summary>
-            <p class="answer">Not yet. It is an iOS app and it is being built now. This page will carry the App Store link the day it is listed.</p>
+            <p class="answer">Emenla is an iOS app for keeping a record of endometriosis symptoms. You log a day in a few words, typed or spoken, or by tapping where it hurts on a body map. The app counts what you wrote back to you: which days, how often, how bad, and how that lines up with the periods you logged. When you need it, it prints a one-page summary in clinical terms with your own words beside each one, to take to an appointment. Your record stays on the phone.</p>
           </details>
           <details class="part">
             <summary>Does Emenla tell me whether I have endometriosis?</summary>
@@ -794,7 +674,11 @@
           </details>
           <details class="part">
             <summary>Is it private and secure?</summary>
-            <p class="answer">Your symptom record lives in the app's own database on your phone. Your symptoms, period dates, body map and notes are not uploaded, so there is no symptom data of yours sitting on someone else's machine. Emenla does need an account, and that account holds your email address and nothing about your health. Speech recognition runs on the device and no audio is kept. The app has no analytics, no ads and no trackers; this site has no cookies and no third-party fonts. Two things can leave the phone, both because you asked: an anonymous purchase status if you buy the optional export, and a meal photograph if you use the reading in Nourish, which comes back as four nutrition figures. The privacy policy sets out both.</p>
+            <p class="answer">Your symptom record lives in the app's own database on your phone. Your symptoms, period dates, body map and notes are not uploaded, so there is no symptom data of yours sitting on someone else's machine. Emenla does need an account, and the account holds your email address and nothing from your symptom record. Speech recognition runs on the device and no audio is kept. The app has no analytics, no ads and no trackers; this site has no cookies and no third-party fonts. A few things can leave the phone, each only when you use the feature that sends it. Three go to OpenAI or Anthropic to be read, and only after you have said yes: a meal photograph, if you ask Nutrition to read it, which is never stored on a server, though the four nutrition figures it comes back as are kept with your account; what you write to the assistant, which never includes your record; and the questions you ask Analyze to make stronger, with your symptom names and a few facts the app counted. Each of those three has its own switch in the app. Beyond them, an appointment you add goes to your calendar, and an anonymous purchase status goes to Apple and RevenueCat if you buy the optional export. The privacy policy sets out each one.</p>
+          </details>
+          <details class="part">
+            <summary>Does Emenla use AI?</summary>
+            <p class="answer">Only where you turn it on. Three features use an AI model from OpenAI or Anthropic: the assistant, reading a meal from a photograph, and Stronger questions on the appointment page. Each asks you once, the first time you use it, says what it sends, and has its own switch in Settings. None of them sends your record, and none of them gives a diagnosis. The part that puts your words into clinical terms for your summary does not use them: it runs on your phone, from a fixed list of terms, each with its source.</p>
           </details>
           <details class="part">
             <summary>What happens to my entries if I change phones?</summary>
@@ -806,23 +690,23 @@
           </details>
           <details class="part">
             <summary>Does Emenla predict my period or my flares?</summary>
-            <p class="answer">No. Emenla does not predict anything. You can log period start dates and the app counts your logged days against them, looking backwards at what you wrote. It never forecasts what is coming.</p>
+            <p class="answer">Not your flares. Once you have logged three period starts, Overview shows a range for when your next period might begin, worked out from the starts you logged and labelled as an estimate. If you turn it on in Settings, it can also show an estimated fertile window, counted from the same starts; it is off until you do, and it is not a method of contraception. Everything else is counted backwards from what you wrote.</p>
           </details>
           <details class="part">
             <summary>How is Emenla science-backed exactly?</summary>
-            <p class="answer">In the wording, not in a claim about your health. The terms Emenla puts on the page follow the published endometriosis guidelines, ESHRE 2022, NICE NG73 and ACOG 2026, and every figure on this site is printed with the source next to it. What the app itself does is count what you logged; it never predicts. Emenla has not been studied in a clinical trial and no clinician has reviewed it yet, and the science page says so as plainly as it says the rest. <a href="science/">Read the science behind Emenla.</a></p>
+            <p class="answer">In the wording, not in a claim about your health. The terms Emenla puts on the page follow the published endometriosis guidelines, ESHRE 2022, NICE NG73 and ACOG 2026, and every figure on this site is printed with the source next to it. What the app itself does is count what you logged. Emenla has not been studied in a clinical trial, and the science page says so as plainly as it says the rest. <a href="science/">Read the science behind Emenla.</a></p>
           </details>
           <details class="part">
             <summary>Are you affiliated with a brand or a clinic?</summary>
-            <p class="answer">No. Emenla is an independent project built in Poland, with no clinic, brand, pharmaceutical or supplement sponsor behind it, and no advertising anywhere in the app or on this site. It recommends no products and sells nothing except the optional summary export. Nothing you write is sold or shared, because it never leaves your phone.</p>
+            <p class="answer">No. Emenla is an independent project built in Poland, with no clinic, brand, pharmaceutical or supplement sponsor behind it, and no advertising anywhere in the app or on this site. It recommends no products and sells nothing except the optional summary export. Nothing you write is sold or used for advertising, and your record stays on your phone.</p>
           </details>
           <details class="part">
             <summary>What does it cost?</summary>
-            <p class="answer">Logging is free, always, and cannot be put behind a paywall because it happens on your phone: there is nothing to lock. The optional doctor-summary export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase. It is not purchasable yet.</p>
+            <p class="answer">Logging is free, always, and cannot be put behind a paywall because it happens on your phone: there is nothing to lock. Your first doctor summary is free. After that, the optional export is $34.99 a year or $6.99 a month, one tier, through Apple's in-app purchase.</p>
           </details>
           <details class="part">
             <summary>Who makes Emenla?</summary>
-            <p class="answer">An independent project built in Poland. Not a clinic, not a brand, and not funded by one. The operating entity is named in full on the privacy and terms pages before the app is released.</p>
+            <p class="answer">An independent project built in Poland. Not a clinic, not a brand, and not funded by one. You can reach a person at hello@emenla.com.</p>
           </details>
         </div>
       </div>
@@ -834,7 +718,7 @@
         <div class="section-head reveal">
           <span class="label part">Contact</span>
           <h2 class="heading-lg part">Contact us.</h2>
-          <p class="subheading part">Replies can take a day or two. Please do not send symptoms, photos or medical details by email; Emenla is built so they never have to leave your phone.</p>
+          <p class="subheading part">Replies can take a few days. Please do not send symptoms, photos or medical details by email; Emenla is built so they never have to leave your phone.</p>
         </div>
         <div class="contact reveal">
           <a class="card contact__card part" href="mailto:hello@emenla.com">
@@ -844,13 +728,13 @@
             </div>
             <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20l18-12 18 12v20H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 20l18 12 18-12M6 40l14-11M42 40L28 29" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </a>
-          <div class="card contact__card part">
+          <a class="card contact__card part" href="support/">
             <div>
-              <p class="contact__k">App Store</p>
-              <p class="contact__v">Coming soon. The link will be here the day it is listed.</p>
+              <p class="contact__k">Support</p>
+              <p class="contact__v">Help with the app</p>
             </div>
-            <svg class="contact__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z" fill="currentColor"/></svg>
-          </div>
+            <svg class="contact__icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M19.2 19.6c0-2.9 2.2-4.9 4.9-4.9s4.9 1.9 4.9 4.5c0 3.8-4.9 4.1-4.9 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="24.1" cy="32.6" r="1.3" fill="currentColor"/></svg>
+          </a>
         </div>
         <div class="ask" id="ask">
           <div class="ask__inner">
@@ -876,8 +760,8 @@
           <p class="footer__name">Emenla</p>
           <p class="footer__desc">An iOS app for people with endometriosis. Your words, their words, one clear page.</p>
           <p class="footer__addr">Made in Poland.<br><a href="mailto:hello@emenla.com">hello@emenla.com</a></p>
-          <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict anything.</p>
-          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The pictures in the history are archive material, credited where they appear. Every other picture slot is held blank until there is real photography to put in it. Nobody shown is a patient.</p>
+          <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict any condition.</p>
+          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are archive material, credited where they appear. Nobody shown is a patient.</p>
         </div>
         <nav class="footer__cols" aria-label="Footer">
           <div class="footer__col">
@@ -891,7 +775,6 @@
             <p class="footer__head">Learn</p>
             <a href="science/">The science</a>
             <a href="#history">A short history</a>
-            <a href="#context">Clinical review</a>
             <a href="#faq">Questions</a>
           </div>
           <div class="footer__col">
@@ -914,7 +797,7 @@
   </footer>
 
 
-  <script src="assets/js/hero.js?v=20260830e" defer></script>
-  <script src="assets/js/site.js?v=20260830e" defer></script>
+  <script src="assets/js/hero.js?v=20261003a" defer></script>
+  <script src="assets/js/site.js?v=20261003a" defer></script>
 </body>
 </html>

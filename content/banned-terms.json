@@ -21,25 +21,27 @@
     "there is no account", "nothing to sign into", "no user database",
     "does not collect an email address", "has no server",
     "just ", "at least",
-    "women with endometriosis"
+    "women with endometriosis",
+    "Oliwier", "Kraszewski", "Vusoni",
+    "awaiting", "coming soon", "after launch", "once it has been", "before the app is released",
+    "not on the App Store yet", "not purchasable yet", "the day it is listed"
   ],
   "style_terms": [
     "\u2014",
+    "\u2013",
+    "&mdash;",
+    "&ndash;",
     "lorem ipsum"
   ],
   "allowed_sentences": [
     "Never diagnose or predict.",
     "Tell you whether you have endometriosis. It never will.",
-    "Predict your next period or your next flare.",
-    "Emenla does not predict anything.",
     "Talk about a root cause or a cure. There is no cure for endometriosis, and Emenla will not pretend otherwise.",
     "Emenla is not a medical device, does not provide medical advice, and does not diagnose, treat, cure or prevent any condition.",
     "Does Emenla tell me whether I have endometriosis? No, and it never will.",
-    "Does Emenla predict my period or my flares? No.",
-    "Nothing in Emenla is a prediction.",
-    "It does not diagnose, treat or predict anything.",
-    "It does not diagnose, treat or predict anything, and nothing on this page is a claim about the app's effect on your health.",
-    "What the app itself does is count what you logged; it never predicts.",
+    "Does Emenla predict my period or my flares?",
+    "It does not diagnose, treat or predict any condition.",
+    "It does not diagnose, treat or predict any condition, and nothing on this page is a claim about the app's effect on your health.",
     "The burden of endometriosis: costs and quality of life of women with endometriosis and treated in referral centres."
   ]
 }

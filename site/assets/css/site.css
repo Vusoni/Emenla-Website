@@ -274,6 +274,11 @@ ul, ol { padding: 0; list-style: none; }
 .section-head { text-align: center; margin-inline: auto; max-width: 780px; }
 .section-head > * + * { margin-top: 18px; }
 .section-head .lede { text-align: left; margin-top: 28px; }
+/* On phones the pill above a heading only repeats it, so the heading leads on its own */
+@media (max-width: 720px) {
+  .section-head > .label { display: none; }
+  .section-head > .label + * { margin-top: 0; }
+}
 .stack > * + * { margin-top: 16px; }
 
 .label {
@@ -855,6 +860,17 @@ ul, ol { padding: 0; list-style: none; }
 .pair__meta a { color: var(--stone); }
 .pairs-outro { margin: 44px auto 0; max-width: 780px; }
 .pairs-outro > * + * { margin-top: 1em; }
+.pairs__sources { display: none; }
+/* Phones: a pair is the sentence, the term and what the term means. Codes and per-card sources give way to one
+   line under the three that leads to all of them */
+@media (max-width: 720px) {
+  .pairs { margin-top: 32px; gap: 12px; }
+  .pair { gap: 14px; padding: 22px 22px 24px; }
+  .pair__quote { font-size: 26px; padding-bottom: 14px; }
+  .pair__code, .pair__meta { display: none; }
+  .pairs__sources { display: block; margin-top: 16px; color: var(--ash); font-size: var(--text-caption); line-height: 1.6; }
+  .pairs__sources a { color: var(--stone); }
+}
 
 /* ---------- Three things it does: the timeline ---------- */
 .timeline {
@@ -1088,9 +1104,6 @@ ul, ol { padding: 0; list-style: none; }
 .imgcard--blank::before, .imgcard--blank::after { display: none; }
 .imgcard--blank .imgcard__copy { color: var(--ink); }
 .imgcard--blank .imgcard__copy p { color: var(--stone); }
-.imgcard__soon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
-.imgcard__soon::before { animation: breathe2 4s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .imgcard__soon::before { animation: none; } }
 
 /* ---------- Privacy: phone and rows ---------- */
 .privacy {
@@ -1147,7 +1160,7 @@ ul, ol { padding: 0; list-style: none; }
   padding: 24px 22px;
   text-align: center;
 }
-.device__screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.device__screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .device__notch {
   position: absolute;
   top: 12px;
@@ -1323,7 +1336,7 @@ ul, ol { padding: 0; list-style: none; }
 .footer__col a {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   color: var(--stone);
   text-decoration: none;
   font-size: 15px;
@@ -1449,9 +1462,14 @@ ul, ol { padding: 0; list-style: none; }
 .ccard__meta .strong { color: var(--ink); }
 .ccard__meta a { color: var(--stone); }
 @media (max-width: 720px) {
-  .try { grid-template-columns: 1fr; gap: 20px; }
+  .try { grid-template-columns: 1fr; gap: 20px; margin-top: 40px; }
   .try .hold__sentence { min-height: 2.4em; font-size: 20px; }
   .try .hold { padding: 20px; gap: 10px; }
+  /* The sentence waits in the card as a faint draft and inks in under the thumb, so the card is never empty and
+     there is no caret floating after letters nobody can see yet. The copy above already explains the hold, so the
+     card drops its header row and its hint, and the result keeps only the term, like the cards above it */
+  .try .hold__sentence .hc { opacity: max(0.22, clamp(0, (var(--hp, 0) - var(--ht, 0)) * 40, 1)); }
+  .try .hold__caret, .try .ccard__day, .try .hold__hint, .hold__code, .hold__src { display: none; }
   .strip__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; justify-items: start; }
   .strip__row li { font-size: 11px; }
   .device { width: min(100%, 240px); }
@@ -1660,24 +1678,64 @@ ul, ol { padding: 0; list-style: none; }
 .hscroll--tight .hs-head { bottom: 100px; }
 .hscroll--tight .hs-now { margin-bottom: 6px; }
 .hscroll--tight .hcard__media { aspect-ratio: 5 / 2; }
+/* Phones: the record is a vertical rail read at the page's own pace. Nothing pins and nothing slides sideways.
+   A hairline runs from the first dot to the last and inks down to a reading line as the visitor scrolls
+   (--rail-ink, 0 to 1, set by site.js); each year, and each stretch of years between two, lights as the line reaches
+   it. Without the script, or under reduced motion, the rail is fully inked and everything reads at full strength.
+   Together with the desktop block below, this covers exactly the stacking query in site.js. */
 @media (max-width: 720px) {
-  .hs-head { bottom: 96px; }
-  .hs-year { font-size: clamp(52px, 15vw, 64px); }
-  .hs-now { margin-bottom: 8px; max-width: calc(100vw - 2 * var(--gutter)); }
-  .hscroll__hint, .hs-tick__label { display: none; }
-  .hs-gap { font-size: 20px; top: calc(var(--rule-y) - 36px); }
-  .hs-gap:not([data-gap="0"]) { display: none; }
-  .hcard .card { padding: 16px 18px 18px; gap: 8px; }
-  .hcard__year { font-size: 26px; }
-  .hcard__fig-n { font-size: 26px; }
-  .hcard__body { font-size: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-  /* The card stays over the reading point while the rule slides beneath it; only the one being read is shown */
-  .hscroll--pin .hcard { transform: translateX(calc(var(--tx, 0) * 1px)); opacity: 0; transition: opacity 420ms var(--ease-out); }
-  .hscroll--pin .hcard::after { display: none; }
-  .hscroll--pin .hcard.now { opacity: 1; }
+  .hscroll { margin-top: 36px; }
+  .hscroll__stage { position: relative; height: auto; overflow: visible; padding: 0 var(--gutter) 0 calc(var(--gutter) + 34px); }
+  .hs-head, .hscroll__hint, .hscroll__svg, .hs-ticks, .hs-pen, .hnode__year, .hcard__media, .hcard::after { display: none; }
+  .hscroll__track { position: relative; height: auto; width: auto !important; transform: none !important; will-change: auto; }
+  .hscroll__track::before,
+  .hscroll__track::after {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: var(--rail-a, 0px);
+    width: 1.5px;
+    height: var(--rail-len, 100%);
+    margin-left: -0.75px;
+    border-radius: 1px;
+    background: var(--clay);
+  }
+  .hscroll__track::after { background: var(--ink); transform-origin: top; transform: scaleY(var(--rail-ink, 1)); }
+  /* A dot takes its place in the flow just above its entry, then centres on the rail beside the year */
+  .hnode { left: -24px !important; top: auto !important; margin-top: 17px; }
+  .hcard { position: relative; left: auto !important; bottom: auto; width: auto !important; opacity: 1; padding-bottom: 40px; }
+  .hcard .card { background: none; border-radius: 0; box-shadow: none; padding: 0; gap: 6px; transform: none !important; }
+  .hcard__row { justify-content: flex-start; gap: 12px; }
+  .hcard__year { font-size: 34px; }
+  .hcard__row .label { padding: 0; border: 0; background: none; font-size: 11px; letter-spacing: 0.12em; color: var(--ash); }
+  .hcard__row .label::before { display: none; }
+  .hcard__title { margin-top: 4px; }
+  .hs-gap { position: static; display: block; transform: none; margin: -12px 0 0; padding-bottom: 40px; font-size: 21px; line-height: 1.2; color: var(--ash); white-space: normal; opacity: 1; }
+  /* Today closes the record as the one card: the figure carries it, so the title that repeats it steps aside */
+  .hcard:last-of-type { padding-bottom: 0; }
+  .hcard:last-of-type .card { background: var(--panel); border-radius: var(--radius-card); box-shadow: var(--shadow-xl); padding: 22px 22px 24px; margin: -22px 0 0 -12px; }
+  .hcard:last-of-type .hcard__fig { display: flex; align-items: flex-start; aspect-ratio: auto; gap: 6px; margin: 10px 0 4px; padding: 0; border: 0; text-align: left; }
+  .hcard:last-of-type .hcard__fig-n { font-size: 64px; }
+  .hcard:last-of-type .hcard__title { display: none; }
+  .hscroll__sources { margin-top: 32px; text-align: left; }
+  .hscroll__credits { display: none; }
+  /* While the script reads along, what is still ahead waits at a quarter strength */
+  /* Motion, only while the rail runs, so never under reduced motion: a year's dot fills and rings as the reading
+     line reaches it, then its words rise into place a beat apart, and the stretch after it follows. A short pen
+     rides the tip of the ink, as the desktop pen rides the rule, and hides over a dot */
+  .hscroll--rail .hcard, .hscroll--rail .hs-gap { transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out); }
+  .hscroll--rail .hcard:not(.lit), .hscroll--rail .hs-gap:not(.lit) { opacity: 0.26; }
+  .hscroll--rail .hs-gap:not(.lit) { transform: translateY(12px); }
+  .hscroll--rail .hnode.lit::before { animation: nodePulse 700ms var(--ease-out) forwards; }
+  .hscroll--rail .hcard .card > * { transition: transform 700ms var(--ease-out); }
+  .hscroll--rail .hcard.lit .hcard__title { transition-delay: 60ms; }
+  .hscroll--rail .hcard.lit .hcard__body { transition-delay: 120ms; }
+  .hscroll--rail .hcard:not(.lit) .card > :not(.hcard__row) { transform: translateY(12px); }
+  .hscroll--rail .hcard:last-of-type:not(.lit) .card { box-shadow: var(--shadow-md); }
+  .hscroll--rail .hs-pen { display: block; top: var(--rail-a, 0px); left: -24px; width: 13px; height: 1.5px; transform: translate(-50%, calc(var(--rail-len, 0px) * var(--rail-ink, 0) - 50%)); }
 }
-/* Stacked under reduced motion only, character for character the same query as in site.js */
-@media (prefers-reduced-motion: reduce) {
+/* Stacked under reduced motion on wider screens; phones always stack, in the block above */
+@media (prefers-reduced-motion: reduce) and (min-width: 721px) {
   .hscroll__stage { position: relative; height: auto; overflow: visible; padding-left: 56px; }
   .hscroll__stage::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: var(--clay); }
   .hscroll__hint, .hscroll__svg, .hs-head, .hs-ticks, .hs-pen, .hs-gap, .hnode__year { display: none; }
@@ -1734,6 +1792,63 @@ body.hs-pinned .edge-blur { opacity: 0; }
   .grid5 { grid-template-columns: 1fr; }
   .grid5 .imgcard--lg, .grid5 .imgcard--sm { grid-column: auto; min-height: 0; aspect-ratio: 4 / 5; }
 }
+/* What's in the app: the tinted panels with a phone rising out of each, on the grid5 spans.
+   Each panel reveals on its own, so on a phone the lower ones rise when they arrive, not before. */
+.grid5--screens .panel { --panel-h: 580px; }
+.grid5--screens .panel--lg { grid-column: span 3; }
+.grid5--screens .panel--sm { grid-column: span 2; --panel-h: 540px; }
+.grid5--screens .panel--sm .panel__device { width: min(100% - 32px, 264px); }
+.grid5--screens .panel__sub { max-width: 36ch; margin-inline: auto; }
+.grid5--screens .device__notch { z-index: 1; }
+.grid5--screens > .reveal.in.panel:nth-child(2), .grid5--screens > .reveal.in.panel:nth-child(4) { transition-delay: 80ms; }
+.grid5--screens > .reveal.in.panel:nth-child(5) { transition-delay: 160ms; }
+/* The sample page: paper instead of a phone, rising the same way */
+.panel__paper {
+  width: min(100% - 48px, 480px);
+  --phone-hide: 34%;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(17, 17, 20, 0.06), 0 18px 48px rgba(17, 17, 20, 0.14);
+}
+.panel__paper img { display: block; width: 100%; height: auto; }
+.grid5--screens .panel__link { position: relative; z-index: 1; }
+/* In flow, so a line of text that wraps further pushes the picture down instead of running under it:
+   the paper always, the phones once the grid is one column. The negative bottom margin is the crop,
+   a share of the picture's own height (phone 612/300, page 1541/1200) written against its width. */
+.grid5--screens { --rise: 40px; }
+.grid5--screens .panel .panel__paper {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  margin: 16px auto 0;
+  transform: translateY(var(--rise));
+}
+.grid5--screens > .reveal.in .panel__paper { transform: none; }
+@media (max-width: 900px) {
+  .grid5--screens .panel--lg, .grid5--screens .panel--sm { grid-column: auto; height: auto; padding-bottom: 0; }
+  .grid5--screens > .reveal.in.panel:nth-child(n) { transition-delay: 0ms; }
+  .grid5--screens .panel .panel__device {
+    --w: min(100% - 32px, 264px);
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: var(--w);
+    margin: 24px auto calc(var(--w) * -0.8);
+    transform: translateY(var(--rise));
+  }
+  .grid5--screens .panel .panel__paper { --w: min(100% - 24px, 480px); margin-bottom: calc(var(--w) * -0.55); }
+  .grid5--screens > .reveal.in .panel__device { transform: none; }
+}
+@media (max-width: 720px) {
+  .grid5--screens .panel .panel__device { --w: min(100% - 32px, 240px); }
+  .grid5--screens .panel .panel__paper { --w: min(100% - 24px, 400px); }
+}
+
+/* Cards with no picture in them: sized to their words, never held open as an empty frame. */
+.grid5--words .imgcard { min-height: 0; aspect-ratio: auto; align-items: flex-start; }
+.grid5--words .imgcard__copy { text-align: left; padding: 28px; }
+.grid5--words .imgcard__copy p { margin-inline: 0; }
 
 /* ---------- The science page ---------- */
 .sci { --overlap: 110px; }
@@ -2053,6 +2168,89 @@ body.hs-pinned .edge-blur { opacity: 0; }
 .ask__note { max-width: 40ch; }
 @media (prefers-reduced-motion: reduce) {
   .ask, .ask__card { transition: none; }
+}
+
+/* ---------- Support: the two cards, then the field already open, then the answers ----------
+   The home page's contact block, set flush with the page's heading instead of centred, because
+   on this page it is the content rather than a closing section. */
+.desk { padding-bottom: calc(var(--section) * 0.75); }
+.desk > * { max-width: calc(220px + 56px + 68ch); } /* the document grid below: its column, its gap, its text */
+.desk .contact { margin: 0; }
+.contact__card--still:hover { transform: none; box-shadow: var(--shadow-md); }
+.desk__form { margin-top: 20px; padding: clamp(22px, 2.6vw, 30px); }
+.topics { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
+.topics legend { padding: 0; }
+.topics__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic { position: relative; display: inline-flex; }
+/* The real radio covers its pill, so a tap, a keyboard and a screen reader all reach the same control */
+.topic input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.topic span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--haze);
+  background: var(--canvas);
+  color: var(--stone);
+  font-size: var(--text-body-sm);
+  line-height: 1.2;
+  transition: background-color 200ms var(--ease-soft), border-color 200ms var(--ease-soft), color 200ms var(--ease-soft);
+}
+.topic:hover span { border-color: var(--clay); color: var(--ink); }
+.topic input:checked + span { background: var(--night); border-color: var(--night); color: var(--night-text); }
+.topic input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+.desk__form .ask__row { margin-top: 18px; }
+.desk__copy {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--stone);
+  font: inherit;
+  font-size: var(--text-body-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.desk__copy:hover { color: var(--ink); }
+.desk__note { margin-top: 14px; max-width: 60ch; }
+@media (max-width: 720px) {
+  .desk__send { flex: 1 1 100%; }
+  .desk__copy { margin-inline: auto; }
+}
+
+/* The answers inside the document: the home page's accordion, with the document's own rhythm reset
+   inside each answer so its first paragraph sits under the question, not 14px below it. */
+.doc__body h2 + .faq { margin-top: 22px; }
+.doc__body .faq .answer > :first-child { margin-top: 0; }
+.doc__body .faq .answer p + p { margin-top: 12px; }
+.doc__body .faq details { scroll-margin-top: 96px; }
+
+/* On a phone the column of section links read as four loose lines of body text. Here it is a row
+   of pills that scrolls sideways, the same links the desktop's sticky column holds. */
+@media (max-width: 900px) {
+  .doc--support .toc {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 2px var(--gutter);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+  }
+  .doc--support .toc::-webkit-scrollbar { display: none; }
+  .doc--support .toc a {
+    flex: none;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--haze);
+    border-radius: var(--radius-pill);
+    background: var(--panel);
+    color: var(--ink);
+    white-space: nowrap;
+  }
 }
 
 /* ---------- Card rails: a native horizontal scroller, faded at both edges, with two round buttons ----------
@@ -2425,6 +2623,7 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
   .reveal .part, .reveal.part { opacity: 1; transform: none; }
   .statement__text .w, .statement__text .glyph { --k: 1; }
   .panel__device { transform: translate(-50%, var(--phone-hide)); }
+  .grid5--screens { --rise: 0px; }
   .counts__bars i { transform: scaleY(1); }
   .timeline__rail .rail-draw { stroke-dashoffset: 0; }
   .hold__result, .hold__result > * { opacity: 1; transform: none; }

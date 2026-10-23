@@ -91,6 +91,55 @@
     if (window.location.hash === '#ask') open(false);
   })();
 
+  /* ---------- Support: the field is already open. A topic sets the subject and swaps the
+     placeholder for what would help most; Send builds the same mailto the home page's field does,
+     so nothing typed here reaches this site. Copy shows only where the clipboard can be written. ---------- */
+  (function () {
+    var form = document.getElementById('write');
+    var field = document.getElementById('write-text');
+    if (!form || !field) return;
+    var ADDRESS = 'hello@emenla.com';
+    var plain = field.getAttribute('placeholder');
+    var note = form.querySelector('.desk__note');
+    var copy = form.querySelector('.desk__copy');
+    form.addEventListener('change', function (e) {
+      if (e.target.name !== 'subject') return;
+      field.setAttribute('placeholder', e.target.getAttribute('data-hint') || plain);
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = field.value.trim();
+      if (!text) { field.value = ''; form.reportValidity ? form.reportValidity() : field.focus(); return; }
+      var chosen = form.querySelector('input[name="subject"]:checked');
+      var subject = encodeURIComponent(chosen ? chosen.value : 'Emenla support');
+      var body = encodeURIComponent(text + '\n\n');
+      window.location.href = 'mailto:' + ADDRESS + '?subject=' + subject + '&body=' + body;
+      if (note) window.setTimeout(function () {
+        note.textContent = 'Your mail app should open with this ready to send. If nothing opened, write to ' + ADDRESS + ' from any email account.';
+      }, 1200);
+    });
+    if (copy && navigator.clipboard && window.isSecureContext) {
+      copy.hidden = false;
+      var label = copy.textContent;
+      copy.addEventListener('click', function () {
+        navigator.clipboard.writeText(ADDRESS).then(function () {
+          copy.textContent = 'Copied';
+          window.setTimeout(function () { copy.textContent = label; }, 2000);
+        }, function () {});
+      });
+    }
+
+    /* A link to one question, /support#delete-my-data, opens that answer rather than landing on a closed row */
+    function openFromHash() {
+      var id = window.location.hash.slice(1);
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    }
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  })();
+
   /* ---------- The nav stays clear; over the dark closing band the wordmark turns cream ---------- */
   var nav = document.querySelector('.nav');
   var darkBand = document.querySelector('.band-dark');
@@ -346,7 +395,8 @@
 
   /* ---------- A short history: the measured record slides left as the visitor scrolls down ---------- */
   var hs = document.querySelector('[data-hscroll]');
-  var hsStack = window.matchMedia('(prefers-reduced-motion: reduce)');
+  /* Phones never pin: they read the record as a vertical rail (below). Reduced motion stacks it everywhere */
+  var hsStack = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 720px)');
   var hsNodes = [], hsCards = [], hsLabels = [], hsGaps = [], hsGapMap = {}, hsTicks = [], hsYears = [], hsNodeX = [];
   var hsTrack = null, hsBase = null, hsDraw = null, hsStage = null, hsHead = null, hsYearEl = null, hsNowEl = null, hsHint = null, hsTickBox = null, hsPen = null;
   var hsX0 = 0, hsX1 = 1, hsK = 1, hsU0 = 1, hsRuleY = 0, hsCardW = 300, hsTrackW = 0, hsRange = 1;
@@ -379,11 +429,9 @@
       hs.style.height = '';
       hs.classList.remove('hscroll--compact');
       hs.classList.remove('hscroll--tight');
-      hs.classList.remove('hscroll--pin');
       hsTrack.style.transform = '';
       hsTrack.style.width = '';
       hsTrack.style.removeProperty('--read-x');
-      hsTrack.style.removeProperty('--tx');
       hsNodes.forEach(function (nd, i) {
         nd.style.left = ''; nd.style.top = ''; nd.classList.add('lit'); nd.classList.remove('now');
         if (hsCards[i]) { hsCards[i].classList.add('lit'); hsCards[i].classList.remove('now'); hsCards[i].style.left = ''; hsCards[i].style.width = ''; }
@@ -393,29 +441,22 @@
       return;
     }
     var vw = window.innerWidth, vh = window.innerHeight, n = hsNodes.length, i;
-    /* Phones read at the centre with the card pinned over the reading point; desktops read at 42 percent with the
-       next card ghosted beside it */
-    var phone = vw <= 720;
-    hsCardW = phone ? vw - 64 : Math.max(300, Math.min(340, Math.round(vw * 0.22)));
-    var pad = vw * (phone ? 0.5 : 0.42);
-    var stem = phone ? 44 : 56;
-    var bandTop = phone ? 92 : 100;
-    /* On phones the card stays pinned over the reading point and the rule slides beneath it like a tape; the
-       card counter-translates by the track's own offset (--tx) and the next one crossfades in as its node passes */
-    hs.classList.toggle('hscroll--pin', phone);
-    if (!phone) hsTrack.style.removeProperty('--tx');
+    /* The record reads at 42 percent of the width with the next card ghosted beside it */
+    hsCardW = Math.max(300, Math.min(340, Math.round(vw * 0.22)));
+    var pad = vw * 0.42;
+    var stem = 56;
+    var bandTop = 100;
     hsCards.forEach(function (c) { c.style.width = hsCardW + 'px'; });
-    /* The tightest gap must still hold a card (only a year label on phones), and the whole record should run
-       about 3.3 screens wide, 4 on phones */
+    /* The tightest gap must still hold a card, and the whole record should run about 3.3 screens wide */
     hsU0 = hsU(hsYears[0]);
-    var gapMin = phone ? 120 : hsCardW + 48, minDu = Infinity;
+    var gapMin = hsCardW + 48, minDu = Infinity;
     for (i = 0; i < n - 1; i++) minDu = Math.min(minDu, hsU(hsYears[i]) - hsU(hsYears[i + 1]));
     hsX0 = pad;
-    hsK = Math.max(gapMin / minDu, (phone ? 4 : 3.3) * vw / hsU0);
+    hsK = Math.max(gapMin / minDu, 3.3 * vw / hsU0);
     hsNodeX = hsYears.map(yearToX);
     hsX1 = hsNodeX[n - 1];
     /* The scene ends with the last card; the rule starts at the first node and stops at the last */
-    var tail = phone ? (vw - hsCardW) / 2 : vw * 0.12;
+    var tail = vw * 0.12;
     hsTrackW = hsX1 + hsCardW / 2 + tail;
     hsTrack.style.width = hsTrackW + 'px';
     var svg = hsTrack.querySelector('svg');
@@ -436,7 +477,7 @@
     hsNodes.forEach(function (nd, j) {
       nd.style.left = hsNodeX[j].toFixed(1) + 'px';
       nd.style.top = ruleY + 'px';
-      if (hsCards[j]) hsCards[j].style.left = ((phone ? pad : hsNodeX[j]) - hsCardW / 2).toFixed(1) + 'px';
+      if (hsCards[j]) hsCards[j].style.left = (hsNodeX[j] - hsCardW / 2).toFixed(1) + 'px';
     });
     hsTicks.forEach(function (t) {
       t.x = yearToX(t.year); t.el.style.left = t.x.toFixed(1) + 'px'; t.el.classList.remove('lit');
@@ -479,7 +520,6 @@
     if (x === hsX) return;
     hsX = x;
     hsTrack.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
-    if (hs.classList.contains('hscroll--pin')) hsTrack.style.setProperty('--tx', String(x));
     /* The reading point travels from the first node to the last as progress runs 0 to 1; the rule is
        straight, so the inked share is simply that distance */
     var readX = hsX0 + p * (hsX1 - hsX0);
@@ -547,6 +587,65 @@
     window.addEventListener('resize', armHistory);
     if (hsStack.addEventListener) hsStack.addEventListener('change', armHistory);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(hsLayout);
+  }
+
+  /* ---------- Phones: the same record as a vertical rail, read top to bottom ----------
+     The rail inks down to a reading line 62 percent of the way down the screen, and each year, and each stretch of
+     years between two, lights as that line reaches it. Offsets are measured once per layout, so a scroll frame
+     costs one rect read. Under reduced motion the rail is left fully inked and everything lit. */
+  var hsPhone = window.matchMedia('(max-width: 720px)');
+  var hsStops = [], hsNodeY = [], hsRailA = 0, hsRailLen = 0, hsRailOn = false, hsRailRaf = null, hsInk = -1;
+  function hsRailMeasure() {
+    var t = hsTrack.getBoundingClientRect().top;
+    function mid(el) { var r = el.getBoundingClientRect(); return r.top + r.height / 2 - t; }
+    hsNodeY = hsNodes.map(mid);
+    hsRailA = hsNodeY[0];
+    hsRailLen = Math.max(1, hsNodeY[hsNodeY.length - 1] - hsRailA);
+    hsTrack.style.setProperty('--rail-a', hsRailA.toFixed(1) + 'px');
+    hsTrack.style.setProperty('--rail-len', hsRailLen.toFixed(1) + 'px');
+    hsStops = hsNodes.map(function (nd, i) { return { y: hsNodeY[i], els: hsCards[i] ? [nd, hsCards[i]] : [nd] }; })
+      .concat(hsGaps.map(function (g) { return { y: g.offsetTop + 10, els: [g] }; }));
+  }
+  function hsRailUpdate() {
+    hsRailRaf = null;
+    var t = hsTrack.getBoundingClientRect().top;
+    var read = window.innerHeight * 0.62 - t;
+    var ink = Math.min(1, Math.max(0, (read - hsRailA) / hsRailLen));
+    if (ink !== hsInk) {
+      hsInk = ink;
+      hsTrack.style.setProperty('--rail-ink', ink.toFixed(4));
+      /* The pen stands at the tip of the ink and gives way to a dot it is crossing */
+      var pen = hsRailA + ink * hsRailLen;
+      if (hsPen) hsPen.classList.toggle('is-near', hsNodeY.some(function (y) { return Math.abs(y - pen) < 12; }));
+    }
+    hsStops.forEach(function (s) {
+      var lit = s.y <= read;
+      if (s.els[0].classList.contains('lit') !== lit) s.els.forEach(function (el) { el.classList.toggle('lit', lit); });
+    });
+  }
+  function hsRailSchedule() { if (hsRailRaf === null) hsRailRaf = window.requestAnimationFrame(hsRailUpdate); }
+  function hsRailArm() {
+    var phone = hsPhone.matches, on = phone && !reduced();
+    hs.classList.toggle('hscroll--rail', on);
+    hsTrack.style.removeProperty('--rail-ink');
+    hsInk = -1;
+    if (phone) hsRailMeasure();
+    else { hsTrack.style.removeProperty('--rail-a'); hsTrack.style.removeProperty('--rail-len'); }
+    if (on) {
+      if (!hsRailOn) { window.addEventListener('scroll', hsRailSchedule, { passive: true }); hsRailOn = true; }
+      hsRailUpdate();
+    } else if (hsRailOn) {
+      window.removeEventListener('scroll', hsRailSchedule);
+      hsRailOn = false;
+    }
+  }
+  /* Registered after armHistory, so the rail always has the last word over the stacked layout's lit-everything */
+  if (hs) {
+    hsRailArm();
+    window.addEventListener('resize', hsRailArm);
+    if (hsStack.addEventListener) hsStack.addEventListener('change', hsRailArm);
+    if (rm.addEventListener) rm.addEventListener('change', hsRailArm);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(hsRailArm);
   }
 
   /* ---------- Looping clips: play only on screen, never under reduced motion ---------- */

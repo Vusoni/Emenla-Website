@@ -50,17 +50,14 @@ Still open:
 
 0. Confirm `hello@emenla.com` actually delivers. The Cloudflare Email Routing MX records are live and DMARC `rua` points at it, but a destination address still has to be verified in the dashboard. It is now the GDPR contact on `/privacy/`, the support address in App Store Connect, and the address in the app. An address that bounces is worse than an ugly one.
 2. ~~Operator name and governing law.~~ Done 2026-09-11: both pages name Vusoni Oliwier and Polish law, because both are now generated from the app repository (see *Legal pages* below). A postal address is still to come once the business structure is settled, and the operator named there must be the Apple Account Holder.
-3. Replace the empty phone screens with real app screenshots. There are three: one in `#privacy`
-   and two in `#screens` (the Record and Document panels). In each `.device__screen`, delete
-   `.device__mark` and `.device__hint` (keep `.device__notch` unless the screenshot carries its own
-   status bar) and add
-   `<picture><source type="image/avif" srcset="assets/img/screen-record.avif"><img src="assets/img/screen-record.jpg" alt="" width="560" height="1184" loading="lazy" decoding="async"></picture>`.
-   Export at 560×1184 (twice the 280×592 screen); the existing `.device__screen img` rule crops it.
-   New filenames need no `?v=` bump.
-4. Legal review of the terms, then remove the "Awaiting legal review" notice.
-5. At App Store launch: `node scripts/set-app-store.mjs --live`. The nav badge is already a link on all five pages (it points at `/#faq` while the app is unlisted); the script swaps it for `apps.apple.com/app/id6799958379`, adds that domain to the health check's allowlist, and then refuses to finish while any of the 19 remaining "not on the App Store yet" sentences are still on the page, listing each with its line. Rewrite those, re-run, and `npm run check` will confirm the site is not half-flipped.
-7. Reviews: `#asked` is six empty slots on a rail that loops without end. After launch, replace a slot with a real review typed in the same markup, exactly as posted (the HTML comment above the section gives the formats, including a rated one and a consented quote). Drop the `qcard--slot` class with the slot. Keep one honest slot until there are three real reviews.
-8. Clinicians: `#context` is three cards marked Example whose portrait area is a blank white panel. Fill one only after a licensed clinician has actually reviewed the clinical wording and agreed to be named; the HTML comment above the section gives the markup (photo 784×708, name, credentials, what they reviewed and when). Remove the pill and the `gcard--slot` class with the portrait, then update the note under the rail and `PLACEHOLDERS.md`. Never before.
+3. ~~Replace the empty phone screens with real app screenshots.~~ Done 2026-10-20: `#inside` shows five
+   frames of the app and the sample doctor's page, and the `#privacy` phone shows What Emenla can reach.
+   Sources, timestamps and the export commands' sizes are in PLACEHOLDERS.md. New filenames need no `?v=` bump;
+   `node tools/newshots.mjs <url> <outdir>` photographs the section at desktop and phone width.
+4. Legal review of the terms before launch. The site carries no notice about it (removed on Oliwier's word, 2026-10-03); the review is tracked in the app repository's `legal/terms-of-service.REVIEW.md`.
+5. At App Store launch: `node scripts/set-app-store.mjs --live`. The nav badge is a link on all six pages; while the app is unlisted it reads "For iPhone" and points at `/#inside`, and the site says nothing about availability anywhere. The script swaps it for `apps.apple.com/app/id6799958379`, adds that domain to the health check's allowlist, and refuses to finish if any "not on the App Store yet" sentence has come back. `npm run check` confirms the site is not half-flipped.
+7. Reviews: the six empty review slots (`#asked`) were removed on 2026-10-03. Add a reviews section only once there are three real reviews, typed exactly as posted; the markup and its formats are in git history before that date (`.qcard`).
+8. Clinicians: the three Example cards (`#context`) were removed on 2026-10-03. Add a clinician only after one has actually reviewed the clinical wording and agreed to be named; the `.gcard` markup is in git history before that date (photo 784×708, name, credentials, what they reviewed and when).
 6. Press or partners: the `#promises` section under the hero carries a commented-out logo row (`.logos`, a seamless marquee). When there are real names, add one `<li><img>` per logo in both lists (SVG or PNG, 28px tall) and swap it in for the three promises.
 
 ## Deploy
@@ -93,8 +90,8 @@ behaviour they describe, and `scripts/sync-legal.mjs` renders it into `site/priv
 `site/terms/` between `LEGAL-SYNC-START` and `LEGAL-SYNC-END`. Edit the markdown there; an edit
 between the markers here is overwritten on the next sync.
 
-Everything outside the markers is still this repository's: the label, the heading, the "Awaiting
-legal review" notice, the head and the footer. The script expects the app repository beside this
+Everything outside the markers is still this repository's: the label, the heading, the head and
+the footer. The script expects the app repository beside this
 one at `../Emenla`; set `EMENLA_APP_REPO` if it is elsewhere.
 
 This replaced hand transcription on 2026-09-11, after the two copies had drifted in both
@@ -133,7 +130,7 @@ Run the measure script after adding media, and keep the phone first load under 3
 ## Adding a consented quote
 
 If a woman agrees, in writing and naming this site, to a sentence of hers appearing on it, use the
-third Example card in `#asked` as the format (who line "Consented quote", "Month year / Structured
+consented-quote format from the removed `#asked` section (git history before 2026-10-03) (who line "Consented quote", "Month year / Structured
 interview", her sentence as the title or the body): instrument and month only, no name, no handle,
 no photo. A sentence about how it felt is allowed ("it helped me feel heard"); anything about an
 outcome ("it got me diagnosed", "the pain is better") is not, even if said. `.qcard--quote` remains

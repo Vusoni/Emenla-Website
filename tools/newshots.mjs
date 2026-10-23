@@ -10,11 +10,11 @@ for (const [tag, w, h, touch] of [['d', 1440, 900, false], ['m', 375, 812, true]
   for (let i = 0; i < ys.length; i++) { await p.scroll(ys[i]); await p.shot(`${out}/stmt-${tag}-${i}.png`); }
   const info = await p.eval("(() => { const el = document.querySelector('[data-statement]'); const ws = el.querySelectorAll('.w'); const last = ws[ws.length - 1]; return { words: ws.length, n: getComputedStyle(el).getPropertyValue('--n').trim(), p: getComputedStyle(el).getPropertyValue('--p').trim(), lastOpacity: getComputedStyle(last).opacity, lastColor: getComputedStyle(last).color, firstColor: getComputedStyle(ws[0]).color }; })()");
   console.log(tag, 'statement', JSON.stringify(info));
-  const sy = await p.eval("document.getElementById('screens').offsetTop - 40");
+  const sy = await p.eval("document.getElementById('inside').offsetTop - 40");
   await p.scroll(sy);
   await p.eval('new Promise(r => setTimeout(r, 1500))');
   await p.shot(`${out}/screens-${tag}.png`);
-  const crop = await p.eval("(() => { const pn = document.querySelector('.panel').getBoundingClientRect(), d = document.querySelector('.panel .device').getBoundingClientRect(), a = document.querySelector('.panel__link').getBoundingClientRect(); return { crop: ((pn.bottom - d.top) / d.height).toFixed(2), linkH: Math.round(a.height), panelH: Math.round(pn.height) }; })()");
+  const crop = await p.eval("(() => { const pn = document.querySelector('.grid5--screens .panel').getBoundingClientRect(), d = document.querySelector('.grid5--screens .panel .device').getBoundingClientRect(), a = document.querySelector('.grid5--screens .panel__link').getBoundingClientRect(); return { crop: ((pn.bottom - d.top) / d.height).toFixed(2), linkH: Math.round(a.height), panelH: Math.round(pn.height) }; })()");
   console.log(tag, 'screens', JSON.stringify(crop));
   console.log(tag, p.errors.length ? p.errors : 'console clean');
   await p.close();
