@@ -15,8 +15,8 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 | `design-package.md` | Every design decision and every line of copy. |
 | `Logo-Emenla/` | The founder's logo source (white background). `site/assets/img/logo.png` is the transparent cut, `logo-small.png` the nav and footer mark, `favicon.png` and `apple-touch-icon.png` come from it. |
 | `review/` | Raw generations, inspection frames, the font tarball. Never uploaded. |
-| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions), `devshots.mjs` (the device panels and the iPhone Duo band), `newshots.mjs` (the What's in the app grid at two widths), `measure.mjs` (page weight), and the one-off filmstrips of earlier passes. |
-| `scripts/` | The gate (`sync-legal.mjs`, `check-copy.mjs`, `check-links.mjs`), `set-app-store.mjs`, `serve.py` (the preview server) and `make-devices.py` (the device images, see *Devices*). `build.mjs`, `make-assets.py`, `preview.mjs` and `setup-seo.sh` belong to the previous version. |
+| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions), `devshots.mjs` (the device panels and the iPhone Duo band), `wordshots.mjs` (the Your words ledger, its live row, the history type and pictures, and a check that no serif is left), `newshots.mjs` (the What's in the app grid at two widths), `measure.mjs` (page weight), and the one-off filmstrips of earlier passes. |
+| `scripts/` | The gate (`sync-legal.mjs`, `check-copy.mjs`, `check-links.mjs`), `set-app-store.mjs`, `serve.py` (the preview server) `make-devices.py` (the device images, see *Devices*) and `make-hist.py` (the history still lifes, see `HISTORY_ART.md`). `build.mjs`, `make-assets.py`, `preview.mjs` and `setup-seo.sh` belong to the previous version. |
 | `src/`, `dist/`, `content/`, `public/` | The previous version of the site, kept for reference. Not used by `site/`. |
 
 ## Preview it
@@ -171,6 +171,7 @@ Measured with `node tools/measure.mjs http://127.0.0.1:8080/ 1440 900` (add `tou
 | Before | 3.96 MB, 11 requests | 681 KB, 10 requests |
 | After | 1.52 MB, 10 requests (1.27 MB of it is the hero video, fetched behind the poster) | 203 KB, 8 requests |
 | 2026-10-24, with Apple's devices | 1.88 MB, 10 requests (1.59 MB of it is the hero video) | 262 KB, 8 requests |
+| 2026-10-24, one sans and the still lifes | 1.84 MB, 8 requests (1.59 MB of it is the hero video) | 219 KB, 6 requests |
 
 What keeps it there: every photograph ships as AVIF with a JPEG fallback, and every device image as WebP
 with a PNG fallback, both lazy and sized to about twice the displayed

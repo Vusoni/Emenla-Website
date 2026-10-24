@@ -17,42 +17,7 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* Her voice: Instrument Serif, italic, self-hosted */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/instrument-serif-latin-400-normal.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/instrument-serif-latin-400-italic.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/instrument-serif-latin-ext-400-normal.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/instrument-serif-latin-ext-400-italic.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
 :root {
-  --font-voice: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
   --canvas: #fcf9f7;
   --panel: #ffffff;
   --clay: #d1cfcd;
@@ -202,13 +167,6 @@ ul, ol { padding: 0; list-style: none; }
   text-wrap: balance;
 }
 .hook { font-size: var(--text-hook); line-height: 1.1; letter-spacing: -0.03em; }
-/* Her voice: the serif italic, and on the two voice headlines a slow violet gradient */
-.voice {
-  font-family: var(--font-voice);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-}
 /* The hook arrives like breath on glass: a soft cream wipe reveals it left to right while a blurred
    copy sharpens and the line rises and settles. Leaving, it lifts and the wipe sweeps back out.
    Everything is a pure function of --k (assembly, with the one-time load ramp) and --op (band opacity). */
@@ -247,7 +205,7 @@ ul, ol { padding: 0; list-style: none; }
 .caption { font-size: var(--text-caption); line-height: 1.6; }
 .muted { color: var(--stone); }
 .meta { color: var(--ash); }
-.voice { color: var(--voice); }
+.voice { color: var(--voice); font-style: normal; } /* her voice is a colour, not a face: the site is one sans */
 .strong { font-weight: 500; }
 .centered { text-align: center; }
 .mono {
@@ -813,61 +771,86 @@ ul, ol { padding: 0; list-style: none; }
 .rows > li:last-child { padding-bottom: 0; }
 .card--night .rows > li { border-color: rgba(255, 255, 255, 0.12); }
 
-/* ---------- Your words, their words ---------- */
-.pairs {
+/* ---------- Your words, their words: the ledger ----------
+   One table, the way the doctor summary prints it: her sentence on the left, the clinical term on the right, and
+   between them a thin line that draws from her words to theirs when the row arrives and lands on a violet dot.
+   One sans throughout; violet is only the line, the dot and her quote marks. The live row under it is the same
+   row, driven by the hold: the sentence inks in from a faint draft and the line follows the thumb (--hp). */
+.ledger { --said: clamp(22px, 2.1vw, 28px); max-width: 1040px; margin: 56px auto 0; }
+.ledger__head,
+.ledger__row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 44px;
+  grid-template-columns: minmax(0, 1.15fr) 72px minmax(0, 1fr);
+  column-gap: 20px;
 }
-@media (max-width: 900px) { .pairs { grid-template-columns: 1fr; } }
-.pair {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: calc(var(--card-pad) + 4px);
-}
-.pair__quote {
-  position: relative;
-  color: var(--voice);
-  font-family: var(--font-voice);
-  font-style: italic;
-  font-size: clamp(28px, 2.6vw, 34px);
-  line-height: 1.18;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  padding-bottom: 18px;
-}
-.pair__quote::before { content: '\201C'; }
-.pair__quote::after { content: '\201D'; }
-.pair__quote .hair {
+.ledger__head { padding-bottom: 14px; color: var(--ash); }
+.ledger__head > :last-child { grid-column: 3; }
+.ledger__row { padding: 28px 0; border-top: 1px solid var(--haze); }
+.ledger__rows > .ledger__row:last-child,
+.ledger--live .ledger__row { border-bottom: 1px solid var(--haze); }
+.ledger__said,
+.ledger__name { font-size: var(--said); line-height: 1.25; letter-spacing: -0.018em; text-wrap: pretty; }
+.ledger__said { position: relative; color: var(--ink); font-weight: 400; }
+.ledger__said::before { content: '\201C'; position: absolute; left: -0.45em; color: var(--voice); }
+.ledger__said::after { content: '\201D'; color: var(--voice); }
+.ledger__name { font-weight: 600; color: var(--ink); }
+.ledger__plain { margin-top: 4px; color: var(--stone); font-size: 16px; line-height: 1.5; }
+.ledger__code { margin-top: 12px; color: var(--ash); }
+.ledger__meta { margin-top: 10px; color: var(--ash); font-size: var(--text-caption); line-height: 1.6; }
+.ledger__meta a { color: var(--stone); }
+.ledger__line { position: relative; align-self: start; height: 1px; margin-top: calc(var(--said) * 0.625); }
+.ledger__line::before {
+  content: '';
   position: absolute;
-  left: 0; bottom: 0;
-  width: 56px;
-  height: 1px;
-  background: var(--voice);
-  opacity: 0.45;
-  animation: breathe 8s ease-in-out -2s infinite;
+  inset: 0;
+  background: linear-gradient(90deg, var(--clay), var(--voice));
+  transform-origin: left;
+  transform: scaleX(0);
 }
+.ledger__line::after {
+  content: '';
+  position: absolute;
+  right: -2.5px;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--voice);
+  opacity: 0;
+  transform: scale(0.4);
+}
+.ledger__row:nth-child(2) { --ld: 420ms; }
+.ledger__row:nth-child(3) { --ld: 540ms; }
+.reveal.in .ledger__line::before { transform: scaleX(1); transition: transform 700ms var(--ease-out) var(--ld, 300ms); }
+.reveal.in .ledger__line::after {
+  opacity: 1;
+  transform: none;
+  transition: opacity 240ms var(--ease-out) calc(var(--ld, 300ms) + 600ms), transform 240ms var(--ease-out) calc(var(--ld, 300ms) + 600ms);
+}
+.ledger--live { margin-top: 72px; }
+.ledger__intro { max-width: 560px; margin-bottom: 24px; }
+.ledger__intro > * + * { margin-top: 10px; }
+.pairs-outro { margin: 56px auto 0; max-width: 780px; }
+.pairs-outro > * + * { margin-top: 1em; }
+.pairs__sources { display: none; }
 @keyframes breathe {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.6; }
 }
-.pair__term { font-size: var(--text-subheading); font-weight: 500; letter-spacing: -0.012em; }
-.pair__plain { color: var(--stone); margin-top: 4px; }
-.pair__code { margin-top: 10px; color: var(--ash); }
-.pair__meta { margin-top: auto; padding-top: 8px; color: var(--ash); font-size: var(--text-caption); line-height: 1.6; }
-.pair__meta a { color: var(--stone); }
-.pairs-outro { margin: 44px auto 0; max-width: 780px; }
-.pairs-outro > * + * { margin-top: 1em; }
-.pairs__sources { display: none; }
-/* Phones: a pair is the sentence, the term and what the term means. Codes and per-card sources give way to one
-   line under the three that leads to all of them */
+@media (max-width: 900px) {
+  .ledger__head,
+  .ledger__row { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); column-gap: 16px; }
+}
+/* Phones: one column. Her sentence, a short line, the term and what it means; the codes and per-row sources give
+   way to one line under the three that leads to all of them */
 @media (max-width: 720px) {
-  .pairs { margin-top: 32px; gap: 12px; }
-  .pair { gap: 14px; padding: 22px 22px 24px; }
-  .pair__quote { font-size: 26px; padding-bottom: 14px; }
-  .pair__code, .pair__meta { display: none; }
+  .ledger { margin-top: 32px; }
+  .ledger__head { display: none; }
+  .ledger__row { grid-template-columns: minmax(0, 1fr); padding: 22px 0 24px; }
+  .ledger__line { width: 48px; margin: 16px 0 14px; }
+  .ledger__code, .ledger__meta { display: none; }
+  .ledger--live { margin-top: 56px; }
+  .ledger__intro { margin-bottom: 8px; }
   .pairs__sources { display: block; margin-top: 16px; color: var(--ash); font-size: var(--text-caption); line-height: 1.6; }
   .pairs__sources a { color: var(--stone); }
 }
@@ -931,36 +914,21 @@ ul, ol { padding: 0; list-style: none; }
   .step:nth-child(odd) .step__copy { order: 0; }
 }
 
-/* The hold moment */
-.hold { gap: 14px; }
-.hold__sentence {
-  min-height: 3.9em;
-  color: var(--voice);
-  font-family: var(--font-voice);
-  font-style: italic;
-  font-size: var(--text-subheading);
-  font-weight: 400;
-  line-height: 1.25;
-  letter-spacing: 0;
-}
-.hold__sentence .hc {
-  opacity: clamp(0, (var(--hp, 0) - var(--ht, 0)) * 40, 1);
-}
-.hold__caret {
-  display: inline-block;
-  width: 2px;
-  height: 1.05em;
-  margin-left: 2px;
-  vertical-align: -0.15em;
-  background: var(--voice);
-  animation: blink 1.1s steps(1) infinite;
-}
-.in-view .hold__caret { animation-play-state: running; }
-.hold.is-done .hold__caret { display: none; }
-@keyframes blink { 50% { opacity: 0; } }
+/* The hold moment: the ledger's live row. The sentence waits as a faint draft and inks in under the thumb, so
+   the row is never empty; the line follows the hold; the term arrives on the right when it completes. The script
+   still builds a caret, which the faint draft makes redundant */
+.hold__sentence .hc { opacity: max(0.22, clamp(0, (var(--hp, 0) - var(--ht, 0)) * 40, 1)); }
+.hold.is-done .hold__sentence .hc { opacity: 1; } /* the last letters sit within 1/40 of the end, so done inks them */
+.hold__sentence::after { opacity: 0.22; }
+.hold.is-done .hold__sentence::after { opacity: 1; }
+.hold__caret { display: none; }
+.hold .ledger__line::before,
+.reveal.in .hold .ledger__line::before { transform: scaleX(var(--hp, 0)); transition: none; }
+.hold .ledger__line::after,
+.reveal.in .hold .ledger__line::after { opacity: clamp(0, (var(--hp, 0) - 0.94) * 17, 1); transform: none; transition: none; }
+.hold .ledger__term { grid-row: 1 / span 2; grid-column: 3; }
+.ledger__foot { grid-column: 1; grid-row: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 22px; }
 .hold__result {
-  display: grid;
-  gap: 6px;
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
@@ -970,6 +938,7 @@ ul, ol { padding: 0; list-style: none; }
   transform: translateY(6px);
   transition: opacity 360ms var(--ease-out), transform 360ms var(--ease-out);
 }
+.hold__result > .chip { margin-top: 14px; }
 .hold.is-done .hold__result { opacity: 1; transform: none; }
 .hold.is-done .hold__result > * { opacity: 1; transform: none; }
 .hold.is-done .hold__result > :nth-child(1) { transition-delay: 60ms; }
@@ -977,10 +946,15 @@ ul, ol { padding: 0; list-style: none; }
 .hold.is-done .hold__result > :nth-child(3) { transition-delay: 300ms; }
 .hold.is-done .hold__result > :nth-child(4) { transition-delay: 420ms; }
 .hold.is-done .hold__result > :nth-child(5) { transition-delay: 560ms; }
-.hold__term { font-size: var(--text-subheading); font-weight: 500; }
-.hold__plain { color: var(--stone); }
-.hold__meta { color: var(--ash); font-size: var(--text-caption); }
-.hold__meta a { color: var(--stone); }
+/* Phones: the button sits right under the sentence it writes, and the line and the term arrive below it, so the
+   room kept for the term is where the answer lands rather than a gap between her words and the thumb. The button
+   is the row's only control here, so the visual order changes no focus order */
+@media (max-width: 720px) {
+  .hold .ledger__said { order: -2; }
+  .hold .ledger__term { grid-row: auto; grid-column: auto; }
+  .ledger__foot { order: -1; grid-row: auto; grid-column: auto; margin-top: 18px; }
+  .hold__hint { display: none; }
+}
 .chip {
   display: inline-flex;
   align-items: center;
@@ -1003,8 +977,6 @@ ul, ol { padding: 0; list-style: none; }
 }
 .hold__btn {
   position: relative;
-  align-self: flex-start;
-  margin-top: 6px;
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
@@ -1434,35 +1406,10 @@ ul, ol { padding: 0; list-style: none; }
 .steps3 > div > * + * { margin-top: 10px; }
 @media (max-width: 900px) { .steps3 { grid-template-columns: 1fr; gap: 28px; } }
 
-/* ---------- The wide image card and the try-it card ---------- */
+/* ---------- The wide image card ---------- */
 .imgcard--wide { margin-top: 56px; min-height: 420px; }
 .imgcard--wide .imgcard__copy { width: 100%; text-align: center; padding: 32px; }
-.try {
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 40px;
-  align-items: center;
-  margin: 44px auto 0;
-  max-width: 900px;
-}
-.try__copy > * + * { margin-top: 10px; }
-.try .hold { padding: 24px; box-shadow: var(--shadow-xl); display: flex; flex-direction: column; gap: 12px; }
-.try .hold__sentence { min-height: 2.6em; font-size: 22px; }
-.ccard__day { display: flex; justify-content: space-between; align-items: center; gap: 10px; white-space: nowrap; }
-.ccard__day .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }
-.ccard__day .mono { font-size: 11px; }
-.ccard__meta { color: var(--ash); font-size: 13px; line-height: 1.45; }
-.ccard__meta .strong { color: var(--ink); }
-.ccard__meta a { color: var(--stone); }
 @media (max-width: 720px) {
-  .try { grid-template-columns: 1fr; gap: 20px; margin-top: 40px; }
-  .try .hold__sentence { min-height: 2.4em; font-size: 20px; }
-  .try .hold { padding: 20px; gap: 10px; }
-  /* The sentence waits in the card as a faint draft and inks in under the thumb, so the card is never empty and
-     there is no caret floating after letters nobody can see yet. The copy above already explains the hold, so the
-     card drops its header row and its hint, and the result keeps only the term, like the cards above it */
-  .try .hold__sentence .hc { opacity: max(0.22, clamp(0, (var(--hp, 0) - var(--ht, 0)) * 40, 1)); }
-  .try .hold__caret, .try .ccard__day, .try .hold__hint, .hold__code, .hold__src { display: none; }
   .strip__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; justify-items: start; }
   .strip__row li { font-size: 11px; }
   .device { width: min(100%, 240px); }
@@ -1502,23 +1449,26 @@ ul, ol { padding: 0; list-style: none; }
 .hs-now.is-empty { opacity: 0; }
 .hs-year {
   --cell: 1em;
-  font-family: var(--font-voice);
-  font-weight: 400;
+  --digit: 0.54em;
+  font-weight: 500;
   font-size: clamp(88px, 10vw, 150px);
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
   height: var(--cell);
   color: var(--ink);
   white-space: nowrap;
 }
-/* Instrument Serif has no tabular figures, so each digit rides in its own half-em cell: a strip of 0 to 9 and a
-   trailing 0 for the wrap, moved by --d (set by the script; 1, 6, 9, 0 in the markup) */
-.hs-cell { display: inline-block; width: 0.5em; height: var(--cell); overflow: hidden; text-align: center; vertical-align: top; }
+/* Each digit rides in its own cell, a strip of 0 to 9 and a trailing 0 for the wrap, moved by --d (set by the
+   script; 1, 6, 9, 0 in the markup). Hanken's figures are tabular at 0.56em, so every digit centres in the same
+   cell; --digit sets it a touch under the advance to set the year tight, never under the ink. Letter-spacing would
+   only shift a lone glyph inside its cell, so the tightening lives here */
+.hs-cell { display: inline-block; width: var(--digit); height: var(--cell); overflow: hidden; text-align: center; vertical-align: top; }
 .hs-strip { display: block; font-style: normal; transform: translate3d(0, calc(var(--d, 0) * -1 * var(--cell)), 0); will-change: transform; }
-.hs-strip > b { display: block; height: var(--cell); line-height: var(--cell); font-weight: 400; }
+.hs-strip > b { display: block; height: var(--cell); line-height: var(--cell); font-weight: 500; }
 /* At the last node the year is the word Today, drawn from the attribute */
 .hs-year.is-word .hs-cell { display: none; }
-.hs-year.is-word::after { content: attr(data-year); }
+.hs-year.is-word::after { content: attr(data-year); letter-spacing: -0.03em; }
 /* The ruler: one scale for the whole of time, square-rooted from today, so distant decades tighten and recent
    ones open out. Decade ticks, every fiftieth taller, centuries labelled; inked as far as the pen, which stands
    on the clock's own year */
@@ -1576,21 +1526,21 @@ ul, ol { padding: 0; list-style: none; }
 .hcard.lit::before { background: var(--ink); border-color: var(--ink); }
 .hcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; white-space: nowrap; }
 .hcard__row .label { padding: 4px 9px; font-size: 10px; letter-spacing: 0.06em; }
-.hcard__year { font-family: var(--font-voice); font-weight: 400; font-size: 32px; line-height: 1; letter-spacing: -0.01em; color: var(--ash); }
+.hcard__year { font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--ash); }
 .hcard.lit .hcard__year { color: var(--ink); }
 .hcard__media { display: block; width: 100%; max-width: 360px; aspect-ratio: 2 / 1; border-radius: 14px; overflow: hidden; }
-/* Every picture shares one warm monochrome key; --age (1 at 1690, 0 today) only decides how brown it is,
-   so the archival plates and the laparoscopy photographs read as one set against the cream */
+/* One set: the same oak table, plaster wall and window light in every era, only the objects change. Colour returns
+   as the record nears today: --age (0.9 at 1690, 0.1 at 2017) takes the picture towards a warm monochrome */
 .hcard__img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.88) sepia(calc(0.3 + var(--age, 0) * 0.4)) contrast(0.95) brightness(1.03);
+  filter: grayscale(calc(0.25 + var(--age, 0) * 0.75)) sepia(calc(var(--age, 0) * 0.45));
 }
-/* A figure where no honest picture exists yet: a ledger line between two hairlines, not a stand-in for a photograph */
+/* A figure where a sentence says it better than a picture: a ledger line between two hairlines */
 .hcard__fig { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; aspect-ratio: auto; padding: 24px 0; border-top: 1px solid var(--haze); border-bottom: 1px solid var(--haze); border-radius: 0; }
-.hcard__fig-n { font-family: var(--font-voice); font-weight: 400; font-size: 44px; line-height: 1; color: var(--ink); }
+.hcard__fig-n { font-weight: 600; font-size: 44px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
 .hcard__fig-c { font-size: 10px; letter-spacing: 0.14em; color: var(--ash); }
 .hcard__title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
 .hcard__body { color: var(--stone); font-size: 15px; line-height: 1.5; max-width: 52ch; }
@@ -1606,11 +1556,10 @@ ul, ol { padding: 0; list-style: none; }
   align-items: center;
   min-height: 140px;
   margin: 0;
-  font-family: var(--font-voice);
-  font-style: italic;
-  font-size: 30px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   color: var(--stone);
 }
 .hs-gap--xl { min-height: 180px; }
@@ -1649,7 +1598,7 @@ ul, ol { padding: 0; list-style: none; }
   .hist__clock::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 24px; opacity: 0; background: linear-gradient(var(--canvas), rgba(var(--cream-rgb), 0)); }
   .hist__clock.is-stuck::after { opacity: 1; }
   .hist.is-ready .hist__clock::after { transition: opacity 300ms var(--ease-out); }
-  .hs-year { order: 1; font-size: 44px; letter-spacing: -0.01em; }
+  .hs-year { order: 1; font-size: 44px; }
   .hs-now { order: 2; margin: 0; min-height: 0; }
   .hs-ruler { order: 3; flex-basis: 100%; height: 12px; margin-top: 6px; }
   .hs-ruler::before, .hs-ruler::after { height: 1px; }
@@ -1661,7 +1610,7 @@ ul, ol { padding: 0; list-style: none; }
   .hcard::before { left: calc(var(--spine-x) - 34px); }
   .hcard--today::before { left: calc(var(--spine-x) - 26px); }
   .hcard__row { justify-content: flex-start; gap: 12px; }
-  .hcard__year { font-size: 34px; }
+  .hcard__year { font-size: 30px; }
   .hcard__row .label { padding: 0; border: 0; background: none; font-size: 11px; letter-spacing: 0.12em; color: var(--ash); }
   .hcard__row .label::before { display: none; }
   .hcard__media { max-width: none; }
@@ -2318,7 +2267,6 @@ body.at-end .edge-blur { opacity: 0; }
 .qcard__body { margin-top: 10px; font-size: 16px; line-height: 1.5; color: var(--ink); }
 /* A consented sentence in her own voice, if that form is ever preferred over the plain card */
 .qcard--quote > figure { display: flex; flex-direction: column; flex: 1; gap: 6px; }
-.qcard__quote { font-family: var(--font-voice); font-style: italic; font-weight: 400; color: var(--voice); font-size: clamp(22px, 1.9vw, 26px); line-height: 1.22; letter-spacing: 0; }
 .qcard__tail { margin-top: auto; padding-top: 14px; font-size: var(--text-caption); line-height: 1.5; color: var(--stone); }
 .asked__note { margin: 12px auto 0; max-width: 64ch; text-align: center; }
 
@@ -2599,4 +2547,10 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
   .hold__btn { display: none; }
   .hold__hint { display: none; }
   .hold__sentence .hc { opacity: 1; }
+  .ledger .ledger__line::before, .ledger .hold .ledger__line::before { transform: none; }
+  .ledger .ledger__line::after, .ledger .hold .ledger__line::after { opacity: 1; transform: none; }
+  /* nothing to press here, so the live row joins the table as its fourth entry, without "Try it." over it */
+  .ledger__intro { display: none; }
+  .ledger--live { margin-top: 0; }
+  .ledger--live .ledger__row { border-top: 0; }
 }

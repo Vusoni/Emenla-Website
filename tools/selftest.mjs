@@ -88,7 +88,7 @@ await p.mouse('mouseReleased', btn.x, btn.y);
 log('hold full: ' + JSON.stringify(await p.eval(`${wait(300)}.then(() => ({done: document.querySelector('[data-hold]').classList.contains('is-done'), label: document.querySelector('.hold__btn').textContent}))`)));
 
 /* Stagger delays retired: hover items after entrance */
-log('pairs delays retired: ' + await p.eval(`(() => { const ul = document.querySelector('.pairs'); ul.scrollIntoView(); return new Promise(r => setTimeout(() => r(Array.from(ul.querySelectorAll('.part')).map(el => getComputedStyle(el).transitionDelay).join(',')), 2200)); })()`));
+log('ledger delays retired: ' + await p.eval(`(() => { const ul = document.querySelector('.ledger'); ul.scrollIntoView(); return new Promise(r => setTimeout(() => r(Array.from(ul.querySelectorAll('.part')).map(el => getComputedStyle(el).transitionDelay).join(',')), 2200)); })()`));
 
 /* Reduced motion flipped ON live */
 await p.eval(`window.scrollTo(0, 0); ${wait(300)}`);

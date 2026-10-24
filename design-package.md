@@ -539,6 +539,93 @@ capture with the 9:41 status bar: the simulator was held by another session, Met
 load was high. The band under the island is therefore blank. The recapture is six PNGs and one run of
 `make-devices.py`, no markup change. Nobody has scrolled this in a real browser or with VoiceOver yet.
 
+### Sans everywhere, and one table, three centuries, 24 October 2026
+
+The founder sent two screenshots of the live page. Of "Your words, their words" he said he did not
+like it and wanted the site's main font in place of the serif, something "more like helvetica, for
+simplicity and modern". Of the history he wanted the timeline's type changed too, and new pictures
+that make sense there.
+
+**The serif is gone from the site.** Instrument Serif in violet italic was her voice in the pairs, the
+hold demo and the history (the rolling year, the era years, the gap captions and the figure panels),
+and one word on the science page. Once both sections changed, that one word was all that was left, so
+the face went entirely: four woff2 files (66 KB together), the OFL text, the @font-face block,
+`--font-voice` and three preloads. Hanken Grotesk is the only face. Her voice is a colour now, not a
+face: `.voice` is violet upright Hanken.
+
+**Your words is a ledger.** Three cards each stacked a big violet quote over its term, so the layout
+never showed the idea it sells, that her sentence sits beside the clinical term. Now it is one table,
+the way the doctor summary prints it: headed Your words and Their words, one row per pair between haze
+hairlines. Her sentence is on the left in Hanken 400 ink with violet curly quotes, the opening one hung
+outside the column; the term is on the right in 600 at the same size (`clamp(22px, 2.1vw, 28px)`),
+with its meaning in stone, then the code and the sources in ash at caption size. Between them a 1px
+line, clay to violet, draws from her words to theirs when the row arrives (700ms, from 300ms, rows
+120ms apart) and lands on a 5px violet dot. Violet is only the line, the dot and her quote marks.
+Every word of copy, every link, every code and the "No ICD-10 code" sentence are as they were. Each
+cell starts with a visually hidden "Your words:" or "In clinical language:", and the line is hidden
+from assistive tech. At 900px and below the middle column narrows to 40px. At 720px and below each row
+stacks: her sentence, a 48px line with its dot, the term and what it means, and the codes and per-row
+sources give way to the one sources line under the table, as before.
+
+**Try it is the ledger's live last row.** The markup keeps every hook the script reads (`[data-hold]`,
+`.hold__sentence`, `.hold__btn`, the status line, `.hold__result`), so `site.js` is unchanged. While
+she holds, the sentence inks in from a faint draft and the line draws with `--hp`; the dot lights at
+the end; on completion the term, its meaning, the code, the sources and the "Kept on this phone" chip
+arrive on the right one after another. Three changes from the plan, made on the frames: the faint
+draft (0.22) applies at every width, not only on phones, so the row is never empty before the hold;
+the caret the script still builds is hidden, because the draft already shows where the sentence goes;
+and the closing quote mark waits at the same 0.22 until the hold completes. On phones the button sits
+right under the sentence, and the line and the term arrive below it: the room kept for the term is
+where the answer lands, not a gap between her words and her thumb.
+
+**The history in Hanken.** The rolling year is Hanken 500 at the same size. Hanken's digits are
+tabular at 0.56em at every weight, so the odometer's strips still work; the cells are `--digit` 0.54em
+wide, a touch under the advance and never under the ink, because letter-spacing inside a one-digit
+cell only shifts the glyph. Era years are 500 at 28px with tabular numbers. The gap captions ("170
+years pass.") are 400 upright in stone: Hanken ships no italic and a synthetic slant looks broken.
+"Enough." and "4 to 11" are 600.
+
+**One table, three centuries.** The old pictures did not belong together or to their eras: an
+archival endpaper for 1690, two portraits of men for 1860 and 1927, and two laparoscopy photographs
+for 2005 and 2017 that had nothing to do with a guideline or with listening, and were graphic for this
+audience. Six generated still lifes replace them, made with ChatGPT image generation on the founder's
+account. Each is the same worn oak table against the same plaster wall in the same window light from
+the left, from the same camera; only the objects change, following the record from what was written
+about her to who finally listened. 1690: an open handwritten book, a quill, a candle. 1860: a brass
+microscope with a stained slide. 1927: a typewriter, a fountain pen, a journal. 1980: opened letters
+in many hands tied with string, a notebook, tea and a push-button phone, women's own accounts, in
+place of the "1st" figure. 2005: a spiral-bound guideline with reading glasses and a highlighter, a
+laptop behind. 2017: two cups of tea across the table from each other, a notepad between them and a
+stethoscope set aside, a conversation rather than an examination. No people, no hands, no faces, no
+legible text, no logos. 2026 ("Enough.") and Today ("4 to 11") stay typographic: the past is objects,
+the present is a sentence. The plan's 2017 was two armchairs in a consulting room; generated, the
+chairs read as doll furniture and the step back into a room broke the series, so the table stayed.
+The prompts, masters, hashes, the rubric and both rejected 2017 candidates are in `HISTORY_ART.md`.
+`scripts/make-hist.py` cuts each master to 2:1 and writes a 720 and a 1080 AVIF and a 720 JPEG under
+new names, because `/assets/*` is cached for a year; it fails if a 1080 AVIF passes 70 KB.
+
+**Colour returns as the record nears today.** The old filter pressed every picture to near monochrome
+to hide that they did not match. A set that matches does not need that:
+`grayscale(calc(0.25 + var(--age) * 0.75)) sepia(calc(var(--age) * 0.45))`, with `--age` falling
+from 0.9 at 1690 to 0.1 at 2017.
+
+**Said where it shows.** The credits line under the timeline reads "Images: still lifes generated for
+Emenla with ChatGPT image generation. They show objects of each period, not historical originals."
+The footer note on the home and science pages says the same. The alt text names objects only.
+
+**Reduced motion.** Every static line shows drawn with its dot; the live row is pinned complete, the
+sentence written and the term showing, and the hold button is gone, as before. "Try it." and its
+instruction go too, since there is nothing to press (before this they stayed, over no button), and the
+row joins the table as its fourth entry.
+
+`node tools/wordshots.mjs http://127.0.0.1:8080/ <dir>` photographs the ledger, the live row mid hold
+and done, a phone, reduced motion, the clock at 4×, each history picture and the science hero, and
+fails if any element in those sections computes a serif, a row's two sides are not level, a line is
+not drawn, the hold does not track or finish (by mouse at 1440, by touch at 375), a picture is missing
+or holds fewer pixels than it is shown at, the page overflows sideways or a console error is logged.
+First load fell from 1.88 MB in 10 requests to 1.84 MB in 8 on a desktop, and from 262 KB in 8 to
+219 KB in 6 on a phone.
+
 ### The headline, re-set to the reference, 29 August 2026
 
 The founder sent the Alveos One and Lóvi heroes: both are a clean grotesque sans, one flat colour,
