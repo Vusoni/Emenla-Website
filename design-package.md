@@ -174,9 +174,10 @@ Rows (hairline between each):
 8. "Under GDPR, health data is special category data under Article 9. That is exactly why Emenla has no server." (weight 500) "There is nothing to breach and nothing to hand over."
 Link: "Read the full privacy policy" to /privacy/
 
-The phone: an HTML/CSS iPhone frame with an empty screen for now (the founder will drop real mockups
-in at the end). Device shadow, 44px screen radius, aria-hidden. Living element: none until the real
-screen arrives; the frame's soft glow breathes (6s).
+The phone: since 24 October 2026, Apple's own iPhone 18 Pro in Silver with the What Emenla can reach
+screen under its glass (`device-18pro-reach-*`), whole, standing on a soft ground shadow; aria-hidden.
+The CSS frame it replaced (device shadow, 44px screen radius, an empty screen) is gone. Living element:
+the warm glow behind it breathes (6s).
 
 ### 6.5 What Emenla will never do. (one wide Nightshade card, white text, the page's one dark moment)
 Heading: "What Emenla will never do."
@@ -306,7 +307,8 @@ of each with 62% of it visible:
 - Document — "One clean page for your appointment." — Learn more → #how
 
 The screens are placeholders ("Screens on their way") until the founder drops real screenshots; see
-README, Before launch, item 3.
+README, Before launch, item 3. Superseded twice: frames of the app in the CSS phone on 20 October 2026,
+then Apple's devices with the screens under their glass on 24 October 2026 (the dated entry below).
 
 ### The headline, 29 August 2026
 
@@ -465,6 +467,77 @@ photographs the desktop before the first node, inside every era and mid every ca
 short desktops, two phones and reduced motion, and fails if the clock and the record disagree, a card
 or caption drops below full contrast, the clock is not stuck where the stylesheet puts it, the phone
 strip passes 140px, the page overflows sideways or a console error is logged.
+
+### Apple's devices on the page, 24 October 2026
+
+Every phone on the home page was a CSS rectangle (300×612, `#111114`, a 92×28 notch) with a frame of
+the recording inside it. Now each is Apple's own product image of iPhone 18 Pro in Silver, straight on,
+with the app's screen under its glass, and a new band after `#inside` shows iPhone Duo in Star White
+beside it. The brief was thirteen photoreal renders Oliwier sent (silver and titanium phones, floating
+pairs, macro corners, studio light, one book-style foldable open) and "I like silver cases".
+
+**The device is one picture, not a frame over a frame.** `scripts/make-devices.py` pastes the screen
+into the cutout of Apple's PNG (the transparent region flooded from the centre), masks it to that cutout
+grown by four pixels, and composites Apple's pixels over it. The result ships as WebP at three widths
+with a PNG fallback at the smallest, transparent surround kept, so the island, the rounded corners and
+the anti-aliased inner edge are Apple's and the page's shadow follows the silhouette. The bare frame is
+never served and Apple's files are not committed: the licence (PLACEHOLDERS.md) allows showing the
+resources in depictions of a mock-up and forbids making them available over a network, so only the
+composite goes out. Shown as provided: straight on, not recoloured, not tilted, no reflection or
+highlight drawn on it. The inspiration's angles, back views and macro corners are therefore out. The one
+departure the page keeps is a phone cropped by its panel's bottom edge, which is the page's layout, not
+an edit of the image.
+
+**Markup.** One `div.device.device--<kind>` holding one `picture`: a WebP `srcset` at 480/720/1080 for
+the 18 Pro, 400/600/800 for the closed Duo and 640/1000/1540 for the open one, `sizes` per place, and a
+PNG `img` with `width` and `height` so nothing shifts. `.device` is `width: min(100%, 300px)` under a
+two-layer `drop-shadow` filter; `.device--floor` drops the filter for a blurred ground ellipse (`::after`,
+6% of the device's height, 0.24 ink) under `isolation: isolate`. The class stays `device`, so
+`tools/selftest.mjs` and `tools/newshots.mjs` keep measuring the panel crop from it. No CSS notch, screen
+box or hint is left.
+
+**The Record panel is a floating pair** (`.twin`, because `.pair` already names the "your words, their
+words" cards): the body map in front at 71.4% of a 448px wrapper, the symptom detail sheet behind it at
+55.8%, flush right, its foot 7% up, opacity 0.96, under the front in paint order, rising 28px into place
+360 ms after the panel. Under 900px the back phone hides and the front fills the wrapper. The three
+small panels show one device each at 280px. The paper panel is untouched.
+
+**The stage went neutral.** The panels' violet tint is gone: `linear-gradient(180deg, #eeedf0, #f8f6f4
+55%, var(--canvas))` with a white radial highlight behind the device's foot, so silver reads as silver
+and not as a sticker on violet. Violet stays on her words. The privacy glow (`.device-wrap::before`,
+still breathing over 6s) is a warm neutral, `rgba(230, 220, 207, 0.35)`.
+
+**`#duo`.** Label "iPhone Duo", heading "Made for iPhone. iPhone Duo is next.", and copy that says every
+app screen on the page is from iPhone, that Emenla will come to iPhone Duo later, and that the two Duo
+screens show the app's launch screen because the page shows only what is real. The stage is
+`aria-hidden` and stands three devices on one floor at true relative size: `--mm: clamp(1.9px, 0.26vw,
+3.1px)` and each device `calc(var(--mm) * <its frame's width in mm>)`, 72.8 for the iPhone, 84.4 for
+the closed Duo, 164.4 for the open one (from Apple's figures, 18 Pro 71.9 × 150.0 mm, Duo 84.1 × 117.8
+closed and 164.6 × 117.8 open, scaled through each frame's height, which is the exact one). So the
+closed Duo stands shorter and wider than the iPhone and the open one is as tall as the closed. Under
+900px `--mm` is the column over 166, so the open Duo fills the column and the iPhone and the closed Duo
+share the row above it. The Duo screens show the launch screen, white with the mark at 120 pt, because
+no Duo simulator exists and a layout we have not built does not appear; when one ships, the two
+composites are rebuilt from a capture and the copy's last sentence goes. A note under the stage reads
+"Devices at their relative size. iPhone 18 Pro in Silver, iPhone Duo in Star White." No script changed:
+the band uses `.reveal` and `.part`.
+
+**Reduced motion.** The global kill zeroes the transitions, `.twin .device--back` is set to
+`transform: none`, and every device is whole and still from the first paint.
+
+**Checked** with `node tools/devshots.mjs http://127.0.0.1:8080/ <dir>`: every device image loaded and at
+its stated aspect within 0.3%; the back phone right of, above and under the front on desktop and hidden
+at 375; the panel crop between 0.55 and 0.75; the Duo band's three floors within 2px, the iPhone to
+closed-Duo height ratio within 2% of 150 / 117.8 and the open Duo as tall as the closed; two rows at
+375; no sideways overflow, no console error, nothing still moving when a frame is taken. Twelve frames
+were looked at: desktop, the pair at 2×, the corner at 4× (the island over the blank band, no seam), the
+Duo band, privacy, three at 375 and two under reduced motion. The self-test, the history filmstrip and
+`npm run check` pass; the phone first load is 262 KB in 8 requests, and the device images are lazy.
+
+**What did not happen.** The screens are the recording's frames cut again at full size, not a fresh
+capture with the 9:41 status bar: the simulator was held by another session, Metro was down and the
+load was high. The band under the island is therefore blank. The recapture is six PNGs and one run of
+`make-devices.py`, no markup change. Nobody has scrolled this in a real browser or with VoiceOver yet.
 
 ### The headline, re-set to the reference, 29 August 2026
 

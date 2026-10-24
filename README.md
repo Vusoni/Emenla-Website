@@ -15,14 +15,19 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 | `design-package.md` | Every design decision and every line of copy. |
 | `Logo-Emenla/` | The founder's logo source (white background). `site/assets/img/logo.png` is the transparent cut, `logo-small.png` the nav and footer mark, `favicon.png` and `apple-touch-icon.png` come from it. |
 | `review/` | Raw generations, inspection frames, the font tarball. Never uploaded. |
-| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions). |
-| `src/`, `dist/`, `scripts/`, `content/`, `public/` | The previous version of the site, kept for reference. Not used by `site/`. |
+| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions), `devshots.mjs` (the device panels and the iPhone Duo band), `newshots.mjs` (the What's in the app grid at two widths), `measure.mjs` (page weight), and the one-off filmstrips of earlier passes. |
+| `scripts/` | The gate (`sync-legal.mjs`, `check-copy.mjs`, `check-links.mjs`), `set-app-store.mjs`, `serve.py` (the preview server) and `make-devices.py` (the device images, see *Devices*). `build.mjs`, `make-assets.py`, `preview.mjs` and `setup-seo.sh` belong to the previous version. |
+| `src/`, `dist/`, `content/`, `public/` | The previous version of the site, kept for reference. Not used by `site/`. |
 
 ## Preview it
 
 ```
-cd site && python3 -m http.server 8080
+npm run serve
 ```
+
+That is `scripts/serve.py`: the standard library's file server with its listen backlog raised from
+five to 128, because a page that asks for a dozen lazy device images at once (the reduced-motion page
+does) gets connection resets past the fifth from a bare `python3 -m http.server`.
 
 Then open http://localhost:8080/ in a browser. Double-clicking `site/index.html` also works, but shows
 the still-image hero instead of the video, because browsers block the video loader on `file://` pages.
@@ -49,6 +54,35 @@ Desktop before the first node, inside every era and mid-roll, two short desktops
 reduced motion. It fails if the clock and the record ever disagree, a card or caption drops below
 full contrast, the clock is not stuck where the stylesheet puts it, or the page overflows sideways.
 
+## Devices
+
+Every phone on the home page is Apple's product image of iPhone 18 Pro in Silver with an app screen
+composited under its glass, and the `#duo` band adds iPhone Duo in Star White, open and closed, with
+the app's launch screen. The composites (`site/assets/img/device-*`) and `devices.json` are committed;
+Apple's source files are not, by their licence (PLACEHOLDERS.md has the URLs, checksums and the
+sentence relied on). To rebuild them, or to put new screens in:
+
+```
+# Apple Design Resources, each into its own empty folder, mounted read only
+curl -L -o <dl18>/Bezel-iPhone-18.dmg  https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-18.dmg
+curl -L -o <dlduo>/Bezel-iPhone-Duo.dmg https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg
+shasum -a 256 <dl18>/*.dmg <dlduo>/*.dmg          # compare with PLACEHOLDERS.md
+hdiutil attach -readonly -nobrowse -mountpoint <mnt18> <dl18>/Bezel-iPhone-18.dmg
+hdiutil attach -readonly -nobrowse -mountpoint <mntduo> <dlduo>/Bezel-iPhone-Duo.dmg
+# copy the three flat PNGs into <bezels> under the names make-devices.py expects (its PHYSICAL table), then detach both
+# six screens as PNG into <screens>: screen-bodymap, screen-detail, screen-overview, screen-assistant, screen-questions, screen-reach
+python3 -E scripts/make-devices.py --bezels <bezels> --screens <screens> --mark site/assets/img/launch-mark.webp --out site/assets/img
+node tools/devshots.mjs http://127.0.0.1:8080/ /tmp/emenla-dev
+```
+
+Run it with `-E`, not `-I`: Pillow lives in the user site-packages. A screen of any size is scaled to
+cover the cutout and anchored at the top; the ones there now are frames of the recording, and a
+simulator capture at 1206×2622 with `xcrun simctl status_bar booted override --time 9:41` drops in
+the same way. `devshots.mjs` photographs the panels, the pair, the corner at 4×, the Duo band and the
+privacy phone at desktop, at 375 and under reduced motion, and fails if an image is missing or off
+its aspect, the pair is not a pair, the Duo band's floors or scale are off, the page overflows, a
+console error is logged or anything is still moving when the frame is taken.
+
 ## Before launch
 
 Domain: **emenla.com** (registered at GoDaddy, 2026-08-27). Host: **a Cloudflare Worker serving static assets**, configured in `wrangler.jsonc` and deployed with `npx wrangler deploy`. This file said Pages until 2026-09-10; it has been a Worker since `wrangler.jsonc` was added, and the difference matters because Pages and Workers are deployed by different commands.
@@ -65,6 +99,10 @@ Still open:
    frames of the app and the sample doctor's page, and the `#privacy` phone shows What Emenla can reach.
    Sources, timestamps and the export commands' sizes are in PLACEHOLDERS.md. New filenames need no `?v=` bump;
    `node tools/newshots.mjs <url> <outdir>` photographs the section at desktop and phone width.
+   Then 2026-10-24: every phone became Apple's own iPhone 18 Pro in Silver with the screen under its
+   glass, the Record panel a floating pair, and `#duo` shows iPhone Duo at true relative size; see
+   *Devices* and PLACEHOLDERS.md. The screens still carry no status bar (the simulator was busy that
+   day); the recapture is six PNGs and one run of `make-devices.py`.
 4. Legal review of the terms before launch. The site carries no notice about it (removed on Oliwier's word, 2026-10-03); the review is tracked in the app repository's `legal/terms-of-service.REVIEW.md`.
 5. At App Store launch: `node scripts/set-app-store.mjs --live`. The nav badge is a link on all six pages; while the app is unlisted it reads "For iPhone" and points at `/#inside`, and the site says nothing about availability anywhere. The script swaps it for `apps.apple.com/app/id6799958379`, adds that domain to the health check's allowlist, and refuses to finish if any "not on the App Store yet" sentence has come back. `npm run check` confirms the site is not half-flipped.
 7. Reviews: the six empty review slots (`#asked`) were removed on 2026-10-03. Add a reviews section only once there are three real reviews, typed exactly as posted; the markup and its formats are in git history before that date (`.qcard`).
@@ -132,8 +170,10 @@ Measured with `node tools/measure.mjs http://127.0.0.1:8080/ 1440 900` (add `tou
 |---|---|---|
 | Before | 3.96 MB, 11 requests | 681 KB, 10 requests |
 | After | 1.52 MB, 10 requests (1.27 MB of it is the hero video, fetched behind the poster) | 203 KB, 8 requests |
+| 2026-10-24, with Apple's devices | 1.88 MB, 10 requests (1.59 MB of it is the hero video) | 262 KB, 8 requests |
 
-What keeps it there: every photo ships as AVIF with a JPEG fallback, sized to about twice its displayed
+What keeps it there: every photograph ships as AVIF with a JPEG fallback, and every device image as WebP
+with a PNG fallback, both lazy and sized to about twice the displayed
 width; the hero video is encoded at its native 720p; loop videos carry no eager `poster`; the LCP image
 for each viewport is preloaded; fonts are subset and self-hosted; nothing loads from a third party.
 Run the measure script after adding media, and keep the phone first load under 300 KB.

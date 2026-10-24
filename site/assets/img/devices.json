@@ -1,0 +1,377 @@
+{
+ "devices": {
+  "18pro": {
+   "fw": 1318,
+   "fh": 2717,
+   "sx": 56,
+   "sy": 48,
+   "sw": 1206,
+   "sh": 2622,
+   "island": [
+    462,
+    43,
+    282,
+    108
+   ],
+   "label": "iPhone 18 Pro, Silver, portrait",
+   "source": "18pro-silver-portrait.png",
+   "source_sha256": "58e2ab0318adbf6dc5bed2e234383ed2bb2fa257ce0c93cea20a86c595fb5f16",
+   "canvas": [
+    1350,
+    2760
+   ],
+   "trim": [
+    16,
+    21,
+    1334,
+    2738
+   ],
+   "native": [
+    1206,
+    2622
+   ],
+   "px_per_mm": 18.113,
+   "width_mm": 72.8,
+   "height_mm": 150.0,
+   "sizes": [
+    480,
+    720,
+    1080
+   ]
+  },
+  "duo-closed": {
+   "fw": 1531,
+   "fh": 2138,
+   "sx": 77,
+   "sy": 56,
+   "sw": 1398,
+   "sh": 2034,
+   "island": null,
+   "label": "iPhone Duo, Star White, outer display, closed, portrait",
+   "source": "duo-star-white-outer-closed-portrait.png",
+   "source_sha256": "1129243087c318fdb993ee64fe1e0df6db27b33d1d8176cd9f4be59a88925145",
+   "canvas": [
+    1574,
+    2194
+   ],
+   "trim": [
+    11,
+    24,
+    1542,
+    2162
+   ],
+   "native": [
+    1398,
+    2034
+   ],
+   "px_per_mm": 18.149,
+   "width_mm": 84.4,
+   "height_mm": 117.8,
+   "sizes": [
+    400,
+    600,
+    800
+   ]
+  },
+  "duo-open": {
+   "fw": 2985,
+   "fh": 2139,
+   "sx": 62,
+   "sy": 70,
+   "sw": 2853,
+   "sh": 2007,
+   "island": null,
+   "label": "iPhone Duo, Star White, inner display, open, landscape",
+   "source": "duo-star-white-inner-open-landscape.png",
+   "source_sha256": "7a5eb3f52238b68d53d887bd77667a21374cf781b7d18baebb3f69436fca65c0",
+   "canvas": [
+    3093,
+    2247
+   ],
+   "trim": [
+    58,
+    50,
+    3043,
+    2189
+   ],
+   "native": [
+    2670,
+    1878
+   ],
+   "px_per_mm": 18.158,
+   "width_mm": 164.4,
+   "height_mm": 117.8,
+   "sizes": [
+    640,
+    1000,
+    1540
+   ]
+  }
+ },
+ "composites": [
+  {
+   "device": "18pro",
+   "name": "bodymap",
+   "screen": "screen-bodymap.png",
+   "screen_sha256": "68eaff7ba26ee2db974b296c633c62a35aed3209ca2a6e5e57d413d53bf27633",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-bodymap-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 45496
+    },
+    {
+     "file": "device-18pro-bodymap-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 498321
+    },
+    {
+     "file": "device-18pro-bodymap-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 76404
+    },
+    {
+     "file": "device-18pro-bodymap-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 128168
+    }
+   ]
+  },
+  {
+   "device": "18pro",
+   "name": "detail",
+   "screen": "screen-detail.png",
+   "screen_sha256": "bad295b78467e56f9ddbe806cfa50dd8e5c0727c82cdef814d35a2e2465c1821",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-detail-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 32854
+    },
+    {
+     "file": "device-18pro-detail-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 186249
+    },
+    {
+     "file": "device-18pro-detail-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 51442
+    },
+    {
+     "file": "device-18pro-detail-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 85538
+    }
+   ]
+  },
+  {
+   "device": "18pro",
+   "name": "overview",
+   "screen": "screen-overview.png",
+   "screen_sha256": "c86c3ac5c893eddcd98710c462795d22cc70e3906a0610f2a434b349b757eb65",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-overview-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 31606
+    },
+    {
+     "file": "device-18pro-overview-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 220439
+    },
+    {
+     "file": "device-18pro-overview-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 49586
+    },
+    {
+     "file": "device-18pro-overview-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 82498
+    }
+   ]
+  },
+  {
+   "device": "18pro",
+   "name": "assistant",
+   "screen": "screen-assistant.png",
+   "screen_sha256": "4074821c8d290ca68886a3490889e61da129559f3e7dcc472d16dedef7876933",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-assistant-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 55642
+    },
+    {
+     "file": "device-18pro-assistant-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 292478
+    },
+    {
+     "file": "device-18pro-assistant-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 86808
+    },
+    {
+     "file": "device-18pro-assistant-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 139788
+    }
+   ]
+  },
+  {
+   "device": "18pro",
+   "name": "questions",
+   "screen": "screen-questions.png",
+   "screen_sha256": "9e7ee6c25b0c105ae66f07bb6c3863b32e945e7e50ace0c0bd62afab1b84fb51",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-questions-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 52084
+    },
+    {
+     "file": "device-18pro-questions-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 270547
+    },
+    {
+     "file": "device-18pro-questions-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 84180
+    },
+    {
+     "file": "device-18pro-questions-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 132060
+    }
+   ]
+  },
+  {
+   "device": "18pro",
+   "name": "reach",
+   "screen": "screen-reach.png",
+   "screen_sha256": "a9c23644f8e7b180ca4c160a37ca126e08a80c91f97d1fc57d3f1adf09d9506f",
+   "mark_px": null,
+   "outputs": [
+    {
+     "file": "device-18pro-reach-480.webp",
+     "width": 480,
+     "height": 989,
+     "bytes": 41476
+    },
+    {
+     "file": "device-18pro-reach-480.png",
+     "width": 480,
+     "height": 989,
+     "bytes": 243022
+    },
+    {
+     "file": "device-18pro-reach-720.webp",
+     "width": 720,
+     "height": 1484,
+     "bytes": 66602
+    },
+    {
+     "file": "device-18pro-reach-1080.webp",
+     "width": 1080,
+     "height": 2226,
+     "bytes": 106848
+    }
+   ]
+  },
+  {
+   "device": "duo-closed",
+   "name": "launch",
+   "screen": "launch-mark.webp",
+   "screen_sha256": "f1e58f1799ed992bc58647f60d153bbd4f9cabaa868c8c5f91cf310ef23273e0",
+   "mark_px": 360,
+   "outputs": [
+    {
+     "file": "device-duo-closed-launch-400.webp",
+     "width": 400,
+     "height": 559,
+     "bytes": 6080
+    },
+    {
+     "file": "device-duo-closed-launch-400.png",
+     "width": 400,
+     "height": 559,
+     "bytes": 39227
+    },
+    {
+     "file": "device-duo-closed-launch-600.webp",
+     "width": 600,
+     "height": 838,
+     "bytes": 10114
+    },
+    {
+     "file": "device-duo-closed-launch-800.webp",
+     "width": 800,
+     "height": 1117,
+     "bytes": 14720
+    }
+   ]
+  },
+  {
+   "device": "duo-open",
+   "name": "launch",
+   "screen": "launch-mark.webp",
+   "screen_sha256": "f1e58f1799ed992bc58647f60d153bbd4f9cabaa868c8c5f91cf310ef23273e0",
+   "mark_px": 385,
+   "outputs": [
+    {
+     "file": "device-duo-open-launch-640.webp",
+     "width": 640,
+     "height": 459,
+     "bytes": 6652
+    },
+    {
+     "file": "device-duo-open-launch-640.png",
+     "width": 640,
+     "height": 459,
+     "bytes": 41536
+    },
+    {
+     "file": "device-duo-open-launch-1000.webp",
+     "width": 1000,
+     "height": 717,
+     "bytes": 12604
+    },
+    {
+     "file": "device-duo-open-launch-1540.webp",
+     "width": 1540,
+     "height": 1104,
+     "bytes": 22454
+    }
+   ]
+  }
+ ]
+}

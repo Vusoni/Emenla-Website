@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20261020a">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261024a">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -358,19 +358,24 @@
           <span class="label part">Inside Emenla</span>
           <h2 class="heading-lg part">What's in the app.</h2>
         </div>
-        <!-- Screens are frames from a recording of the app, October 2026. The page is the sample summary, made from invented entries. -->
+        <!-- Screens are frames from a recording of the app, October 2026, cut at full size on 2026-10-24 and set into Apple's device images by scripts/make-devices.py (the devices are composited, never served as a separate layer). The page is the sample summary, made from invented entries. -->
         <div class="grid5 grid5--screens">
           <div class="panel panel--lg reveal part">
             <h3 class="panel__title heading-sm">Record</h3>
             <p class="panel__sub muted">Tap where it hurts, or say it out loud. A few words is a complete entry.</p>
-            <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
+            <div class="panel__device panel__device--twin" aria-hidden="true">
+              <div class="twin">
+                <div class="device device--18pro device--front">
                   <picture>
-                    <source type="image/webp" srcset="assets/img/screen-bodymap.webp">
-                    <img src="assets/img/screen-bodymap.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/img/device-18pro-bodymap-480.webp 480w, assets/img/device-18pro-bodymap-720.webp 720w, assets/img/device-18pro-bodymap-1080.webp 1080w" sizes="(max-width: 720px) 240px, (max-width: 900px) 264px, 320px">
+                    <img src="assets/img/device-18pro-bodymap-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
                   </picture>
-                  <div class="device__notch"></div>
+                </div>
+                <div class="device device--18pro device--back">
+                  <picture>
+                    <source type="image/webp" srcset="assets/img/device-18pro-detail-480.webp 480w, assets/img/device-18pro-detail-720.webp 720w, assets/img/device-18pro-detail-1080.webp 1080w" sizes="250px">
+                    <img src="assets/img/device-18pro-detail-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+                  </picture>
                 </div>
               </div>
             </div>
@@ -390,14 +395,11 @@
             <h3 class="panel__title heading-sm">Overview</h3>
             <p class="panel__sub muted">Counts of what you wrote down. No score, no streaks, no verdict on your day.</p>
             <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
-                  <picture>
-                    <source type="image/webp" srcset="assets/img/screen-overview.webp">
-                    <img src="assets/img/screen-overview.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
-                  </picture>
-                  <div class="device__notch"></div>
-                </div>
+              <div class="device device--18pro">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/device-18pro-overview-480.webp 480w, assets/img/device-18pro-overview-720.webp 720w, assets/img/device-18pro-overview-1080.webp 1080w" sizes="(max-width: 720px) 240px, (max-width: 900px) 264px, 280px">
+                  <img src="assets/img/device-18pro-overview-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+                </picture>
               </div>
             </div>
           </div>
@@ -405,14 +407,11 @@
             <h3 class="panel__title heading-sm">Assistant</h3>
             <p class="panel__sub muted">Tell it what happened in a sentence. Nothing is saved until you confirm it.</p>
             <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
-                  <picture>
-                    <source type="image/webp" srcset="assets/img/screen-assistant.webp">
-                    <img src="assets/img/screen-assistant.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
-                  </picture>
-                  <div class="device__notch"></div>
-                </div>
+              <div class="device device--18pro">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/device-18pro-assistant-480.webp 480w, assets/img/device-18pro-assistant-720.webp 720w, assets/img/device-18pro-assistant-1080.webp 1080w" sizes="(max-width: 720px) 240px, (max-width: 900px) 264px, 280px">
+                  <img src="assets/img/device-18pro-assistant-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+                </picture>
               </div>
             </div>
           </div>
@@ -420,19 +419,49 @@
             <h3 class="panel__title heading-sm">Questions to ask</h3>
             <p class="panel__sub muted">Write what you want to ask. Analyze offers a clearer version, and your words stay until you choose.</p>
             <div class="panel__device" aria-hidden="true">
-              <div class="device">
-                <div class="device__screen">
-                  <picture>
-                    <source type="image/webp" srcset="assets/img/screen-questions.webp">
-                    <img src="assets/img/screen-questions.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
-                  </picture>
-                  <div class="device__notch"></div>
-                </div>
+              <div class="device device--18pro">
+                <picture>
+                  <source type="image/webp" srcset="assets/img/device-18pro-questions-480.webp 480w, assets/img/device-18pro-questions-720.webp 720w, assets/img/device-18pro-questions-1080.webp 1080w" sizes="(max-width: 720px) 240px, (max-width: 900px) 264px, 280px">
+                  <img src="assets/img/device-18pro-questions-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+                </picture>
               </div>
             </div>
           </div>
         </div>
         <p class="grid5__more muted reveal"><span class="part">Also inside: detail for each symptom if you want it (where exactly, what it felt like, when it started), <span class="strong">Learn</span>, short plain-language reads you can also listen to, and <span class="strong">Community</span>, which for now is a preview: nothing in it is sent or received. <span class="strong">Nutrition</span> and <span class="strong">Fitness</span> are there too, in an earlier form than the rest.</span></p>
+      </div>
+    </section>
+
+    <!-- ============ iPhone Duo ============ -->
+    <!-- The three devices stand at their true relative size: Apple's figures, 150.0 mm for iPhone 18 Pro and 117.8 mm for iPhone Duo, through one --mm unit in the CSS. The Duo screens show the app's launch screen, the one screen that is already true on that device. -->
+    <section class="section section--tight duo" id="duo" aria-labelledby="duo-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label part">iPhone Duo</span>
+          <h2 class="heading-lg part" id="duo-title">Made for iPhone. iPhone Duo is next.</h2>
+          <p class="subheading muted part">Every app screen on this page is from iPhone. Emenla will come to iPhone Duo later, and its display opens wide enough for your record and your document side by side. The two Duo screens here show the app's launch screen, because this page shows only what is real.</p>
+        </div>
+        <div class="duo__stage reveal" aria-hidden="true">
+          <div class="device device--18pro device--floor part">
+            <picture>
+              <source type="image/webp" srcset="assets/img/device-18pro-bodymap-480.webp 480w, assets/img/device-18pro-bodymap-720.webp 720w, assets/img/device-18pro-bodymap-1080.webp 1080w" sizes="(max-width: 900px) 44vw, 226px">
+              <img src="assets/img/device-18pro-bodymap-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+            </picture>
+          </div>
+          <div class="device device--duo-closed device--floor part">
+            <picture>
+              <source type="image/webp" srcset="assets/img/device-duo-closed-launch-400.webp 400w, assets/img/device-duo-closed-launch-600.webp 600w, assets/img/device-duo-closed-launch-800.webp 800w" sizes="(max-width: 900px) 51vw, 262px">
+              <img src="assets/img/device-duo-closed-launch-400.png" alt="" width="1531" height="2138" loading="lazy" decoding="async">
+            </picture>
+          </div>
+          <div class="device device--duo-open device--floor part">
+            <picture>
+              <source type="image/webp" srcset="assets/img/device-duo-open-launch-640.webp 640w, assets/img/device-duo-open-launch-1000.webp 1000w, assets/img/device-duo-open-launch-1540.webp 1540w" sizes="(max-width: 900px) 99vw, 510px">
+              <img src="assets/img/device-duo-open-launch-640.png" alt="" width="2985" height="2139" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+        <p class="caption meta duo__note reveal"><span class="part">Devices at their relative size. iPhone 18 Pro in Silver, iPhone Duo in Star White.</span></p>
       </div>
     </section>
 
@@ -569,14 +598,11 @@
 
         <div class="privacy">
           <div class="device-wrap reveal" data-loop aria-hidden="true">
-            <div class="device part">
-              <div class="device__screen">
-                <picture>
-                  <source type="image/webp" srcset="assets/img/screen-reach.webp">
-                  <img src="assets/img/screen-reach.jpg" alt="" width="900" height="1957" loading="lazy" decoding="async">
-                </picture>
-                <div class="device__notch"></div>
-              </div>
+            <div class="device device--18pro device--floor part">
+              <picture>
+                <source type="image/webp" srcset="assets/img/device-18pro-reach-480.webp 480w, assets/img/device-18pro-reach-720.webp 720w, assets/img/device-18pro-reach-1080.webp 1080w" sizes="(max-width: 720px) 240px, 300px">
+                <img src="assets/img/device-18pro-reach-480.png" alt="" width="1318" height="2717" loading="lazy" decoding="async">
+              </picture>
             </div>
           </div>
           <div class="reveal">
@@ -730,7 +756,7 @@
           <p class="footer__desc">An iOS app for people with endometriosis. Your words, their words, one clear page.</p>
           <p class="footer__addr">Made in Poland.<br><a href="mailto:hello@emenla.com">hello@emenla.com</a></p>
           <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict any condition.</p>
-          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are archive material, credited where they appear. Nobody shown is a patient.</p>
+          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are archive material, credited where they appear. The devices are Apple's product images from Apple Design Resources, shown as provided. Nobody shown is a patient.</p>
         </div>
         <nav class="footer__cols" aria-label="Footer">
           <div class="footer__col">
