@@ -51,7 +51,9 @@ node tools/histshots.mjs http://127.0.0.1:8080/ /tmp/emenla-hist
 ```
 
 Desktop before the first node, inside every era, mid every roll, one frame caught mid-settle with the
-units strip blurred, two short desktops, two phones and reduced motion. The clock eases toward the
+units strip blurred (on a desktop and on a phone), two short desktops, two phones and reduced motion.
+On a phone it also checks the strip's frosted pane: shown with a blur and the page's cream once the
+strip sticks, absent while it is still in flow. The clock eases toward the
 scroll, so every frame waits for it to settle before it asserts. It fails if the clock and the record
 ever disagree, the clock still rolls or blurs once settled, the last node does not show the figure
 the last card names, a card or caption drops below full contrast, the clock is not stuck where the

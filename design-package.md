@@ -656,9 +656,7 @@ Today, the digits give way to "4 to 11" (at 0.69em of the year, so the block kee
 height), and a reserved line under it says "years to a diagnosis". The white card is gone: the right
 column's Today entry is a plain entry like the others, Today, Still waiting, "Four to eleven years."
 as its title and the same paragraph. The figure and its line are attributes on that card, so the copy
-lives in one place. On a phone the strip stays one 132px row, the figure at 0.84em beside the sub
-line at a tighter tracking; under 340px the sub line hides, because the entry below says the same in
-words.
+lives in one place. The phone's version of all this was redone the same day; see the next entry.
 
 **Pages, then a bench.** Nothing rights-clean shows a march, a congress, the WHO, NICE or ACOG: what
 exists on Commons is posed groups of named officials and politicians, and putting strangers' faces on
@@ -694,6 +692,50 @@ and mid-roll, and checks that every picture holds at least the pixels it is show
 and has a linked credit. First load is 1.85 MB in 8 requests on a desktop (1.59 MB of it the hero video) and 227 KB in 6 on a phone, from 1.84 MB and 219 KB, the difference being the captions, the credit lines and the new card in the HTML; layout shift stays at 0 on both, the reserved sub line under the clock included. Not verifiable headless: the wheel feel of Lenis plus the lerp,
 Safari's mask and filter rendering, VoiceOver (the clock stays `aria-hidden`; the Today entry's
 visible title carries the figure) and 120Hz devices.
+
+### The phone, 25 October 2026
+
+The founder asked for the phone version to work "perfectly", as a premium site would. Two things fell
+short: the history section on a phone was the desktop clock squeezed into a strip, and on every page
+the content ran straight under the wordmark and the For iPhone pill, text over text, at 90 of 124
+scroll positions on the home page at 393px (18 of 124 on a desktop).
+
+**The clock is the screen's large title.** Under 900px the year is `clamp(48px, 14.6vw, 60px)`, the
+only big number on the screen. Once the strip sticks, a pane of frosted glass fades in behind it
+(`::before`, the page's cream at 0.8 with an 18px blur, its last 28px fading out so the record slides
+under a soft edge), the pane a child so its mask never touches the year; in flow the strip has no
+ground of its own. Without backdrop blur, or under the phone's reduced transparency, the pane is
+cream at 0.96 instead, so the record never reads through the year as a ghost. Everything on the strip
+sits on one baseline, the digits': the era word beside the year, the figure "4 to 11" at 0.84em, and
+its caption, now two mono lines of 12 characters ("years to a / diagnosis") that fit beside the figure
+from 320px. The cards no longer repeat the year in large type under the strip that already shows it:
+each opens on a mono dateline, the year and its word in one line, and the titles are 19px. A phone's
+year is a third the desktop's size, so its roll may blur a little more per em before it reads
+(`--blur-cap: 0.06`, read by the script, against 0.035 on a desktop: 3.4px at 57px, 6.3px at 180px).
+
+**The top edge.** The nav stays as built, a wordmark and one pill with no bar behind them. What
+changed is what passes under them: a fixed `.edge-top` (120px, 104px on a phone) of the page's cream
+at 0.84 with a 14px blur, masked to full under the nav and eased out below it, so text scrolling up
+softens into the page instead of colliding with the wordmark, the way iOS treats a scroll edge. It is
+the counterpart of the bottom `.edge-blur`. The script turns it on once the page has scrolled 8px and
+keeps it off where the top already has its own ground: over the pinned desktop film (the nav floats
+on it as before), over the science page's dark band (where the wordmark is cream), and while the
+phone's history strip is stuck with its own pane. Reduced transparency gets solid cream. Over the
+film's photograph as it leaves, the fade washes its top for a moment; that was judged acceptable
+against text colliding with the wordmark.
+
+Verified in headless Chrome at 320, 360, 375, 393 and 430 wide (one row, one baseline, strip 132 to
+144px, no sideways overflow, no console errors), with `histshots.mjs` passing every frame including a
+new phone mid-roll frame (`m-blur`, the units strip at 3.3px) and a check of the stuck pane, and
+`selftest.mjs`, `devshots.mjs` and `wordshots.mjs` passing (the last on a second run: its two
+frames timed to the millisecond, 850ms into a hold and 100ms into a roll, came late once while the
+machine's load average sat near 360). First load is 232 KB in 6 requests on a phone, from 227 KB, and
+1.85 MB in 8 on a desktop, layout shift 0 on both. A collision counter (text lines under the
+wordmark or pill at every 150px of scroll) found every phone collision covered by the fade, the only
+remainder being the stuck strip's own digit columns. WebKit 18.4 (Playwright) matches Chrome's
+layout, sticky behaviour and console, but headless WebKit does not draw `backdrop-filter` in
+screenshots (a plain test box shows the same), so Safari's blur on the pane and the edge, real
+devices, 120Hz and VoiceOver are not verified.
 
 ### The headline, re-set to the reference, 29 August 2026
 

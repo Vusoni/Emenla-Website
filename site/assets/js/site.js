@@ -155,6 +155,28 @@
       navDark = dark;
       nav.classList.toggle('nav--dark', dark);
     }
+    updateEdgeTop();
+  }
+
+  /* ---------- The top edge fades in once the page scrolls, except where the top already has its own ground ---------- */
+  var edgeTop = document.querySelector('.edge-top');
+  var edgeHero = document.querySelector('.hero');
+  var edgeStage = edgeHero && edgeHero.querySelector('.hero__stage');
+  var edgeHist = document.querySelector('.hist');
+  var edgeClock = edgeHist && edgeHist.querySelector('.hist__clock');
+  var edgePhone = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;
+  var edgeOn = null;
+  function updateEdgeTop() {
+    if (!edgeTop) return;
+    var vh = window.innerHeight;
+    var on = (window.pageYOffset || document.documentElement.scrollTop) > 8;
+    /* The film is pinned: the nav floats on it, as it always has */
+    if (on && edgeStage && window.getComputedStyle(edgeStage).position === 'sticky' && edgeHero.getBoundingClientRect().bottom > vh + 1) on = false;
+    /* The dark band: a cream veil would grey it, and the wordmark is already cream there */
+    if (on && darkBand) { var d = darkBand.getBoundingClientRect(); if (d.top < 48 && d.bottom > 48) on = false; }
+    /* The phone's history strip, while it sits stuck at the top with its own frosted pane */
+    if (on && edgeClock && edgePhone && edgePhone.matches && edgeHist.getBoundingClientRect().top <= 0 && edgeClock.getBoundingClientRect().top > -2) on = false;
+    if (on !== edgeOn) { edgeOn = on; edgeTop.classList.toggle('is-on', on); }
   }
   updateNav();
   window.addEventListener('scroll', updateNav, { passive: true });
@@ -416,8 +438,9 @@
   var hsEra = -1, hsRead = 0, hsFigure = 'Today', hsSub = '';
   var HS_WORD = 'Today';
   /* Blur per cell of movement in one frame, in em, and its cap: a strip crossing a whole digit in a frame reads as
-     a soft streak, never a smear */
-  var HS_BLUR = 0.2, HS_CAP = 0.035;
+     a soft streak, never a smear. The stylesheet may raise the cap (--blur-cap): a phone's smaller year needs a
+     little more per em for the roll to read */
+  var HS_BLUR = 0.2, HS_CAP = 0.035, hsCap = HS_CAP;
   /* One scale for the whole ruler: distance from today, square-rooted, so recent decades are wide and distant ones
      tight, the way time looks when you look back. "Today" sits two years past 2026 so it has a place of its own;
      the readout itself never passes 2026. */
@@ -443,7 +466,9 @@
      the ruler's offsetTop is the lift that puts it on the reading line */
   function hsMeasure() {
     if (!hs) return;
-    hsReadFrac = parseFloat(getComputedStyle(hs).getPropertyValue('--read')) || 0.58;
+    var hsStyle = getComputedStyle(hs);
+    hsReadFrac = parseFloat(hsStyle.getPropertyValue('--read')) || 0.58;
+    hsCap = parseFloat(hsStyle.getPropertyValue('--blur-cap')) || HS_CAP;
     hsCards.forEach(function (c, i) {
       var yr = c.querySelector('.hcard__year');
       var local = yr ? yr.offsetTop + yr.offsetHeight / 2 : 16;
@@ -496,7 +521,7 @@
       mv = Math.abs(off - hsOff[k]);
       if (mv > 5) mv = 10 - mv; /* the wrap: 9.98 to 0.02 is a move of 0.04, not 9.96 */
       if (mv > 0.0005) { hsOff[k] = off; hsCells[3 - k].style.setProperty('--d', off.toFixed(4)); }
-      b = dt > 0 ? Math.min(HS_CAP, mv * (16.7 / dt) * HS_BLUR) : 0;
+      b = dt > 0 ? Math.min(hsCap, mv * (16.7 / dt) * HS_BLUR) : 0;
       if (Math.abs(b - hsBlur[k]) > 0.0005) { hsBlur[k] = b; hsCells[3 - k].style.setProperty('--b', b.toFixed(4) + 'em'); }
     }
     if (whole !== hsYearShown && hsSwapT === null) { hsYearShown = whole; hsYearEl.setAttribute('data-year', String(whole)); }

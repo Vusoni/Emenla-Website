@@ -1,7 +1,7 @@
 // Filmstrip and assertions for the history section (the clock and the record).
 //   node tools/histshots.mjs http://127.0.0.1:8080/ <outDir>
 // Desktop 1440x900 before the first node, inside every era, mid every captioned roll, mid a short roll and the last one,
-// one frame caught mid-settle, and after; 1280x720 and 901x800; phone 375x812 and 375x667; reduced motion at 1440x900.
+// one frame caught mid-settle, and after; 1280x720 and 901x800; phone 375x812 (with its own mid-settle frame) and 375x667; reduced motion at 1440x900.
 // Fails (exit 1) when the clock and the record disagree, the clock is still rolling or blurred once it has settled,
 // the last node does not show the figure the last card names, a card or caption drops below full contrast, the clock
 // is not stuck where the stylesheet puts it, the phone strip passes 140px, the page overflows sideways, or a console
@@ -44,7 +44,8 @@ const check = `(() => {
     credits: getComputedStyle(document.querySelector('.hist__credits')).display !== 'none',
     listen: document.querySelectorAll('.hist__listen a').length,
     cardsWhole: cards.map(c => c.getBoundingClientRect()).filter(r => r.bottom > 0 && r.top < innerHeight).every(r => r.left >= 0 && r.right <= innerWidth),
-    sticky: getComputedStyle(clock).position, clockBg: getComputedStyle(clock).backgroundColor, clockTop: cr.top, clockH: cr.height, clockRight: cr.right, recLeft: rr.left,
+    sticky: getComputedStyle(clock).position, clockBg: getComputedStyle(clock).backgroundColor,
+    pane: (s => ({ op: parseFloat(s.opacity), bg: s.backgroundColor, blur: s.backdropFilter || s.webkitBackdropFilter || '' }))(getComputedStyle(clock, '::before')), clockTop: cr.top, clockH: cr.height, clockRight: cr.right, recLeft: rr.left,
     histTop: hr.top, histBottom: hr.bottom,
     stickyTop: parseFloat(cs.getPropertyValue('--read')) * innerHeight - (parseFloat(cs.getPropertyValue('--lift')) || 0),
     yearTop: year.getBoundingClientRect().top, yearRight: year.getBoundingClientRect().right, brandBottom: brand.bottom,
@@ -124,9 +125,10 @@ async function frame(p, tag, at, e) {
     if (c.histTop < -1 && !near(c.clockTop, 0, 1)) bad.push(`strip top ${c.clockTop.toFixed(1)} while stuck`);
     if (c.yearTop < c.brandBottom + 6) bad.push(`year top ${c.yearTop.toFixed(1)} under the wordmark (${c.brandBottom.toFixed(1)})`);
     if (c.clockH > 140) bad.push(`strip ${c.clockH.toFixed(1)}px tall`);
-    /* solid only while stuck; in flow it must show the page's ground through */
-    if (c.histTop < -1 && c.clockBg !== CANVAS) bad.push(`stuck strip background ${c.clockBg}`);
-    if (c.histTop > 1 && c.clockBg !== 'rgba(0, 0, 0, 0)') bad.push(`strip in flow has background ${c.clockBg}`);
+    /* frosted only while stuck (a pane on ::before, so its mask never touches the year); in flow the page's ground shows through */
+    if (c.clockBg !== 'rgba(0, 0, 0, 0)') bad.push(`strip has its own background ${c.clockBg}`);
+    if (c.histTop < -1 && (c.pane.op < 1 || !/blur\(/.test(c.pane.blur) || !/^rgba\(252, 249, 247, 0\.[5-9]/.test(c.pane.bg))) bad.push(`stuck pane ${JSON.stringify(c.pane)}`);
+    if (c.histTop > 1 && c.pane.op > 0) bad.push(`pane shows in flow (opacity ${c.pane.op})`);
   } else {
     if (c.cols !== 2) bad.push(`${c.cols} columns`);
     if (c.clockRight + 16 > c.recLeft) bad.push(`clock right ${c.clockRight.toFixed(1)} meets record left ${c.recLeft.toFixed(1)}`);
@@ -199,6 +201,7 @@ await frame(m, 'm-strip', hold(g, 0), { era: 0 });
 await frame(m, 'm-gap0', roll(g, 0), { era: 0, roll: true });
 await frame(m, 'm-era5', hold(g, 5), { era: 5 });
 await frame(m, 'm-today', hold(g, n - 1), { era: n - 1 });
+await blurFrame(m, 'm-blur', g, 1); /* the phone's own cap (--blur-cap) must still leave the units strip visibly blurred */
 await m.close();
 
 const m2 = await b.page(url, { width: 375, height: 667, touch: true, mobile: true }); await m2.eval(wait(600)); g = await geom(m2);

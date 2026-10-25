@@ -1597,11 +1597,15 @@ figure.hcard__media { margin: 0; }
 .hist.is-ready .hs-tick__label { transition: color 300ms var(--ease-out); }
 .hist__sources { margin-top: 36px; text-align: center; }
 .hist__sources a { color: var(--stone); }
-/* One column under 900px: the clock becomes a strip stuck to the top of the screen, the floating wordmark over its
-   solid top, a fade under it; the record follows with its spine, every picture and every caption. In the strip the
-   figure's caption takes the label's place on the year's line */
+/* One column under 900px. The clock becomes the screen's large title: a strip stuck to the top under the floating
+   wordmark, on frosted glass once it sticks, and the one big number on the screen. The record follows with its
+   spine, each era opening on a small dateline rather than a second big year (the strip and the card used to show
+   the same year twice, one above the other). At the last node the figure takes the year's place, with its caption
+   set in two short lines beside it */
 @media (max-width: 900px) {
-  .hist { --read: 0.62; display: block; max-width: none; margin-top: 0; } /* the strip's own nav clearance is the gap */
+  /* --blur-cap: a phone's year is a third the desktop's size, so its strips may blur a little more per em before
+     the roll reads (3.4px at 57px, against 6.3px at 180) */
+  .hist { --read: 0.62; --blur-cap: 0.06; display: block; max-width: none; margin-top: 0; } /* the strip's own nav clearance is the gap */
   .hist__clock {
     top: 0;
     z-index: 5;
@@ -1609,39 +1613,78 @@ figure.hcard__media { margin: 0; }
     flex-wrap: wrap;
     align-items: baseline;
     column-gap: 14px;
-    padding: 68px max(var(--gutter), calc(50% + var(--gutter) - 280px)) 4px;
+    padding: 64px max(var(--gutter), calc(50% + var(--gutter) - 280px)) 4px;
     margin: 0 calc(-1 * var(--gutter));
+    --year: clamp(48px, 14.6vw, 60px);
   }
-  /* In flow the strip sits on the page's own ground (a fixed spotlight, so a solid band would show its edge). The
-     script adds is-stuck from the moment the section's top passes the screen's top, which is exactly when the strip
-     sticks: then it is solid under the wordmark with a fade below. Without the script it never sticks at all. */
-  .hist__clock.is-stuck { background: var(--canvas); }
+  /* In flow the strip sits on the page's own ground. The script adds is-stuck from the moment the section's top
+     passes the screen's top, which is exactly when the strip sticks: then a pane of frosted glass fades in behind
+     it, the fixed spotlight and the record scrolling under it both softened, and its last 28px fade out so the
+     record slides under a soft edge rather than a hard one (the bottom of the screen does the same, .edge-blur).
+     The pane is a child, so its mask never touches the year. Without the script the strip never sticks at all */
+  .hist__clock::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: -28px;
+    z-index: -1;
+    opacity: 0;
+    background: rgba(var(--cream-rgb), 0.8);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+  }
+  /* Where there is no backdrop blur, or the reader has asked the phone for less transparency, the pane is near
+     solid, so the record never reads through the year as a ghost */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .hist__clock::before { background: rgba(var(--cream-rgb), 0.96); }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .hist__clock::before { background: rgba(var(--cream-rgb), 0.96); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+  .hist__clock.is-stuck::before { opacity: 1; }
+  .hist.is-ready .hist__clock::before { transition: opacity 300ms var(--ease-out); }
   .hist:not(.is-ready) .hist__clock { position: static; }
-  .hist__clock::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 24px; opacity: 0; background: linear-gradient(var(--canvas), rgba(var(--cream-rgb), 0)); }
-  .hist__clock.is-stuck::after { opacity: 1; }
-  .hist.is-ready .hist__clock::after { transition: opacity 300ms var(--ease-out); }
-  .hs-year { order: 1; font-size: 48px; }
-  /* The figure at 0.84em (40px) and its sub line at a tighter tracking share one row at 375px wide. At 1em the sub wrapped under it and the strip grew 12px at the swap. */
-  .hs-year.is-word::after { font-size: 0.84em; line-height: var(--cell); }
+  .hs-year { order: 1; font-size: var(--year); }
+  /* One baseline for everything on the strip: the digits', which Hanken (ascent 0.996, descent 0.311, centred in a
+     1em line) puts 0.1575 of the year above the cell's foot. The figure at 0.84em lands on it with a line 1.321 of
+     its own size; the word beside the year sits on it from its own 2px, the figure's caption from its 4.1px */
+  .hs-year.is-word::after { font-size: 0.84em; line-height: 1.321; }
   .hs-now, .hs-sub { order: 2; margin: 0; min-height: 0; line-height: 1; }
+  .hs-now { align-self: flex-end; margin-bottom: calc(var(--year) * 0.1575 - 2px); }
   .hs-sub { display: none; }
-  .hs-sub::before { content: '· '; }
   .hist__clock.is-word .hs-now { display: none; }
-  .hist__clock.is-word .hs-sub { display: block; opacity: 1; filter: none; transform: none; letter-spacing: 0.06em; }
-  /* Under 340px the sub line no longer fits beside the figure and would wrap, growing the strip; the Today entry below says the same in words. */
-  @media (max-width: 340px) { .hist__clock.is-word .hs-sub { display: none; } }
+  /* The figure's caption in two lines of 12 characters ("years to a / diagnosis", mono, so the break is exact at
+     every width), its last line on the strip's baseline (16.2px lines, ascent 11, descent 3, so 4.1px above the
+     foot). It fits beside "4 to 11" at 320px */
+  .hist__clock.is-word .hs-sub {
+    display: block;
+    align-self: flex-end;
+    max-width: 12ch;
+    margin-bottom: calc(var(--year) * 0.1575 - 4.1px);
+    line-height: 1.35;
+    letter-spacing: 0.1em;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
   .hs-ruler { order: 3; flex-basis: 100%; height: 12px; margin-top: 4px; }
   .hs-ruler::before, .hs-ruler::after { height: 1px; }
   .hs-ruler__pen, .hs-tick__label { display: none; }
   .hs-tick { height: 5px; }
   .hs-tick--50 { height: 9px; }
   .hist__record { max-width: 560px; margin: 28px auto 0; padding-left: 34px; --spine-x: 10px; }
-  .hcard { margin-top: 44px; }
+  .hcard { margin-top: 48px; }
   .hcard::before { left: calc(var(--spine-x) - 34px); }
-  .hcard__row { justify-content: flex-start; gap: 12px; }
-  .hcard__year { font-size: 30px; }
-  .hcard__row .label { padding: 0; border: 0; background: none; font-size: 11px; letter-spacing: 0.12em; color: var(--ash); }
+  /* The dateline: the year and its word in one mono line, the year in ink once lit */
+  .hcard__row { justify-content: flex-start; gap: 10px; }
+  .hcard__year { font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; }
+  .hcard__row .label { padding: 0; border: 0; background: none; font-size: 11px; letter-spacing: 0.14em; color: var(--ash); }
   .hcard__row .label::before { display: none; }
+  .hcard__title { font-size: 19px; }
   .hcard__media { max-width: none; }
   .hcard__fig-n { font-size: 36px; }
   .hs-gap { min-height: 96px; font-size: 26px; }
@@ -1682,6 +1725,36 @@ figure.hcard__media { margin: 0; }
 @media (max-width: 720px) { .edge-blur { height: 90px; } }
 .edge-blur { transition: opacity 500ms var(--ease-soft); }
 body.at-end .edge-blur { opacity: 0; }
+
+/* ---------- The top edge: what scrolls up under the wordmark and the pill softens into the page ----------
+   Still no bar: no fill line and no rule, only the page's own cream and a blur that fade out below the nav, the
+   way iOS softens a scroll edge. The script turns it on once the page has scrolled, and keeps it off over the
+   pinned film, over the dark band (where the wordmark turns cream) and while the phone's history strip, which
+   carries its own pane, covers the top. */
+.edge-top {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  z-index: 35;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(var(--cream-rgb), 0.84);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, rgba(0, 0, 0, 0.93) 60%, rgba(0, 0, 0, 0.8) 68%, rgba(0, 0, 0, 0.6) 76%, rgba(0, 0, 0, 0.38) 84%, rgba(0, 0, 0, 0.16) 92%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 52%, rgba(0, 0, 0, 0.93) 60%, rgba(0, 0, 0, 0.8) 68%, rgba(0, 0, 0, 0.6) 76%, rgba(0, 0, 0, 0.38) 84%, rgba(0, 0, 0, 0.16) 92%, rgba(0, 0, 0, 0) 100%);
+  transition: opacity 320ms var(--ease-soft);
+}
+.edge-top.is-on { opacity: 1; }
+@media (max-width: 720px) { .edge-top { height: 104px; } }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .edge-top { background: rgba(var(--cream-rgb), 0.96); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .edge-top { background: rgba(var(--cream-rgb), 0.97); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 
 /* ---------- What's in the app: the people grid ---------- */
 .grid5 {
