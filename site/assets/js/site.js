@@ -394,20 +394,30 @@
   if (reduced()) pinRail(); else armRail();
 
   /* ---------- A short history: the clock and the record ----------
-     The record is eight eras in reading order with a caption in every long gap; the clock beside it (a strip above
-     it on phones) names the year a reading line, --read of the way down the screen, has reached. The state is a
-     function of the scroll position and nothing else: inside an era's box the clock holds that era's year and label;
-     across the gap to the next node it rolls, linearly in scroll, from one year to the next, and the label is empty;
-     the last gap holds 2026 while the pen runs out the ruler, and the last node turns the year into the word Today.
-     Scrolling back rolls back and un-lights. Under reduced motion the year steps to whole milestones and nothing
-     eases; the ruler ink and the spine ink still follow the scroll, as a scrollbar does. */
+     The record is the eras in reading order with a caption in every long gap; the clock beside it (a strip above
+     it on phones) names the year a reading line, --read of the way down the screen, has reached. The target is a
+     function of the scroll position and nothing else: inside an era's box it is that era's year and label; across
+     the gap to the next node it rolls, linearly in scroll, from one year to the next, and the label is empty; the
+     last gap holds 2026 while the pen runs out the ruler, and the last node turns the year into the figure the last
+     card names (data-clock-figure over data-clock-sub). What the clock shows eases toward the target a little every
+     frame, so a flick settles instead of stopping dead, and each digit strip is blurred by its own speed while it
+     moves: the units blur most, the thousands hardly ever. Scrolling back rolls back and un-lights. Under reduced
+     motion the year steps to whole milestones, nothing eases and nothing blurs; the ruler ink and the spine ink
+     still follow the scroll, as a scrollbar does. */
   var hs = document.querySelector('[data-history]');
-  var hsRecord = null, hsSpine = null, hsRuler = null, hsYearEl = null, hsNowEl = null;
+  var hsRecord = null, hsSpine = null, hsRuler = null, hsYearEl = null, hsNowEl = null, hsSubEl = null;
   var hsCells = [], hsCards = [], hsGaps = [], hsYears = [], hsLabels = [], hsTicks = [];
   var hsNodeY = [], hsHoldEnd = [], hsGapY = [], hsRulerPct = [];
   var hsReadFrac = 0.58, hsRm = false, hsRaf = null, hsReady = false;
   /* What the page shows now, so a frame writes only what changed */
-  var hsLit = -1, hsLitGaps = 0, hsLitTicks = 0, hsYearShown = null, hsOff = [], hsLabelShown = null, hsPen = -1, hsInk = -1;
+  var hsLit = -1, hsLitGaps = 0, hsLitTicks = 0, hsYearShown = null, hsOff = [], hsBlur = [0, 0, 0, 0], hsLabelShown = null, hsPen = -1, hsInk = -1;
+  /* The settle: the year the scroll asks for, the year shown on the way to it, and the loop between them */
+  var hsTarget = 1690, hsShown = 1690, hsLoop = null, hsLast = 0, hsRolling = false, hsK = 0.16, hsSwapT = null;
+  var hsEra = -1, hsRead = 0, hsFigure = 'Today', hsSub = '';
+  var HS_WORD = 'Today';
+  /* Blur per cell of movement in one frame, in em, and its cap: a strip crossing a whole digit in a frame reads as
+     a soft streak, never a smear */
+  var HS_BLUR = 0.2, HS_CAP = 0.035;
   /* One scale for the whole ruler: distance from today, square-rooted, so recent decades are wide and distant ones
      tight, the way time looks when you look back. "Today" sits two years past 2026 so it has a place of its own;
      the readout itself never passes 2026. */
@@ -429,7 +439,8 @@
     }
   }
   /* Measured once per layout, so a scroll frame costs one rect read. The record is each era's offset parent and
-     an era is its own year's, so every figure here is record-relative */
+     an era is its own year's, so every figure here is record-relative. The clock is the ruler's offset parent, so
+     the ruler's offsetTop is the lift that puts it on the reading line */
   function hsMeasure() {
     if (!hs) return;
     hsReadFrac = parseFloat(getComputedStyle(hs).getPropertyValue('--read')) || 0.58;
@@ -445,31 +456,87 @@
     hsSpine.style.setProperty('--rail-a', a.toFixed(1) + 'px');
     hsSpine.style.setProperty('--rail-len', len.toFixed(1) + 'px');
     hsRulerPct = hsYears.map(hsRulerX);
+    hs.style.setProperty('--lift', hsRuler.offsetTop + 'px');
     hsUpdate();
     /* Transitions arm one frame after the first state is written, so a reload never plays an arrival */
     if (!hsReady) { hsReady = true; window.requestAnimationFrame(function () { hs.classList.add('is-ready'); }); }
   }
-  /* The odometer: a number, possibly fractional, or the word Today. A cell shows digit d by moving its strip up
-     d cells; the units cell carries the fraction, and a higher cell rolls only through the last whole year of its
-     span (1999.5 rolls all four, 1774.4 rolls the units alone). Under reduced motion the fraction is dropped. */
-  function hsSetYear(y) {
-    if (y === 'Today') {
-      if (hsYearShown !== 'Today') { hsYearShown = 'Today'; hsYearEl.classList.add('is-word'); hsYearEl.setAttribute('data-year', 'Today'); }
-      return;
+  /* The swap between the year and the figure: the clock blurs out, the text lands, the clock blurs back in (the
+     stylesheet's is-swap). Before the first measure and under reduced motion it lands at once. The label sits
+     before the year in the markup, so the word state is set on the clock as well, for the caption under it */
+  function hsSwap(word) {
+    hsYearShown = word ? HS_WORD : Math.floor(typeof hsShown === 'number' ? hsShown : hsTarget);
+    if (hsSwapT !== null) { clearTimeout(hsSwapT); hsSwapT = null; }
+    function land() {
+      hsSwapT = null;
+      if (!word) hsYearShown = Math.floor(typeof hsShown === 'number' ? hsShown : hsTarget);
+      hsYearEl.classList.toggle('is-word', word);
+      hsClock.classList.toggle('is-word', word);
+      hsYearEl.setAttribute('data-year', word ? hsFigure : String(hsYearShown));
+      hsYearEl.classList.remove('is-swap');
     }
-    if (hsYearShown === 'Today') hsYearEl.classList.remove('is-word');
-    var whole = Math.floor(y), frac = hsRm ? 0 : y - whole, k, p, d, r, off;
+    if (hsRm || !hsReady) { land(); return; }
+    hsYearEl.classList.add('is-swap');
+    hsSwapT = setTimeout(land, 180);
+  }
+  /* The odometer: a number, possibly fractional, or the word token. A cell shows digit d by moving its strip up
+     d cells; the units cell carries the fraction, and a higher cell rolls only through the last whole year of its
+     span (1999.5 rolls all four, 1774.4 rolls the units alone). Under reduced motion the fraction is dropped. Each
+     cell's blur follows how far its strip moved this frame; dt is the frame's length in ms, 0 when nothing moves */
+  function hsSetYear(y, dt) {
+    var word = y === HS_WORD;
+    if (word !== (hsYearShown === HS_WORD)) hsSwap(word);
+    if (word) return;
+    var whole = Math.floor(y), frac = hsRm ? 0 : y - whole, k, p, d, r, off, mv, b;
     for (k = 0; k < 4; k++) {
       p = [1, 10, 100, 1000][k];
       d = Math.floor(whole / p) % 10;
       r = k === 0 ? frac : (whole % p === p - 1 ? frac : 0);
       off = d + r;
-      if (Math.abs(off - hsOff[k]) > 0.0005) { hsOff[k] = off; hsCells[3 - k].style.setProperty('--d', off.toFixed(4)); }
+      mv = Math.abs(off - hsOff[k]);
+      if (mv > 5) mv = 10 - mv; /* the wrap: 9.98 to 0.02 is a move of 0.04, not 9.96 */
+      if (mv > 0.0005) { hsOff[k] = off; hsCells[3 - k].style.setProperty('--d', off.toFixed(4)); }
+      b = dt > 0 ? Math.min(HS_CAP, mv * (16.7 / dt) * HS_BLUR) : 0;
+      if (Math.abs(b - hsBlur[k]) > 0.0005) { hsBlur[k] = b; hsCells[3 - k].style.setProperty('--b', b.toFixed(4) + 'em'); }
     }
-    if (whole !== hsYearShown) { hsYearShown = whole; hsYearEl.setAttribute('data-year', String(whole)); }
+    if (whole !== hsYearShown && hsSwapT === null) { hsYearShown = whole; hsYearEl.setAttribute('data-year', String(whole)); }
+  }
+  function hsRoll(on) { if (on !== hsRolling) { hsRolling = on; hsYearEl.classList.toggle('is-rolling', on); } }
+  /* For tools/histshots.mjs and tools/wordshots.mjs */
+  function hsPublish() {
+    window.__emenlaHistory = { era: hsEra, year: hsTarget, shown: hsShown, rolling: hsRolling, read: hsRead, nodes: hsNodeY, holdEnd: hsHoldEnd, gaps: hsGapY, years: hsYears, figure: hsFigure, sub: hsSub };
+  }
+  /* One frame of the settle: the shown year closes a fixed share of its distance to the target per 16.7ms, so the
+     ease feels the same at 60 and 120Hz, and snaps inside two thousandths of a year. The last frame writes every
+     blur back to nought */
+  function hsStep(now) {
+    hsLoop = null;
+    var dt = Math.min(64, now - (hsLast || now)) || 16.7, done = false;
+    hsLast = now;
+    if (typeof hsTarget !== 'number' || typeof hsShown !== 'number') { hsShown = hsTarget; done = true; }
+    else {
+      hsShown += (hsTarget - hsShown) * (1 - Math.pow(1 - hsK, dt / 16.7));
+      if (Math.abs(hsTarget - hsShown) < 0.002) { hsShown = hsTarget; done = true; }
+    }
+    hsRoll(!done);
+    hsSetYear(hsShown, done ? 0 : dt);
+    if (done) hsLast = 0; else hsLoop = window.requestAnimationFrame(hsStep);
+    hsPublish();
+  }
+  /* Where the scroll asks the clock to be. A new target starts the settle; the word, reduced motion and the frames
+     before the first measure land at once */
+  function hsAim(y) {
+    hsTarget = y;
+    if (hsRm || !hsReady || typeof y !== 'number' || typeof hsShown !== 'number') {
+      if (hsLoop !== null) { window.cancelAnimationFrame(hsLoop); hsLoop = null; }
+      hsShown = y; hsLast = 0;
+      hsRoll(false);
+      hsSetYear(y, 0);
+    } else if (hsLoop === null && Math.abs(y - hsShown) > 0.0005) hsLoop = window.requestAnimationFrame(hsStep);
   }
   function hsApply(era, read, year, pen, ink, label) {
     var n = hsCards.length, k;
+    hsEra = era; hsRead = read;
     if (era !== hsLit) { for (k = 0; k < n; k++) hsCards[k].classList.toggle('lit', k <= era); hsLit = era; }
     var g = 0;
     while (g < hsGaps.length && hsGapY[g] <= read) g++;
@@ -480,7 +547,7 @@
       if (label) hsNowEl.textContent = label;
       hsNowEl.classList.toggle('is-empty', !label);
     }
-    hsSetYear(year);
+    hsAim(year);
     if (pen !== hsPen) {
       hsPen = pen;
       hsRuler.style.setProperty('--pen', pen.toFixed(4));
@@ -489,8 +556,7 @@
       while (hsLitTicks > 0 && hsTicks[hsLitTicks - 1].pct > pen) { hsLitTicks--; hsTicks[hsLitTicks].el.classList.remove('lit'); }
     }
     if (ink !== hsInk) { hsInk = ink; hsSpine.style.setProperty('--rail-ink', ink.toFixed(4)); }
-    /* For tools/histshots.mjs */
-    window.__emenlaHistory = { era: era, year: year, read: read, nodes: hsNodeY, holdEnd: hsHoldEnd, years: hsYears };
+    hsPublish();
   }
   var hsClock = null, hsStuck = null;
   function hsUpdate() {
@@ -503,7 +569,7 @@
     var n = hsCards.length, i = -1, year, pen, label, t, yEnd;
     while (i + 1 < n && hsNodeY[i + 1] <= read) i++;
     if (i < 0) { year = hsYears[0]; pen = hsRulerPct[0]; label = hsLabels[0]; }
-    else if (i === n - 1) { year = 'Today'; pen = 1; label = hsLabels[n - 1]; }
+    else if (i === n - 1) { year = HS_WORD; pen = 1; label = hsLabels[n - 1]; }
     else if (hsRm || read <= hsHoldEnd[i]) { year = hsYears[i]; pen = hsRulerPct[i]; label = hsLabels[i]; }
     else {
       /* The roll: from the foot of this era's box to the next node, linearly in scroll. The last gap holds 2026,
@@ -518,7 +584,17 @@
     hsApply(i, read, year, pen, ink, label);
   }
   function hsSchedule() { if (hsRaf === null) hsRaf = window.requestAnimationFrame(hsUpdate); }
-  function hsArm() { if (!hs) return; hsRm = reduced(); hsMeasure(); }
+  /* Armed at start and again when reduced motion changes. The wheel is already eased by the page on a fine pointer,
+     so the clock's own ease is lighter there; a finger scrolls natively and the clock supplies the whole ease */
+  function hsArm() {
+    if (!hs) return;
+    hsRm = reduced();
+    hsK = window.matchMedia('(pointer: fine)').matches && !hsRm ? 0.22 : 0.12;
+    if (hsLoop !== null) { window.cancelAnimationFrame(hsLoop); hsLoop = null; }
+    hsShown = hsTarget; hsLast = 0;
+    hsRoll(false);
+    hsMeasure();
+  }
   if (hs) {
     hsClock = hs.querySelector('.hist__clock');
     hsRecord = hs.querySelector('.hist__record');
@@ -526,13 +602,20 @@
     hsRuler = hs.querySelector('.hs-ruler');
     hsYearEl = hs.querySelector('.hs-year');
     hsNowEl = hs.querySelector('.hs-now');
+    hsSubEl = hs.querySelector('.hs-sub');
     hsCells = Array.prototype.slice.call(hsYearEl.querySelectorAll('.hs-cell'));
     hsCards = Array.prototype.slice.call(hs.querySelectorAll('.hcard'));
     hsGaps = Array.prototype.slice.call(hs.querySelectorAll('.hs-gap'));
     hsYears = hsCards.map(function (c) { var y = c.getAttribute('data-year'); return y === 'today' ? HS_TODAY : parseInt(y, 10); });
-    hsLabels = hsCards.map(function (c) { var l = c.querySelector('.label'); return l ? l.textContent : ''; });
+    hsLabels = hsCards.map(function (c) { var l = c.querySelector('.label'); return c.getAttribute('data-clock-label') || (l ? l.textContent : ''); });
+    /* The last card names what the clock shows at the last node: the figure, and the caption under it */
+    var hsLastCard = hsCards[hsCards.length - 1];
+    hsFigure = (hsLastCard && hsLastCard.getAttribute('data-clock-figure')) || HS_WORD;
+    hsSub = (hsLastCard && hsLastCard.getAttribute('data-clock-sub')) || '';
+    if (hsSubEl) hsSubEl.textContent = hsSub;
     /* What the markup already shows, so the first frame writes nothing it need not */
     hsYearShown = parseInt(hsYearEl.getAttribute('data-year'), 10);
+    hsTarget = hsShown = hsYearShown;
     hsLabelShown = hsNowEl.textContent;
     hsOff = [3, 2, 1, 0].map(function (c) { return parseFloat(hsCells[c].style.getPropertyValue('--d')) || 0; });
     hsBuildRuler();

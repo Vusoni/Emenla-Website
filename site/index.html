@@ -28,7 +28,7 @@
   <link rel="preload" as="image" href="assets/img/hero-poster-v4.jpg" media="(min-width: 721px) and (orientation: landscape)" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/hero-still-v4.jpg" media="(max-width: 720px)" fetchpriority="high">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20261024b">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261025a">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -513,36 +513,44 @@
           <h2 class="heading-lg part">A long time to be believed.</h2>
           <p class="subheading part">Three centuries from the first description to a guideline that says your symptoms are enough.</p>
         </div>
-        <!-- The clock (sticky, decorative) names the year the reading line has reached; the record is the eight eras in
-             order with a caption in every long gap. Nothing pins and nothing slides sideways: the page scrolls as itself,
-             and no text ever drops below full contrast. Under 900px the clock is a strip stuck to the top of the screen.
-             The six pictures are one series (one table, three centuries; HISTORY_ART.md at the repo root holds the
-             prompts). To give a figure era a picture, swap its <div class="hcard__media hcard__fig"> for a
-             <picture class="hcard__media"> shaped like the 1690 era. -->
+        <!-- The clock (sticky, decorative) names the year the reading line has reached; the record is the eras in order
+             with a caption in every long gap. Nothing pins and nothing slides sideways: the page scrolls as itself, and
+             no text ever drops below full contrast. Under 900px the clock is a strip stuck to the top of the screen. At
+             the last node the clock becomes the figure the last card names (data-clock-figure over data-clock-sub).
+             The pictures are pages and a photograph from public collections, each with its credit in a figcaption;
+             HISTORY_SOURCES.md at the repo root holds every source, licence, hash and crop box. To give a figure era a
+             picture, swap its <div class="hcard__media hcard__fig"> for a <figure class="hcard__media"> shaped like 1690. -->
         <div class="hist" data-history>
           <div class="hist__clock" aria-hidden="true">
             <p class="hs-now mono">Described</p>
             <div class="hs-year" data-year="1690">
               <span class="hs-cell" style="--d:1"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:6"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:9"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span><span class="hs-cell" style="--d:0"><i class="hs-strip"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>0</b></i></span>
             </div>
+            <p class="hs-sub mono"></p>
             <div class="hs-ruler"><span class="hs-ruler__pen"></span></div>
           </div>
           <div class="hist__record">
             <span class="hist__spine" aria-hidden="true"></span>
-            <p class="vh">Eight moments from 1690 to today, with the years that passed between them.</p>
+            <p class="vh">The moments from 1690 to today, with the years that passed between them.</p>
 
             <article class="hcard" data-year="1690">
               <div class="hcard__row"><span class="hcard__year">1690</span><span class="label">Described</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1690-720.avif 720w, assets/img/hist-1690-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1690-720.jpg" width="720" height="360" alt="An open leather-bound book of faded handwriting beside a feather quill in a pewter inkwell and a short candle in a brass holder." loading="lazy" decoding="async" style="--age:0.9"></picture>
+              <figure class="hcard__media">
+                <picture><source type="image/avif" srcset="assets/img/hist-1690-src-720.avif 720w, assets/img/hist-1690-src-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1690-src-720.jpg" width="720" height="360" alt="The title page of a Latin medical dissertation printed in Jena in 1690, De ulceribus uteri, in worn black type on yellowed paper." loading="lazy" decoding="async"></picture>
+                <figcaption class="hcard__credit caption">Title page, D. C. Schrön, Disputatio inauguralis medica de ulceribus uteri, Jena 1690. <a href="https://digital.slub-dresden.de/id366092286" rel="noopener">SLUB Dresden</a>, Public Domain Mark 1.0.</figcaption>
+              </figure>
               <h3 class="hcard__title">First written down.</h3>
-              <p class="hcard__body">Daniel Shroen, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
+              <p class="hcard__body">Daniel Schrön, a German physician, describes ulcers in and around the uterus that match what we now call endometriosis.</p>
             </article>
 
             <p class="hs-gap hs-gap--xl">170 years pass.</p>
 
             <article class="hcard" data-year="1860">
               <div class="hcard__row"><span class="hcard__year">1860</span><span class="label">Seen</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1860-720.avif 720w, assets/img/hist-1860-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1860-720.jpg" width="720" height="360" alt="A brass microscope with a stained glass slide on its stage, an open wooden box of slides and an oil lamp." loading="lazy" decoding="async" style="--age:0.75"></picture>
+              <figure class="hcard__media">
+                <picture><source type="image/avif" srcset="assets/img/hist-1860-src-720.avif 720w, assets/img/hist-1860-src-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1860-src-720.jpg" width="720" height="360" alt="The first page of an 1860 German paper, its title Ueber Uterusdrüsen-Neubildung set in heavy type above two columns of text." loading="lazy" decoding="async"></picture>
+                <figcaption class="hcard__credit caption">C. Rokitansky, Ueber Uterusdrüsen-Neubildung in Uterus- und Ovarial-Sarcomen, Vienna 1860. <a href="https://wellcomecollection.org/works/xv5k8nzn" rel="noopener">Wellcome Collection</a>, Public Domain Mark.</figcaption>
+              </figure>
               <h3 class="hcard__title">Seen under a microscope.</h3>
               <p class="hcard__body">Karl von Rokitansky in Vienna identifies tissue like the lining of the womb growing where it should not.</p>
             </article>
@@ -551,7 +559,10 @@
 
             <article class="hcard" data-year="1927">
               <div class="hcard__row"><span class="hcard__year">1927</span><span class="label">Named</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1927-720.avif 720w, assets/img/hist-1927-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1927-720.jpg" width="720" height="360" alt="A black typewriter with a sheet rolled in, a fountain pen and a closed cloth-bound journal." loading="lazy" decoding="async" style="--age:0.6"></picture>
+              <figure class="hcard__media">
+                <picture><source type="image/avif" srcset="assets/img/hist-1927-src-720.avif 720w, assets/img/hist-1927-src-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1927-src-720.jpg" width="720" height="360" alt="The first page of a 1927 journal article, its title Peritoneal Endometriosis in capitals above the author's name, John A. Sampson." loading="lazy" decoding="async"></picture>
+                <figcaption class="hcard__credit caption">J. A. Sampson, American Journal of Obstetrics and Gynecology, October 1927, first page. Public domain. Source: <a href="https://archive.org/details/sim_american-journal-of-obstetrics-and-gynecology_1927-10_14_4/page/422/" rel="noopener">Internet Archive</a>.</figcaption>
+              </figure>
               <h3 class="hcard__title">Given its name.</h3>
               <p class="hcard__body">John Sampson coins the word endometriosis and proposes that backward menstrual flow seeds the tissue. Still the leading theory.</p>
             </article>
@@ -560,21 +571,29 @@
 
             <article class="hcard" data-year="1980">
               <div class="hcard__row"><span class="hcard__year">1980</span><span class="label">Organised</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-1980-720.avif 720w, assets/img/hist-1980-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-1980-720.jpg" width="720" height="360" alt="Opened letters in many different hands tied with string, a spiral notebook, a cup of tea and a beige push-button telephone." loading="lazy" decoding="async" style="--age:0.4"></picture>
+              <div class="hcard__media hcard__fig" role="img" aria-label="The first patient-led organisation"><span class="hcard__fig-n">1st</span><span class="hcard__fig-c mono">patient-led organisation</span></div>
               <h3 class="hcard__title">Patients organise.</h3>
               <p class="hcard__body">The Endometriosis Association is founded in Milwaukee, the first patient-led organisation, and starts collecting women's own accounts.</p>
             </article>
 
             <article class="hcard" data-year="2005">
               <div class="hcard__row"><span class="hcard__year">2005</span><span class="label">Guided</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2005-720.avif 720w, assets/img/hist-2005-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-2005-720.jpg" width="720" height="360" alt="A spiral-bound document with a pale blue cover, folded reading glasses resting on it, a yellow highlighter and a closed laptop." loading="lazy" decoding="async" style="--age:0.2"></picture>
               <h3 class="hcard__title">The first European guideline.</h3>
               <p class="hcard__body">ESHRE publishes its first guideline on diagnosing and treating endometriosis, updated in 2014 and 2022.</p>
             </article>
 
+            <article class="hcard" data-year="2014">
+              <div class="hcard__row"><span class="hcard__year">2014</span><span class="label">Marching</span></div>
+              <figure class="hcard__media">
+                <picture><source type="image/avif" srcset="assets/img/hist-2014-src-720.avif 720w, assets/img/hist-2014-src-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-2014-src-720.jpg" width="720" height="360" alt="A bright yellow metal bench on a paved square, a small engraved plaque fixed to the middle of its back." loading="lazy" decoding="async"></picture>
+                <figcaption class="hcard__credit caption">A yellow awareness bench, Avezzano, Italy, 2025. Photo: Marica Massaro, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Panchina_gialla_Avezzano.jpg" rel="noopener">Wikimedia Commons</a> (cropped).</figcaption>
+              </figure>
+              <h3 class="hcard__title">Patients take to the streets.</h3>
+              <p class="hcard__body">On 13 March 2014 the first Worldwide EndoMarch brought patients onto the streets of cities on several continents. March has been Endometriosis Awareness Month since 1993, and the colour it wears is yellow.</p>
+            </article>
+
             <article class="hcard" data-year="2017">
               <div class="hcard__row"><span class="hcard__year">2017</span><span class="label">Heard</span></div>
-              <picture class="hcard__media"><source type="image/avif" srcset="assets/img/hist-2017-720.avif 720w, assets/img/hist-2017-1080.avif 1080w" sizes="(max-width: 900px) calc(100vw - 72px), 360px"><img class="hcard__img" src="assets/img/hist-2017-720.jpg" width="720" height="360" alt="Two cups of tea set across the table from each other, an open notepad and pen between them, and a stethoscope put aside." loading="lazy" decoding="async" style="--age:0.1"></picture>
               <h3 class="hcard__title">Clinicians are told to listen.</h3>
               <p class="hcard__body">The UK guideline NG73 tells clinicians to suspect endometriosis when a woman reports pelvic pain, period pain that disrupts daily life, or pain during sex.</p>
             </article>
@@ -586,16 +605,16 @@
               <p class="hcard__body">ACOG's guideline says a clinical diagnosis from symptoms, history and an examination is enough to begin treatment. Surgery is not required first.</p>
             </article>
 
-            <article class="hcard hcard--today" data-year="today">
+            <article class="hcard" data-year="today" data-clock-label="Today" data-clock-figure="4 to 11" data-clock-sub="years to a diagnosis">
               <div class="hcard__row"><span class="hcard__year">Today</span><span class="label">Still waiting</span></div>
-              <div class="hcard__media hcard__fig" role="img" aria-label="Four to eleven years to a diagnosis"><span class="hcard__fig-n">4 to 11</span><span class="hcard__fig-c mono">years to a diagnosis</span></div>
               <h3 class="hcard__title">Four to eleven years.</h3>
               <p class="hcard__body">Studies still put the delay between first symptoms and a diagnosis at four to eleven years. Emenla is for the years in between.</p>
             </article>
+            <p class="caption hist__listen">Told out loud: <a href="https://www.endofound.org/endotv" rel="noopener">EndoTV</a>, <a href="https://www.endometriosisaustralia.org/podcast" rel="noopener">Living With Endo</a>, <a href="https://reproductive-health.ed.ac.uk/news/2022-news/voices-visions-endometriosis" rel="noopener">Voices and Visions</a>, <a href="https://www.nice.org.uk/news/podcasts/endometriosis-learn-more-about-nice-s-guideline-for-this-chronic-condition" rel="noopener">NICE on its guideline</a> and <a href="https://www.ted.com/talks/rokvity_alekszandra_get_loud_let_s_talk_about_endometriosis" rel="noopener">Get Loud, a TED talk</a>.</p>
           </div>
         </div>
-        <p class="caption meta hist__sources hist__credits">Images: still lifes generated for Emenla with ChatGPT image generation. They show objects of each period, not historical originals.</p>
-        <p class="caption meta hist__sources">Sources: <a href="https://doi.org/10.1016/j.fertnstert.2012.08.001" rel="noopener noreferrer">Nezhat, Nezhat and Nezhat, Fertility and Sterility, 2012</a> · <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a> · <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">ACOG 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/" rel="noopener noreferrer">scoping review, 2024</a></p>
+        <p class="caption meta hist__sources hist__credits">Images: pages and a photograph from public collections, each credited where it appears and shown as provided, cropped to the frame.</p>
+        <p class="caption meta hist__sources">Sources: <a href="https://doi.org/10.1016/j.fertnstert.2012.08.001" rel="noopener noreferrer">Nezhat, Nezhat and Nezhat, Fertility and Sterility, 2012</a> · <a href="https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline" rel="noopener noreferrer">ESHRE</a> · <a href="https://www.endomarch.org/" rel="noopener noreferrer">Worldwide EndoMarch</a> · <a href="https://www.endofound.org/how-did-endo-awareness-month-begin-five-fast-facts" rel="noopener noreferrer">how Awareness Month began</a> · <a href="https://www.nice.org.uk/guidance/ng73" rel="noopener noreferrer">NICE NG73</a> · <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2026/03/diagnosis-of-endometriosis" rel="noopener noreferrer">ACOG 2026</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11633989/" rel="noopener noreferrer">scoping review, 2024</a></p>
       </div>
     </section>
 
@@ -768,7 +787,7 @@
           <p class="footer__desc">An iOS app for people with endometriosis. Your words, their words, one clear page.</p>
           <p class="footer__addr">Made in Poland.<br><a href="mailto:hello@emenla.com">hello@emenla.com</a></p>
           <p class="footer__note"><span class="strong">Intended use</span><br>Emenla is a record-keeping app, not a medical device. It does not diagnose, treat or predict any condition.</p>
-          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are still lifes generated for Emenla, credited where they appear. The devices are Apple's product images from Apple Design Resources, shown as provided. Nobody shown is a patient.</p>
+          <p class="footer__note"><span class="strong">Images</span><br>The film at the top of the home page is a generated image. The app screens are frames from a recording of the app, the figure on its body map is a generated image, and the doctor's page is a sample made from invented entries. The pictures in the history are pages and a photograph from public collections, credited where they appear. The devices are Apple's product images from Apple Design Resources, shown as provided. Nobody shown is a patient.</p>
         </div>
         <nav class="footer__cols" aria-label="Footer">
           <div class="footer__col">
@@ -805,6 +824,6 @@
 
 
   <script src="assets/js/hero.js?v=20261003a" defer></script>
-  <script src="assets/js/site.js?v=20261003a" defer></script>
+  <script src="assets/js/site.js?v=20261025a" defer></script>
 </body>
 </html>

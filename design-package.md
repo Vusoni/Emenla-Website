@@ -626,6 +626,75 @@ or holds fewer pixels than it is shown at, the page overflows sideways or a cons
 First load fell from 1.88 MB in 10 requests to 1.84 MB in 8 on a desktop, and from 262 KB in 8 to
 219 KB in 6 on a phone.
 
+### The clock, the record's sources and Today, 25 October 2026
+
+The founder sent a screenshot of the history on the preview and asked for three things. The rolling
+year on the left should be bigger and different, "with a smoother animation, blur, and stuff like
+that". The pictures should be real ones, from events, conferences and the things that matter in a
+patient's life, each with a source "to not get an issue later", and something like TED talks and
+podcasts, in place of the generated still lifes he called AI slop. And the white Today card holding
+"4 to 11" should go, in favour of a different design "or maybe just information".
+
+**The clock eases and blurs.** The year is Hanken 600 at `clamp(104px, 12.5vw, 180px)`, up from 500
+at `clamp(88px, 10vw, 150px)`; four digits at the top size are 389px in the 400px column, and a 4×
+clip shows every digit's ink whole. The scroll position still sets a target year, but the shown year
+no longer tracks it one to one: every frame it moves a fraction of the way (`hsK`, 0.22 on a fine
+pointer where Lenis already eases the wheel, 0.12 on touch where the finger scrolls natively and the
+lerp alone supplies the ease), so a flick lands softly and the digits never stutter with the wheel's
+steps. While it rolls, each digit strip blurs in proportion to its own speed (`HS_BLUR`, 0.2em per
+cell per frame, capped at `HS_CAP`, 0.035em, about 6px at the top size), so the units digit smears
+while the thousands stays crisp; at rest no filter is applied and the edges are sharp. Each cell fades
+its top and bottom 9% with a mask, so a digit comes up out of the edge rather than appearing at it.
+The era label leaves through a 6px blur and a 6px drop over 320ms, and the swap between a year and the
+Today figure is a 180ms blur to nothing, then the other state back in. The ruler's lift under the
+clock is measured from the ruler's own offset instead of a fixed 196px, so the label and sub lines can
+change without the ticks drifting. Under reduced motion none of this runs: the year snaps to whole
+numbers, no strip blurs and no state crossfades.
+
+**Today lives in the clock.** At the last node the clock itself becomes the figure: the label reads
+Today, the digits give way to "4 to 11" (at 0.69em of the year, so the block keeps the clock's
+height), and a reserved line under it says "years to a diagnosis". The white card is gone: the right
+column's Today entry is a plain entry like the others, Today, Still waiting, "Four to eleven years."
+as its title and the same paragraph. The figure and its line are attributes on that card, so the copy
+lives in one place. On a phone the strip stays one 132px row, the figure at 0.84em beside the sub
+line at a tighter tracking; under 340px the sub line hides, because the entry below says the same in
+words.
+
+**Pages, then a bench.** Nothing rights-clean shows a march, a congress, the WHO, NICE or ACOG: what
+exists on Commons is posed groups of named officials and politicians, and putting strangers' faces on
+the page as illustrations was rejected. TED and TEDx talks are CC BY-NC-ND, so no stills on a
+commercial site. What does exist are the documents themselves, and that became the set's idea: for
+three centuries the record is what was written about her, so the first three pictures are pages, and
+the modern moment is what patients did themselves, so the fourth is the colour they chose. 1690 is
+the title page of Schrön's Jena dissertation (SLUB Dresden, Public Domain Mark), 1860 the first page
+of Rokitansky's Vienna offprint (Wellcome Collection, Public Domain Mark), 1927 the first page of
+Sampson's paper in the American Journal of Obstetrics and Gynecology (an Internet Archive scan,
+public domain), and a new 2014 card, Marching, carries the one clean community photograph found: a
+yellow awareness bench with its plaque in Avezzano, Italy, by Marica Massaro, CC BY-SA 4.0. Each sits
+in a figure with its credit and links under it, shown as provided and cropped to the 2:1 frame, with
+no grayscale or sepia: a sourced page is not made to match the others, and the bench stays yellow.
+1980 returns to its typographic "1st" panel, 2005 and 2017 carry no picture (a guideline is text, and
+the body says it), and 2026 keeps "Enough.". The 2014 card gives no count of cities or countries
+because the sources disagree. Under the Today entry a line, "Told out loud", links EndoTV, Living
+With Endo, Voices and Visions, NICE on its guideline, Get Loud and a TED talk, names only, since
+podcasts and talks have no artwork to reuse. `HISTORY_SOURCES.md` records every source page, its
+licence statement and the date it was read, the download URL, the original's size and sha256, the
+crop box, the credit as printed and the alt text, plus what was looked for and found unusable so
+nobody repeats the search. The six still lifes and `HISTORY_ART.md` are gone; their record is at
+`2b45238`.
+
+`node tools/histshots.mjs http://127.0.0.1:8080/ <dir>` now settles the clock after every scroll
+before it photographs, photographs a frame 100ms into a roll and asserts the units strip is blurred
+and the thousands is not, holds every era (nine, read from the page rather than counted), the three
+gaps and the Today figure with its sub line on a desktop and on a phone, and reduced motion with
+whole years and no filter; every frame passes at 1440×900, 1280×720, 901×800, 375×812 and 375×667.
+`wordshots.mjs` measures the widest digit's ink against its cell with canvas `measureText` (96.9px in
+a 97.2px cell at 180px, top and bottom inside the mask's opaque band), clips the clock at 4× at rest
+and mid-roll, and checks that every picture holds at least the pixels it is shown at, has no filter
+and has a linked credit. First load is 1.85 MB in 8 requests on a desktop (1.59 MB of it the hero video) and 227 KB in 6 on a phone, from 1.84 MB and 219 KB, the difference being the captions, the credit lines and the new card in the HTML; layout shift stays at 0 on both, the reserved sub line under the clock included. Not verifiable headless: the wheel feel of Lenis plus the lerp,
+Safari's mask and filter rendering, VoiceOver (the clock stays `aria-hidden`; the Today entry's
+visible title carries the figure) and 120Hz devices.
+
 ### The headline, re-set to the reference, 29 August 2026
 
 The founder sent the Alveos One and Lóvi heroes: both are a clean grotesque sans, one flat colour,

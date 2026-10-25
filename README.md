@@ -15,8 +15,8 @@ flow: one scroll-scrubbed hero video, plain HTML, CSS and vanilla JavaScript, no
 | `design-package.md` | Every design decision and every line of copy. |
 | `Logo-Emenla/` | The founder's logo source (white background). `site/assets/img/logo.png` is the transparent cut, `logo-small.png` the nav and footer mark, `favicon.png` and `apple-touch-icon.png` come from it. |
 | `review/` | Raw generations, inspection frames, the font tarball. Never uploaded. |
-| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions), `devshots.mjs` (the device panels and the iPhone Duo band), `wordshots.mjs` (the Your words ledger, its live row, the history type and pictures, and a check that no serif is left), `newshots.mjs` (the What's in the app grid at two widths), `measure.mjs` (page weight), and the one-off filmstrips of earlier passes. |
-| `scripts/` | The gate (`sync-legal.mjs`, `check-copy.mjs`, `check-links.mjs`), `set-app-store.mjs`, `serve.py` (the preview server) `make-devices.py` (the device images, see *Devices*) and `make-hist.py` (the history still lifes, see `HISTORY_ART.md`). `build.mjs`, `make-assets.py`, `preview.mjs` and `setup-seo.sh` belong to the previous version. |
+| `tools/` | `drive.mjs` (headless Chrome driver), `selftest.mjs` (the self-test), `histshots.mjs` (the history section's filmstrip and assertions), `devshots.mjs` (the device panels and the iPhone Duo band), `wordshots.mjs` (the Your words ledger, its live row, the history's type, its clock's ink and blur at 4x, its pictures and their credits, and a check that no serif is left), `newshots.mjs` (the What's in the app grid at two widths), `measure.mjs` (page weight), and the one-off filmstrips of earlier passes. |
+| `scripts/` | The gate (`sync-legal.mjs`, `check-copy.mjs`, `check-links.mjs`), `set-app-store.mjs`, `serve.py` (the preview server) `make-devices.py` (the device images, see *Devices*) and `make-hist.py` (cuts the history's sourced pictures to the frame, see `HISTORY_SOURCES.md`). `build.mjs`, `make-assets.py`, `preview.mjs` and `setup-seo.sh` belong to the previous version. |
 | `src/`, `dist/`, `content/`, `public/` | The previous version of the site, kept for reference. Not used by `site/`. |
 
 ## Preview it
@@ -50,9 +50,12 @@ the same Chrome and server:
 node tools/histshots.mjs http://127.0.0.1:8080/ /tmp/emenla-hist
 ```
 
-Desktop before the first node, inside every era and mid-roll, two short desktops, two phones and
-reduced motion. It fails if the clock and the record ever disagree, a card or caption drops below
-full contrast, the clock is not stuck where the stylesheet puts it, or the page overflows sideways.
+Desktop before the first node, inside every era, mid every roll, one frame caught mid-settle with the
+units strip blurred, two short desktops, two phones and reduced motion. The clock eases toward the
+scroll, so every frame waits for it to settle before it asserts. It fails if the clock and the record
+ever disagree, the clock still rolls or blurs once settled, the last node does not show the figure
+the last card names, a card or caption drops below full contrast, the clock is not stuck where the
+stylesheet puts it, or the page overflows sideways.
 
 ## Devices
 
@@ -172,6 +175,7 @@ Measured with `node tools/measure.mjs http://127.0.0.1:8080/ 1440 900` (add `tou
 | After | 1.52 MB, 10 requests (1.27 MB of it is the hero video, fetched behind the poster) | 203 KB, 8 requests |
 | 2026-10-24, with Apple's devices | 1.88 MB, 10 requests (1.59 MB of it is the hero video) | 262 KB, 8 requests |
 | 2026-10-24, one sans and the still lifes | 1.84 MB, 8 requests (1.59 MB of it is the hero video) | 219 KB, 6 requests |
+| 2026-10-25, the eased clock, sourced pages and Today in the clock | 1.85 MB, 8 requests (1.59 MB of it is the hero video) | 227 KB, 6 requests |
 
 What keeps it there: every photograph ships as AVIF with a JPEG fallback, and every device image as WebP
 with a PNG fallback, both lazy and sized to about twice the displayed

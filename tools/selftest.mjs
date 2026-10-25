@@ -119,7 +119,7 @@ await nb.close();
 /* ---------- Phone ---------- */
 const m = await b.page(URL, { width: 375, height: 812, touch: true, mobile: true });
 await m.eval(wait(1200));
-const small = await m.eval(`Array.from(document.querySelectorAll('a, button, summary, input')).filter(el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); const inline = el.tagName === 'A' && el.closest('p, li, .cite'); return cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 0 && !inline && (r.width < 44 || r.height < 44); }).map(el => el.tagName + ' "' + (el.textContent || el.placeholder || '').trim().slice(0, 30) + '" ' + Math.round(el.getBoundingClientRect().width) + 'x' + Math.round(el.getBoundingClientRect().height))`);
+const small = await m.eval(`Array.from(document.querySelectorAll('a, button, summary, input')).filter(el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); const inline = el.tagName === 'A' && el.closest('p, li, figcaption, .cite'); return cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 0 && !inline && (r.width < 44 || r.height < 44); }).map(el => el.tagName + ' "' + (el.textContent || el.placeholder || '').trim().slice(0, 30) + '" ' + Math.round(el.getBoundingClientRect().width) + 'x' + Math.round(el.getBoundingClientRect().height))`);
 log('phone small targets: ' + JSON.stringify(small));
 log('phone overflow: ' + JSON.stringify(await m.eval(`({sw: document.documentElement.scrollWidth, iw: innerWidth})`)));
 log('phone requested heavy assets: ' + await m.eval(`performance.getEntriesByType('resource').filter(e => /hero-scrub|hero-poster/.test(e.name)).map(e => e.name).join(',') || 'none'`));

@@ -1,60 +1,64 @@
 #!/usr/bin/env python3
-"""Cut the history's generated still lifes into the files emenla.com serves.
+"""Cut the history's sourced originals into the files emenla.com serves.
 
-    python3 -E scripts/make-hist.py 1690=<master.png> 1860=<master.png> ... --out site/assets/img
+    python3 -E scripts/make-hist.py 1690=<original.jpg>@left,top,width,height 1860=... --out site/assets/img
 
-Each master is a 1536x1024 PNG from ChatGPT image generation (HISTORY_ART.md records the prompt, the master's
-path and its sha256). The card frames a picture at 2:1, so each master is cut to 2:1 across its full width; how
-far down the cut sits is FOCUS_Y per era (0 is the top, 1 the bottom), because the objects stand on the table in
-the lower part of the frame. Written per era: hist-<era>-720.avif, hist-<era>-1080.avif and a progressive
-hist-<era>-720.jpg, with no metadata. New names on purpose: /assets/* is cached immutable for a year, so a
-reused name would show returning visitors the old picture. Run it with -E, never -I: Pillow lives in the user
-site-packages.
+Each original is a scan or a photograph from a public collection; HISTORY_SOURCES.md records its source page, its
+licence, the download URL, the file's sha256 and the crop box used here. The card frames a picture at 2:1, so the
+box is a 2:1 window in source pixels (within 2%, and it must lie inside the image). Written per era:
+hist-<era>-src-720.avif, hist-<era>-src-1080.avif and a progressive hist-<era>-src-720.jpg, with no metadata.
+The "-src-" names are on purpose: /assets/* is cached immutable for a year, so a reused name would show returning
+visitors the old picture. Run it with -E, never -I: Pillow lives in the user site-packages.
 """
 import argparse, hashlib, os, sys
 from PIL import Image
 
-FOCUS_Y = {'1690': 0.7, '1860': 0.7, '1927': 0.7, '1980': 0.7, '2005': 0.7, '2017': 0.7}
+ERAS = ('1690', '1860', '1927', '2014')
 WIDTHS = (720, 1080)
-AVIF_QUALITY = 52
 JPEG_QUALITY = 82
 BUDGET = 70 * 1024  # per 1080 AVIF
 
 
-def cut(path, fy):
+def cut(path, box):
     im = Image.open(path).convert('RGB')
     w, h = im.size
-    ch = w // 2
-    if ch > h:
-        sys.exit(f'{path}: {w}x{h} is too short for a 2:1 cut')
-    top = round((h - ch) * fy)
-    return im.crop((0, top, w, top + ch))
+    left, top, cw, ch = box
+    if abs(cw / ch - 2) > 0.02:
+        sys.exit(f'{path}: box {cw}x{ch} is not 2:1')
+    if left < 0 or top < 0 or left + cw > w or top + ch > h:
+        sys.exit(f'{path}: box {box} leaves the {w}x{h} image')
+    return im.crop((left, top, left + cw, top + ch))
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('pairs', nargs='+', help='era=master.png')
+    ap.add_argument('pairs', nargs='+', help='era=original.jpg@left,top,width,height')
     ap.add_argument('--out', required=True)
+    ap.add_argument('--avif-quality', type=int, default=52, help='52 for a scan; a photograph near the budget takes 48')
     a = ap.parse_args()
     over = False
     for pair in a.pairs:
-        era, path = pair.split('=', 1)
-        if era not in FOCUS_Y:
-            sys.exit(f'unknown era {era}; add it to FOCUS_Y')
+        era, rest = pair.split('=', 1)
+        if era not in ERAS:
+            sys.exit(f'unknown era {era}; add it to ERAS')
+        if '@' not in rest:
+            sys.exit(f'{era}: give the crop box as path@left,top,width,height')
+        path, box = rest.rsplit('@', 1)
+        box = tuple(int(v) for v in box.split(','))
         sha = hashlib.sha256(open(path, 'rb').read()).hexdigest()
-        src = cut(path, FOCUS_Y[era])
+        src = cut(path, box)
         for wd in WIDTHS:
-            out = os.path.join(a.out, f'hist-{era}-{wd}.avif')
-            src.resize((wd, wd // 2), Image.LANCZOS).save(out, 'AVIF', quality=AVIF_QUALITY, speed=4)
+            out = os.path.join(a.out, f'hist-{era}-src-{wd}.avif')
+            src.resize((wd, wd // 2), Image.LANCZOS).save(out, 'AVIF', quality=a.avif_quality, speed=4)
             kb = os.path.getsize(out)
             flag = ''
             if wd == 1080 and kb > BUDGET:
                 flag, over = '  OVER BUDGET', True
             print(f'{out}  {kb / 1024:.1f} KB{flag}')
-        out = os.path.join(a.out, f'hist-{era}-720.jpg')
+        out = os.path.join(a.out, f'hist-{era}-src-720.jpg')
         src.resize((720, 360), Image.LANCZOS).save(out, 'JPEG', quality=JPEG_QUALITY, progressive=True, optimize=True)
         print(f'{out}  {os.path.getsize(out) / 1024:.1f} KB')
-        print(f'  master {path}\n  sha256 {sha}')
+        print(f'  original {path}\n  sha256 {sha}\n  box {box[0]},{box[1]},{box[2]},{box[3]}')
     sys.exit(1 if over else 0)
 
 
